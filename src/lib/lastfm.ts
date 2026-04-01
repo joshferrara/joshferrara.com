@@ -39,17 +39,17 @@ async function fetchLastfm(method: string, params: Record<string, string> = {}) 
   }
 }
 
-/** Fetch artist image from Deezer (free, no auth required) */
-async function getArtistImage(name: string): Promise<string> {
+/** Fetch artist image from Deezer (free, no auth required), fall back to Last.fm */
+async function getArtistImage(name: string, lastfmImage: string): Promise<string> {
   try {
     const res = await fetch(
       `https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=1`
     );
-    if (!res.ok) return '';
+    if (!res.ok) return lastfmImage;
     const data = await res.json();
-    return data.data?.[0]?.picture_medium || '';
+    return data.data?.[0]?.picture_medium || lastfmImage;
   } catch {
-    return '';
+    return lastfmImage;
   }
 }
 
@@ -61,11 +61,13 @@ export async function getTopArtists(period = '1month', limit = 5): Promise<Artis
     name: a.name,
     playcount: a.playcount,
     url: a.url,
-    image: '',
+    image: a.image?.find((i: any) => i.size === 'large')?.['#text'] || '',
   }));
 
-  // Fetch images from Deezer in parallel
-  const images = await Promise.all(artists.map((a: Artist) => getArtistImage(a.name)));
+  // Fetch images from Deezer in parallel, falling back to Last.fm
+  const images = await Promise.all(
+    artists.map((a: Artist) => getArtistImage(a.name, a.image))
+  );
   for (let i = 0; i < artists.length; i++) {
     artists[i].image = images[i];
   }
