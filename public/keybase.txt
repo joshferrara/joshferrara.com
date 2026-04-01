@@ -1,0 +1,75 @@
+==================================================================
+https://keybase.io/joshferrara
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://josh-bob.com
+  * I am joshferrara (https://keybase.io/joshferrara) on keybase.
+  * I have a public key with fingerprint 9EE8 7269 CE4D 5C6B A9AF  720E 6C27 AB17 E6F1 2D44
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "01208be4ae29e679e44f13d39c6c71ccd77e6f60ec82f747dda1d7b916b79aae5ad20a",
+            "fingerprint": "9ee87269ce4d5c6ba9af720e6c27ab17e6f12d44",
+            "host": "keybase.io",
+            "key_id": "6c27ab17e6f12d44",
+            "kid": "01016857f5ef890425be728c49a80b0e847d00234b6c70a6519fb1aca4a65b04a0da0a",
+            "uid": "b1d2cf36e9e7b5574fa9426916eb8219",
+            "username": "joshferrara"
+        },
+        "service": {
+            "hostname": "josh-bob.com",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1455827298,
+    "expire_in": 157680000,
+    "prev": "0d3f51b7aca455f2bb082c4903b1431ef0212e767d4b2372858affd94dace5d5",
+    "seqno": 11,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v2.0.51
+Comment: https://keybase.io/crypto
+
+yMNxAnicbVJ9TFVlHL6goKAkrYJAVHYGEni5nnPu+WQtghGywrLNGJAB73vOe+Dw
+ce/lngsCxjKH3AloYukGE7h8OYKU1q2FiCYgX/ODVAIWTcYy0hACGTTKsHNYbv3R
++8/78Xue531+z37XvNbpPF2yQ9p8pxfCY1yud1fn6RL6Q+EhDJrFQiziEJaF1jaU
+LSLFlpoli1gEhhMkzkFEAUTyiGF5RFESYRSNvMAILCEIIssiRmJwJHCkxFKsKAJC
+ZCFPMJDlAUA0EEkcYHpMkk3pyGqxyiabKssjxLEkwwuIEmmBgYAHEkviiBFIFkBC
+0yRIkaJUYoZZ0RiqOQgUZJDN6pt6SV2z9z/4Z75xguFoVqKRxPE4RdIQsSQnUDzg
+cIgjTrWK46SRgmofOGBogpcgAQRAqWeIUwAXwZrvvDU5SIikIBkZxCMW0jRLSYCn
+VP8EgyBHErwGVJDVBHKQis40KxkSslqBFWDFekwt5MsC0rLVmvkPKByaoUEw56h0
+i9VsMwvmbLWSYbNZIjSirdCiIQ8imPqvRiqUTaKapErIR1ZFNpuwCEJFCjZZEyUo
+muZIluQ5PYYKLLIVpcoagmYZDleX9g3K1+IRjRJNQFZrmKYlEkKcI9VwcCMkKCOB
+JJwkSMQyrEhB0qgGR3NAkkSeEoGAaJHGtK5yTWZVm1B9gnRVU5HTTcCWZ0VYcU/3
+gfU6F0+du5urNmI6Tw/vZ4PXC7115Ts/DDtxcumqIUwKGts/SL9++FTytsWy+pX2
+P+Obf07u7baPeN1qiOsrmRjylLecf3D6kRjr83jRUh03PFi1o23Aw6MzbXOR/exF
+r1G3Zt+F+o5vi2obvCdHAO5odRKuTNMr6aNS0P3Ag3Z/Uu/W3FbA/VC1vSYq54uv
+765+dXLpTsqw3d4QPJhWGnw0rWBgmfkx0lF84uGRvfPkB/32JEOz42WQ7t5ir4u+
+mDNmK8qa6sxwHmtfirJxvu4zClfjUMaVGD8Lt2s5ZTIX3i6ND+mqfBx9eGv7or/z
+40f2veeezjZMWyoCN/WEv2oxTI/rN1auMo27ewpbZ2+ERSbVKtmumd8tbJ968jn7
+6eW2pMqjE9/v9u66sLN5vCT0uPN0H9l6Zs8LLaXZtVNzAe/XPb1wp3zjW5/sK/+1
+Q5pdV2E4X9VLVvd35o3AqeUeev9rPjOJdbxXxIHNHS/tq3DO/7Lqe+Xs87cm4o/c
+C86Nayx78KZPZNmuoSw2a+XmpURi4HLA1rebrgcOvZO44bl797/xf7eFXvnIc8u2
+uz4ze5Zu3xjunhz4e96vqz8qtq3dqybpit97pU4l6K/YJvf60aty54uOudimDQm6
+ACFk7hwFTl0LLPptNsz9Dz/bG5+VROu/PNPwJNx3MqFPYXZsionq/33mWGby0E3H
+pYLpxp9Shh72rh8rC3X+A+mMyMs=
+=KKEk
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/joshferrara
+
+==================================================================

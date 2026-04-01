@@ -1,0 +1,71 @@
+---
+interface Photo {
+  src: string;
+  alt?: string;
+}
+
+interface Props {
+  photos: Photo[];
+  columns?: 2 | 3 | 4;
+}
+
+const { photos, columns = 3 } = Astro.props;
+---
+
+<div class:list={['gallery', `gallery--cols-${columns}`]}>
+  {photos.map((photo) => (
+    <figure class="gallery__item">
+      <img
+        src={photo.src}
+        alt={photo.alt || ''}
+        loading="lazy"
+        class="gallery__img"
+      />
+    </figure>
+  ))}
+</div>
+
+<style>
+  .gallery {
+    display: grid;
+    gap: var(--space-3);
+    margin: var(--space-6) 0;
+  }
+
+  .gallery--cols-2 { grid-template-columns: repeat(2, 1fr); }
+  .gallery--cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .gallery--cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .gallery__item {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+  }
+
+  .gallery__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1;
+    transition: transform var(--transition-slow);
+  }
+
+  .gallery__item:hover .gallery__img {
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 640px) {
+    .gallery--cols-3,
+    .gallery--cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 400px) {
+    .gallery--cols-2,
+    .gallery--cols-3,
+    .gallery--cols-4 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

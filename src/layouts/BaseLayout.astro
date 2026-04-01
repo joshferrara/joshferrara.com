@@ -1,0 +1,35 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  wide?: boolean;
+}
+
+const { title, description, image, wide = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={image} />
+  </head>
+  <body>
+    <Nav />
+    <main class:list={['main', 'container', { 'container--wide': wide }]}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .main {
+    padding-top: var(--space-10);
+    padding-bottom: var(--space-16);
+  }
+</style>

@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josh's Buttered Ranch Popcorn</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;600&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --butter: #B8860B;
+    --butter-light: #FFF4CC;
+    --butter-dark: #8B6508;
+    --cream: #2C1A0E;
+    --ranch: #5C4A3A;
+    --brown: #4A3728;
+    --brown-light: #6B5344;
+    --red: #C4453C;
+    --red-soft: #A83830;
+    --bg: #FFF8EE;
+    --card: #FFF0DA;
+    --card-light: #FFE8C8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+  }
+
+  .hero {
+    position: relative;
+    padding: 4rem 2rem 3rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(184,134,11,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  .popcorn-emoji {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+    animation: pop 2s ease-in-out infinite;
+  }
+
+  @keyframes pop {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-8px) rotate(-3deg); }
+    75% { transform: translateY(-4px) rotate(2deg); }
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    line-height: 1.1;
+    color: var(--butter);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero h1 span {
+    display: block;
+    font-size: 0.45em;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--ranch);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-sub {
+    font-family: 'Caveat', cursive;
+    font-size: 1.35rem;
+    color: var(--red-soft);
+    margin-top: 0.75rem;
+  }
+
+  .meta-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    padding: 1.25rem;
+    background: var(--card);
+    border-radius: 16px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(184,134,11,0.15);
+  }
+
+  .meta-item {
+    text-align: center;
+  }
+
+  .meta-item .label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--brown-light);
+    color: rgba(44,26,14,0.45);
+    margin-bottom: 0.25rem;
+  }
+
+  .meta-item .value {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--butter);
+  }
+
+  /* Main content */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* Ingredients */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    color: var(--butter);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--butter-dark), transparent);
+    opacity: 0.3;
+  }
+
+  .ingredients-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 500px) {
+    .ingredients-grid { grid-template-columns: 1fr; }
+  }
+
+  .ingredient {
+    background: var(--card);
+    border: 1px solid rgba(184,134,11,0.12);
+    border-radius: 12px;
+    padding: 1rem 1.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    user-select: none;
+  }
+
+  .ingredient:hover {
+    background: var(--card-light);
+    border-color: rgba(184,134,11,0.25);
+    transform: translateY(-1px);
+  }
+
+  .ingredient.checked {
+    opacity: 0.45;
+    border-color: transparent;
+  }
+
+  .ingredient.checked .ingredient-name {
+    text-decoration: line-through;
+  }
+
+  .ingredient .check {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid var(--butter-dark);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .ingredient.checked .check {
+    background: var(--butter);
+    border-color: var(--butter);
+  }
+
+  .ingredient.checked .check::after {
+    content: '\2713';
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+
+  .ingredient-icon {
+    font-size: 1.4rem;
+  }
+
+  .ingredient-info {
+    flex: 1;
+  }
+
+  .ingredient-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--cream);
+    transition: all 0.2s;
+  }
+
+  .ingredient-amount {
+    font-size: 0.8rem;
+    color: rgba(44,26,14,0.5);
+    margin-top: 0.15rem;
+    font-family: 'Caveat', cursive;
+    font-size: 0.95rem;
+  }
+
+  /* Steps */
+  .steps {
+    counter-reset: step;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 3rem;
+  }
+
+  .step {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(184,134,11,0.08);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-number {
+    position: relative;
+  }
+
+  .step-number::before {
+    content: counter(step);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--card);
+    border: 2px solid rgba(184,134,11,0.2);
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--butter);
+    transition: all 0.3s ease;
+  }
+
+  .step.completed .step-number::before {
+    background: var(--butter);
+    color: #fff;
+    border-color: var(--butter);
+  }
+
+  .step-number::after {
+    content: '';
+    position: absolute;
+    top: 56px;
+    left: 23px;
+    width: 2px;
+    bottom: -1.5rem;
+    background: rgba(184,134,11,0.12);
+  }
+
+  .step:last-child .step-number::after { display: none; }
+
+  .step.completed .step-number::after {
+    background: rgba(184,134,11,0.3);
+  }
+
+  .step-content h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    transition: all 0.3s;
+  }
+
+  .step.completed .step-content h3 {
+    color: var(--butter);
+  }
+
+  .step-content p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: rgba(44,26,14,0.7);
+    transition: all 0.3s;
+  }
+
+  .step.completed .step-content p {
+    color: rgba(44,26,14,0.35);
+  }
+
+  .tip {
+    margin-top: 0.85rem;
+    padding: 0.85rem 1rem;
+    background: rgba(196,69,60,0.08);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.88rem;
+    color: var(--red-soft);
+    line-height: 1.55;
+  }
+
+  .tip strong {
+    color: var(--red);
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255,248,238,0.92);
+    backdrop-filter: blur(12px);
+    padding: 0.85rem 2rem;
+    border-bottom: 1px solid rgba(184,134,11,0.15);
+  }
+
+  .progress-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--butter-dark), var(--butter));
+    border-radius: 10px;
+    transition: width 0.4s ease;
+    width: 0%;
+  }
+
+  .progress-text {
+    font-size: 0.78rem;
+    color: rgba(44,26,14,0.5);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* Footer note */
+  .footer-note {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'Caveat', cursive;
+    font-size: 1.3rem;
+    color: var(--butter-dark);
+    opacity: 0.6;
+  }
+
+  /* Servings control */
+  .servings-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 0.85rem 1.25rem;
+    background: var(--card);
+    border-radius: 12px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid rgba(184,134,11,0.12);
+  }
+
+  .servings-control label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(44,26,14,0.55);
+  }
+
+  .servings-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--butter-dark);
+    background: transparent;
+    color: var(--butter);
+    font-size: 1.1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .servings-btn:hover {
+    background: var(--butter);
+    color: #fff;
+  }
+
+  .servings-count {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--butter);
+    min-width: 2rem;
+    text-align: center;
+  }
+
+  /* Animation on load */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up:nth-child(1) { animation-delay: 0.1s; }
+  .fade-up:nth-child(2) { animation-delay: 0.2s; }
+  .fade-up:nth-child(3) { animation-delay: 0.3s; }
+  .fade-up:nth-child(4) { animation-delay: 0.35s; }
+  .fade-up:nth-child(5) { animation-delay: 0.4s; }
+  .fade-up:nth-child(6) { animation-delay: 0.45s; }
+
+  /* Reset button */
+  .reset-btn {
+    display: block;
+    margin: 0 auto 2rem;
+    padding: 0.75rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(184,134,11,0.25);
+    color: var(--butter-dark);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .reset-btn:hover {
+    background: rgba(184,134,11,0.12);
+    border-color: var(--butter);
+    color: var(--butter);
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <span class="progress-text" id="progressText">0 of 6 steps</span>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+</div>
+
+<header class="hero">
+  <span class="popcorn-emoji">&#127871;</span>
+  <h1>
+    <span>A Recipe by Josh</span>
+    Buttered Ranch<br>Popcorn
+  </h1>
+  <p class="hero-sub">"Follow your heart with this one."</p>
+  <div class="meta-bar">
+    <div class="meta-item">
+      <div class="label">Prep Time</div>
+      <div class="value">2 min</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Cook Time</div>
+      <div class="value">~3 min</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Difficulty</div>
+      <div class="value">Easy</div>
+    </div>
+    <div class="meta-item">
+      <div class="label">Serves</div>
+      <div class="value">1&#8211;2</div>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <h2 class="section-title fade-up">Ingredients</h2>
+
+  <div class="servings-control fade-up">
+    <label>Bags</label>
+    <button class="servings-btn" onclick="adjustServings(-1)">&minus;</button>
+    <span class="servings-count" id="servingsCount">1</span>
+    <button class="servings-btn" onclick="adjustServings(1)">+</button>
+  </div>
+
+  <div class="ingredients-grid" id="ingredientsGrid">
+    <!-- Populated by JS -->
+  </div>
+
+  <h2 class="section-title fade-up">Steps</h2>
+  <p style="font-size:0.88rem; color:rgba(44,26,14,0.45); margin-bottom:1.5rem; margin-top:-0.75rem;" class="fade-up">Click each step to mark it complete</p>
+
+  <div class="steps" id="stepsContainer">
+    <!-- Populated by JS -->
+  </div>
+
+  <button class="reset-btn" onclick="resetAll()">&#8634; Start Over</button>
+
+  <div class="footer-note">Made with butter &amp; love &#129480;</div>
+
+</main>
+
+<script>
+  const baseIngredients = [
+    { icon: '\u{1F37F}', name: 'Microwave Popcorn', amount: '1 bag (butter-flavored)', base: 1, unit: 'bag', singular: 'bag', plural: 'bags' },
+    { icon: '\u{1F9C8}', name: 'Salted Butter', amount: '2\u20133 tbsp (Kerrygold recommended)', base: 2.5, unit: 'tbsp' },
+    { icon: '\u{1F33F}', name: 'Hidden Valley Dry Ranch Mix', amount: 'To taste (for butter + dusting)', base: null, unit: '' },
+    { icon: '\u2728', name: 'MSG', amount: 'A quick dash (optional)', base: null, unit: '' },
+  ];
+
+  let servings = 1;
+  let checkedIngredients = new Set();
+  let completedSteps = new Set();
+
+  const steps = [
+    {
+      title: 'Melt the Butter',
+      text: 'Before popping the popcorn, put 2\u20133 tablespoons of quality salted butter (Kerrygold is the pick) into a small microwave-safe bowl and melt it.',
+      tip: null
+    },
+    {
+      title: 'Mix the Butter Sauce',
+      text: 'Once melted, stir in a bit of Hidden Valley dry ranch seasoning mix and a quick dash of MSG if you\'re using it. This is your butter-ranch drizzle.',
+      tip: null
+    },
+    {
+      title: 'Pop the Popcorn',
+      text: 'Microwave the popcorn bag. For most microwaves this will be around 1 minute 30 seconds to 1 minute 35 seconds. Listen carefully and stop when pops slow to 1\u20132 seconds apart.',
+      tip: '<strong>Key tip:</strong> Better to be under-popped with extra kernels than to let even one or two kernels start to burn. That smoky taste will color the whole bag.'
+    },
+    {
+      title: 'Shake & Pour',
+      text: 'When the popcorn comes out, give the bag a quick shake to distribute all that built-in flavoring. Then pour it into a large bowl with plenty of room for tossing.',
+      tip: null
+    },
+    {
+      title: 'Layer the Flavor',
+      text: 'Now the fun part. Sprinkle a little dry ranch seasoning and toss. Then drizzle a spoonful of the butter-ranch mixture and toss again. Keep alternating \u2014 dry ranch, toss, butter drizzle, toss \u2014 building layers of flavor as you go.',
+      tip: '<strong>Go easy:</strong> You want an even coating without going overboard on the ranch. Too much dill or tart flavor will overpower it. Follow your heart.'
+    },
+    {
+      title: 'Serve & Enjoy',
+      text: 'That\'s it. Grab a seat, grab the bowl, and dig in. Best enjoyed fresh and warm.',
+      tip: null
+    }
+  ];
+
+  function getDisplayAmount(ing) {
+    let displayAmount = ing.amount;
+    if (servings > 1 && ing.base !== null) {
+      const total = ing.base * servings;
+      if (ing.unit === 'bag') {
+        displayAmount = servings + ' ' + (servings === 1 ? ing.singular : ing.plural) + ' (butter-flavored)';
+      } else {
+        displayAmount = '~' + total + ' ' + ing.unit;
+        if (ing.name === 'Salted Butter') displayAmount += ' (Kerrygold recommended)';
+      }
+    } else if (servings > 1 && ing.base === null) {
+      displayAmount = ing.amount + ' (per bag)';
+    }
+    return displayAmount;
+  }
+
+  function buildIngredients() {
+    const grid = document.getElementById('ingredientsGrid');
+    grid.innerHTML = '';
+    baseIngredients.forEach(function(ing, i) {
+      const div = document.createElement('div');
+      div.className = 'ingredient fade-up';
+      div.dataset.index = i;
+      div.onclick = function() { toggleIngredient(i); };
+      div.innerHTML =
+        '<div class="check"></div>' +
+        '<span class="ingredient-icon">' + ing.icon + '</span>' +
+        '<div class="ingredient-info">' +
+          '<div class="ingredient-name">' + ing.name + '</div>' +
+          '<div class="ingredient-amount">' + getDisplayAmount(ing) + '</div>' +
+        '</div>';
+      grid.appendChild(div);
+    });
+  }
+
+  function updateIngredientAmounts() {
+    const grid = document.getElementById('ingredientsGrid');
+    baseIngredients.forEach(function(ing, i) {
+      const div = grid.querySelector('[data-index="' + i + '"]');
+      if (div) div.querySelector('.ingredient-amount').textContent = getDisplayAmount(ing);
+    });
+  }
+
+  function buildSteps() {
+    const container = document.getElementById('stepsContainer');
+    container.innerHTML = '';
+    steps.forEach(function(step, i) {
+      const div = document.createElement('div');
+      div.className = 'step fade-up';
+      div.dataset.index = i;
+      div.onclick = function() { toggleStep(i); };
+      div.innerHTML =
+        '<div class="step-number"></div>' +
+        '<div class="step-content">' +
+          '<h3>' + step.title + '</h3>' +
+          '<p>' + step.text + '</p>' +
+          (step.tip ? '<div class="tip">' + step.tip + '</div>' : '') +
+        '</div>';
+      container.appendChild(div);
+    });
+  }
+
+  function toggleIngredient(i) {
+    if (checkedIngredients.has(i)) checkedIngredients.delete(i);
+    else checkedIngredients.add(i);
+    const grid = document.getElementById('ingredientsGrid');
+    const div = grid.querySelector('[data-index="' + i + '"]');
+    if (div) div.classList.toggle('checked', checkedIngredients.has(i));
+  }
+
+  function toggleStep(i) {
+    if (completedSteps.has(i)) completedSteps.delete(i);
+    else completedSteps.add(i);
+    const container = document.getElementById('stepsContainer');
+    const div = container.querySelector('[data-index="' + i + '"]');
+    if (div) div.classList.toggle('completed', completedSteps.has(i));
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const pct = (completedSteps.size / steps.length) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = completedSteps.size + ' of ' + steps.length + ' steps';
+  }
+
+  function adjustServings(delta) {
+    servings = Math.max(1, Math.min(10, servings + delta));
+    document.getElementById('servingsCount').textContent = servings;
+    updateIngredientAmounts();
+  }
+
+  function resetAll() {
+    checkedIngredients.clear();
+    completedSteps.clear();
+    servings = 1;
+    document.getElementById('servingsCount').textContent = 1;
+    buildIngredients();
+    buildSteps();
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Init
+  buildIngredients();
+  buildSteps();
+  updateProgress();
+</script>
+
+</body>
+</html>

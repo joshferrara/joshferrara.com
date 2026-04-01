@@ -1,0 +1,118 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getTopArtists, getRecentTracks } from '../lib/lastfm';
+
+export const prerender = true;
+
+const topArtistsMonth = await getTopArtists('1month', 10);
+const topArtistsYear = await getTopArtists('12month', 10);
+const recentTracks = await getRecentTracks(20);
+const hasData = topArtistsMonth.length > 0 || recentTracks.length > 0;
+---
+
+<BaseLayout title="Listening" description="What Josh Ferrara has been listening to, powered by Last.fm.">
+  <h1>Listening</h1>
+  <p class="page-description">What I've been listening to, tracked via <a href="https://last.fm/user/joshferrara" target="_blank" rel="noopener noreferrer">Last.fm</a>.</p>
+
+  {!hasData ? (
+    <div class="empty-state">
+      <p>Last.fm data isn't available yet. Set <code>LASTFM_API_KEY</code> and <code>LASTFM_USERNAME</code> environment variables to enable this page.</p>
+    </div>
+  ) : (
+    <>
+      {topArtistsMonth.length > 0 && (
+        <section class="listening-section">
+          <h2>Top Artists This Month</h2>
+          <div class="artist-grid">
+            {topArtistsMonth.map((artist, i) => (
+              <a href={artist.url} target="_blank" rel="noopener noreferrer" class="artist-card">
+                <span class="artist-card__rank">{i + 1}</span>
+                {artist.image && <img src={artist.image} alt="" class="artist-card__img" loading="lazy" />}
+                <div>
+                  <span class="artist-card__name">{artist.name}</span>
+                  <span class="artist-card__plays">{artist.playcount} plays</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {topArtistsYear.length > 0 && (
+        <section class="listening-section">
+          <h2>Top Artists This Year</h2>
+          <div class="artist-grid">
+            {topArtistsYear.map((artist, i) => (
+              <a href={artist.url} target="_blank" rel="noopener noreferrer" class="artist-card">
+                <span class="artist-card__rank">{i + 1}</span>
+                {artist.image && <img src={artist.image} alt="" class="artist-card__img" loading="lazy" />}
+                <div>
+                  <span class="artist-card__name">{artist.name}</span>
+                  <span class="artist-card__plays">{artist.playcount} plays</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {recentTracks.length > 0 && (
+        <section class="listening-section">
+          <h2>Recent Tracks</h2>
+          <div class="tracks-list">
+            {recentTracks.map((track) => (
+              <a href={track.url} target="_blank" rel="noopener noreferrer" class="track-item">
+                {track.image && <img src={track.image} alt="" class="track-item__img" loading="lazy" />}
+                <div class="track-item__info">
+                  <span class="track-item__name">
+                    {track.nowPlaying && <span class="now-playing">▶</span>}
+                    {track.name}
+                  </span>
+                  <span class="track-item__artist">{track.artist}</span>
+                </div>
+                {track.date && <time class="track-item__date">{track.date}</time>}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </>
+  )}
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .page-description a { color: var(--color-accent); }
+  .empty-state { color: var(--color-text-muted); }
+  .empty-state code { font-size: var(--text-sm); }
+
+  .listening-section { margin-bottom: var(--space-10); }
+  .listening-section h2 { font-size: var(--text-xl); font-family: var(--font-sans); margin-bottom: var(--space-4); }
+
+  .artist-grid { display: flex; flex-direction: column; gap: var(--space-1); }
+  .artist-card {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+    text-decoration: none; color: inherit; transition: background var(--transition-fast);
+  }
+  .artist-card:hover { background: var(--color-bg-subtle); }
+  .artist-card__rank { font-size: var(--text-sm); color: var(--color-text-muted); min-width: 1.5em; text-align: right; }
+  .artist-card__img { width: 40px; height: 40px; border-radius: var(--radius-sm); object-fit: cover; }
+  .artist-card__name { display: block; font-weight: 500; color: var(--color-text-heading); }
+  .artist-card__plays { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  .tracks-list { display: flex; flex-direction: column; }
+  .track-item {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border-subtle);
+    text-decoration: none; color: inherit;
+  }
+  .track-item:last-child { border-bottom: none; }
+  .track-item__img { width: 32px; height: 32px; border-radius: var(--radius-sm); }
+  .track-item__info { flex: 1; min-width: 0; }
+  .track-item__name { display: block; font-size: var(--text-sm); color: var(--color-text-heading); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track-item__artist { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .track-item__date { font-size: var(--text-xs); color: var(--color-text-muted); white-space: nowrap; }
+  .now-playing { color: var(--color-accent); margin-right: var(--space-1); }
+</style>

@@ -1,0 +1,27 @@
+---
+interface Props {
+  title: string;
+  href: string;
+  linkText?: string;
+}
+
+const { title, href, linkText = 'View all' } = Astro.props;
+---
+
+<section class="homepage-section">
+  <div class="section-heading">
+    <h2>{title}</h2>
+    <a href={href}>{linkText} &rarr;</a>
+  </div>
+  <slot />
+</section>
+
+<style>
+  .homepage-section {
+    margin-bottom: var(--space-12);
+  }
+
+  .homepage-section:last-child {
+    margin-bottom: 0;
+  }
+</style>

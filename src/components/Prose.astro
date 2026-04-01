@@ -1,0 +1,93 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['prose', className]}>
+  <slot />
+</div>
+
+<style>
+  .prose {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    color: var(--color-text);
+  }
+
+  .prose :global(h1) {
+    font-size: var(--text-4xl);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(h2) {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(h3) {
+    font-size: var(--text-xl);
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-3);
+  }
+
+  .prose :global(h4) {
+    font-size: var(--text-lg);
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  .prose :global(p) {
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin-bottom: var(--space-4);
+  }
+
+  .prose :global(li) {
+    margin-bottom: var(--space-1);
+  }
+
+  .prose :global(blockquote) {
+    margin: var(--space-6) 0;
+  }
+
+  .prose :global(pre) {
+    margin: var(--space-6) 0;
+  }
+
+  .prose :global(img) {
+    border-radius: var(--radius-md);
+    margin: var(--space-6) 0;
+  }
+
+  .prose :global(hr) {
+    margin: var(--space-8) 0;
+  }
+
+  .prose :global(a) {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--color-accent-hover);
+  }
+
+  /* First child shouldn't have top margin */
+  .prose :global(> :first-child) {
+    margin-top: 0;
+  }
+
+  /* Last child shouldn't have bottom margin */
+  .prose :global(> :last-child) {
+    margin-bottom: 0;
+  }
+</style>

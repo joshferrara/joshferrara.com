@@ -1,0 +1,151 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export const prerender = true;
+---
+
+<BaseLayout title="Search" description="Search across all content on joshferrara.com.">
+  <h1>Search</h1>
+  <div id="search" class="search-container"></div>
+</BaseLayout>
+
+<script>
+  async function initSearch() {
+    // Dynamic import path constructed at runtime to avoid Vite resolution
+    const pagefindPath = '/pagefind/pagefind.js';
+    // @ts-ignore — Pagefind is generated post-build
+    const pagefind = await import(/* @vite-ignore */ pagefindPath);
+    await pagefind.init();
+
+    const container = document.getElementById('search');
+    if (!container) return;
+
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Search writing, notes, tweets, and more…';
+    input.className = 'search-input';
+    input.autofocus = true;
+
+    const results = document.createElement('div');
+    results.className = 'search-results';
+
+    container.appendChild(input);
+    container.appendChild(results);
+
+    let debounce: ReturnType<typeof setTimeout>;
+
+    input.addEventListener('input', () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(async () => {
+        const query = input.value.trim();
+        if (!query) {
+          results.innerHTML = '';
+          return;
+        }
+
+        const search = await pagefind.search(query);
+        const items = await Promise.all(
+          search.results.slice(0, 20).map((r: any) => r.data())
+        );
+
+        if (items.length === 0) {
+          results.innerHTML = '<p class="search-empty">No results found.</p>';
+          return;
+        }
+
+        results.innerHTML = items
+          .map(
+            (item: any) => `
+            <a href="${item.url}" class="search-result">
+              <span class="search-result__title">${item.meta?.title || item.url}</span>
+              <span class="search-result__excerpt">${item.excerpt}</span>
+            </a>
+          `
+          )
+          .join('');
+      }, 200);
+    });
+  }
+
+  initSearch();
+</script>
+
+<style>
+  h1 {
+    margin-bottom: var(--space-6);
+  }
+
+  .search-container {
+    max-width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+    font-size: var(--text-lg);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-raised);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    outline: none;
+    transition: border-color var(--transition-fast);
+  }
+
+  .search-input:focus {
+    border-color: var(--color-accent);
+  }
+
+  .search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  .search-results {
+    margin-top: var(--space-6);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-result {
+    display: block;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .search-result:last-child {
+    border-bottom: none;
+  }
+
+  .search-result__title {
+    display: block;
+    font-weight: 600;
+    color: var(--color-text-heading);
+    margin-bottom: var(--space-1);
+    transition: color var(--transition-fast);
+  }
+
+  .search-result:hover .search-result__title {
+    color: var(--color-accent);
+  }
+
+  .search-result__excerpt {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .search-result__excerpt :global(mark) {
+    background: var(--color-accent-bg);
+    color: var(--color-accent);
+    padding: 0 2px;
+    border-radius: 2px;
+  }
+
+  .search-empty {
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+</style>

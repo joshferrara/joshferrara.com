@@ -1,0 +1,46 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+import DraftBanner from '../../components/DraftBanner.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.filter((g) => !g.id.startsWith('_')).map((guide) => ({
+    params: { slug: guide.id },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+const { Content } = await render(guide);
+
+const formattedDate = guide.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={guide.data.title} description={guide.data.description}>
+  <article>
+    <header class="guide-header">
+      <time datetime={guide.data.date.toISOString()}>{formattedDate}</time>
+      <h1>{guide.data.title}</h1>
+      {guide.data.description && <p class="guide-description">{guide.data.description}</p>}
+    </header>
+    <DraftBanner growthStage={guide.data.growthStage} />
+    <Prose><Content /></Prose>
+  </article>
+  <div class="back-link"><a href="/guides/">&larr; All Guides</a></div>
+</BaseLayout>
+
+<style>
+  .guide-header { margin-bottom: var(--space-6); }
+  .guide-header time { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .guide-header h1 { font-size: var(--text-3xl); margin-top: var(--space-2); }
+  .guide-description { font-size: var(--text-lg); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .back-link { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+</style>

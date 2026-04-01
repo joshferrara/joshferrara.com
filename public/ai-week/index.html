@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Week 2026 — Baton Rouge, Louisiana</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0c;
+  --bg-elevated: #131318;
+  --bg-card: #18181f;
+  --text: #e8e6e1;
+  --text-muted: #8a8891;
+  --accent: #c4f538;
+  --accent-dim: #9cc22a;
+  --accent2: #38d9f5;
+  --border: #2a2a34;
+  --gold: #f5c638;
+  --coral: #f55a38;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Noise overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ─── TOP BAR ─── */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  transition: transform 0.3s;
+}
+
+.topbar-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.topbar-logo {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.topbar-nav a {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.topbar-nav a:hover { color: var(--text); }
+
+.topbar-cta {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.5rem 1.2rem;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  transition: background 0.2s, transform 0.2s;
+  cursor: pointer;
+  border: none;
+  font-family: var(--sans);
+}
+
+.topbar-cta:hover {
+  background: #d4ff40;
+  transform: translateY(-1px);
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 80px;
+  position: relative;
+}
+
+.hero-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(196, 245, 56, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 245, 56, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196, 245, 56, 0.08), transparent 70%);
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeInUp 0.8s ease both;
+}
+
+.hero-eyebrow::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero-title {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 9vw, 8rem);
+  line-height: 0.95;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s 0.15s ease both;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 540px;
+  margin-bottom: 2.5rem;
+  font-weight: 300;
+  animation: fadeInUp 0.8s 0.3s ease both;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s 0.45s ease both;
+}
+
+.hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hero-meta-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.hero-meta-value {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  animation: fadeInUp 0.8s 0.6s ease both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.9rem 2rem;
+  border-radius: 5px;
+  letter-spacing: 0.02em;
+  transition: all 0.25s;
+  cursor: pointer;
+  border: none;
+  font-family: var(--sans);
+}
+
+.btn-primary:hover {
+  background: #d4ff40;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(196, 245, 56, 0.25);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.9rem 2rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  transition: all 0.25s;
+  cursor: pointer;
+  font-family: var(--sans);
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-muted);
+  background: rgba(255,255,255,0.03);
+}
+
+/* ─── SECTION SHARED ─── */
+section {
+  padding: 6rem 0;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  max-width: 560px;
+  font-weight: 300;
+  margin-bottom: 3rem;
+}
+
+/* ─── ABOUT STRIP ─── */
+.about-strip {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 4rem 0;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+}
+
+.stat-block {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ─── SCHEDULE ─── */
+.schedule { background: var(--bg); }
+
+.schedule-day {
+  margin-bottom: 2.5rem;
+}
+
+.schedule-day-header {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.schedule-day-name {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+}
+
+.schedule-day-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.schedule-item {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  align-items: start;
+  transition: background 0.2s;
+}
+
+.schedule-item:hover {
+  background: rgba(255,255,255,0.015);
+  margin: 0 -1rem;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.schedule-time {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding-top: 0.15rem;
+}
+
+.schedule-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.2rem;
+}
+
+.schedule-speaker {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.schedule-tag {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 3px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.tag-keynote { background: rgba(196, 245, 56, 0.15); color: var(--accent); }
+.tag-workshop { background: rgba(56, 217, 245, 0.12); color: var(--accent2); }
+.tag-panel { background: rgba(245, 198, 56, 0.12); color: var(--gold); }
+.tag-social { background: rgba(245, 90, 56, 0.12); color: var(--coral); }
+.tag-talk { background: rgba(255,255,255,0.06); color: var(--text-muted); }
+
+/* ─── SPEAKERS ─── */
+.speakers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.speaker-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.speaker-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+
+.speaker-card:hover::before { transform: scaleX(1); }
+
+.speaker-card:hover {
+  border-color: rgba(196, 245, 56, 0.2);
+  transform: translateY(-3px);
+}
+
+.speaker-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  color: var(--bg);
+  margin-bottom: 1.2rem;
+}
+
+.speaker-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
+}
+
+.speaker-role {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+.speaker-topic {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+}
+
+/* ─── TRACKS ─── */
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.track-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.track-card:hover {
+  border-color: rgba(255,255,255,0.12);
+  transform: translateY(-2px);
+}
+
+.track-icon {
+  font-size: 2rem;
+  margin-bottom: 1.2rem;
+  display: block;
+}
+
+.track-name {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  margin-bottom: 0.6rem;
+}
+
+.track-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.2rem;
+}
+
+.track-sessions {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+/* ─── PRICING ─── */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.pricing-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.5rem 2rem;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.pricing-card.featured {
+  border-color: var(--accent);
+  box-shadow: 0 0 60px rgba(196, 245, 56, 0.06);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.3rem 1rem;
+  border-radius: 20px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.pricing-name {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+}
+
+.pricing-price {
+  font-family: var(--serif);
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.3rem;
+}
+
+.pricing-price sup {
+  font-size: 1.2rem;
+  vertical-align: super;
+  margin-right: 2px;
+}
+
+.pricing-period {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.pricing-features {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.pricing-features li {
+  font-size: 0.88rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.pricing-features li::before {
+  content: '✓';
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.pricing-btn {
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: 5px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  font-family: var(--sans);
+  text-align: center;
+  display: block;
+}
+
+.pricing-btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+}
+
+.pricing-btn-primary:hover {
+  background: #d4ff40;
+  transform: translateY(-1px);
+}
+
+.pricing-btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.pricing-btn-secondary:hover {
+  border-color: var(--text-muted);
+}
+
+/* ─── VENUE / TRAVEL ─── */
+.venue-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.venue-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.venue-map {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #1a1a24, #0f1a12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.venue-map::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(196, 245, 56, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196, 245, 56, 0.06) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.venue-map-pin {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.venue-map-pin .pin {
+  font-size: 2.5rem;
+  display: block;
+  animation: bounce 2s ease infinite;
+}
+
+.venue-map-pin span {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.venue-details {
+  padding: 2rem;
+}
+
+.venue-name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.venue-address {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+.venue-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.venue-link {
+  font-size: 0.85rem;
+  color: var(--accent2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+
+.venue-link:hover { color: #6ee6ff; }
+
+.venue-link::before {
+  content: '→';
+  font-size: 0.75rem;
+}
+
+.travel-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.travel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.2s;
+}
+
+.travel-card:hover {
+  border-color: rgba(255,255,255,0.1);
+}
+
+.travel-card-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.travel-card-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.travel-card-link {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.travel-card-link:hover { color: #d4ff40; }
+
+/* ─── SPONSORS ─── */
+.sponsors {
+  border-top: 1px solid var(--border);
+}
+
+.sponsors-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.sponsor-logo {
+  font-family: var(--sans);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  cursor: pointer;
+  letter-spacing: -0.02em;
+}
+
+.sponsor-logo:hover { opacity: 1; }
+
+.sponsor-logo.openclaw { color: var(--accent); font-family: var(--mono); font-size: 1.1rem; letter-spacing: 0.1em; }
+.sponsor-logo.rombauer { font-family: var(--serif); font-style: italic; font-size: 1.5rem; color: var(--gold); }
+.sponsor-logo.c4 { font-family: var(--mono); font-weight: 700; font-size: 1.4rem; color: var(--coral); letter-spacing: 0.05em; }
+.sponsor-logo.flexport { font-weight: 300; font-size: 1.3rem; color: var(--accent2); }
+
+/* ─── FAQ ─── */
+.faq-list {
+  max-width: 720px;
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 0;
+}
+
+.faq-question {
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  transition: color 0.2s;
+}
+
+.faq-question:hover { color: var(--accent); }
+
+.faq-toggle {
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+  flex-shrink: 0;
+}
+
+.faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 200px;
+  padding-top: 1rem;
+}
+
+.faq-answer p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+/* ─── CTA BANNER ─── */
+.cta-banner {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+}
+
+.cta-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 80% at 50% 50%, rgba(196, 245, 56, 0.04), transparent);
+}
+
+.cta-title {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.cta-sub {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: relative;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem 0;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 3rem;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  max-width: 280px;
+}
+
+.footer-logo {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+}
+
+.footer-tagline {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  gap: 4rem;
+}
+
+.footer-col h4 {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-col a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: var(--text); }
+
+.footer-bottom {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.footer-social a {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+
+.footer-social a:hover { color: var(--accent); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 900px) {
+  .about-grid,
+  .tracks-grid,
+  .pricing-grid { grid-template-columns: 1fr; }
+
+  .venue-grid { grid-template-columns: 1fr; }
+
+  .schedule-item {
+    grid-template-columns: 90px 1fr;
+  }
+
+  .schedule-tag { display: none; }
+
+  .hero-meta { flex-wrap: wrap; gap: 1.5rem; }
+
+  .sponsors-row { gap: 2rem; }
+
+  .footer-links { gap: 2rem; }
+
+  .topbar-nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <a href="#" class="topbar-logo">AI WEEK '26</a>
+    <ul class="topbar-nav">
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#speakers">Speakers</a></li>
+      <li><a href="#tracks">Tracks</a></li>
+      <li><a href="#pricing">Tickets</a></li>
+      <li><a href="#venue">Venue</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <button class="topbar-cta" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Register Now</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="container hero-content">
+    <div class="hero-eyebrow">April 5–11, 2026 · Baton Rouge, LA</div>
+    <h1 class="hero-title">AI <em>Week</em></h1>
+    <p class="hero-subtitle">Seven days of workshops, keynotes, and hands-on labs exploring how artificial intelligence is reshaping industries — from software engineering to small business to everyday life.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Duration</span>
+        <span class="hero-meta-value">7 Days</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Sessions</span>
+        <span class="hero-meta-value">40+ Talks</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Workshops</span>
+        <span class="hero-meta-value">12 Hands-On</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-label">Attendees</span>
+        <span class="hero-meta-value">1,200 Expected</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Get Your Pass ↗</button>
+      <button class="btn-secondary" onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">View Schedule</button>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT STRIP -->
+<div class="about-strip">
+  <div class="container">
+    <div class="about-grid">
+      <div class="stat-block reveal">
+        <div class="stat-number">40+</div>
+        <div class="stat-label">Sessions & Workshops</div>
+      </div>
+      <div class="stat-block reveal">
+        <div class="stat-number">24</div>
+        <div class="stat-label">Industry Speakers</div>
+      </div>
+      <div class="stat-block reveal">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Days of Programming</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACKS -->
+<section id="tracks">
+  <div class="container">
+    <div class="section-label reveal">Conference Tracks</div>
+    <h2 class="section-title reveal">Three tracks. One future.</h2>
+    <p class="section-subtitle reveal">Choose your own adventure across three curated tracks — or mix and match all week long.</p>
+    <div class="tracks-grid">
+      <div class="track-card reveal">
+        <span class="track-icon">⚡</span>
+        <h3 class="track-name">Software Development Lifecycle</h3>
+        <p class="track-desc">From AI-powered code generation to automated testing, CI/CD pipelines, and intelligent observability — explore how the SDLC is being fundamentally rewritten.</p>
+        <span class="track-sessions">14 SESSIONS · 4 WORKSHOPS</span>
+      </div>
+      <div class="track-card reveal">
+        <span class="track-icon">🔥</span>
+        <h3 class="track-name">Jumpstarting Your Laser Engraving Business</h3>
+        <p class="track-desc">Learn how AI-assisted design, automated file prep, and smart inventory management can take your laser engraving side-hustle from garage operation to growth engine.</p>
+        <span class="track-sessions">10 SESSIONS · 5 WORKSHOPS</span>
+      </div>
+      <div class="track-card reveal">
+        <span class="track-icon">🤖</span>
+        <h3 class="track-name">"Just Talking to My Robot"</h3>
+        <p class="track-desc">Build your ideal AI assistant from scratch. Covering prompt engineering, custom GPTs, voice interfaces, multi-modal agents, and personal knowledge bases.</p>
+        <span class="track-sessions">12 SESSIONS · 3 WORKSHOPS</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPEAKERS -->
+<section id="speakers" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="section-label reveal">Featured Speakers</div>
+    <h2 class="section-title reveal">The minds behind the machines</h2>
+    <p class="section-subtitle reveal">Practitioners, founders, and researchers who are building the future — not just talking about it.</p>
+    <div class="speakers-grid">
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">DR</div>
+        <div class="speaker-name">Dr. Dana Reeves</div>
+        <div class="speaker-role">VP of Engineering, OpenClaw</div>
+        <div class="speaker-topic">Keynote: The Post-IDE Era</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">MJ</div>
+        <div class="speaker-name">Marcus Jennings</div>
+        <div class="speaker-role">Founder, LaserPath Co.</div>
+        <div class="speaker-topic">From Etsy to Enterprise: Scaling Laser</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">SK</div>
+        <div class="speaker-name">Dr. Sana Khouri</div>
+        <div class="speaker-role">AI Research Lead, Flexport</div>
+        <div class="speaker-topic">Logistics Intelligence at Scale</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">TW</div>
+        <div class="speaker-name">Talia Washington</div>
+        <div class="speaker-role">Principal PM, Anthropic</div>
+        <div class="speaker-topic">Designing Conversational AI That Listens</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">RN</div>
+        <div class="speaker-name">Ray Nakamura</div>
+        <div class="speaker-role">Staff Engineer, Vercel</div>
+        <div class="speaker-topic">AI in the CI/CD Pipeline</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">LP</div>
+        <div class="speaker-name">Leah Prescott</div>
+        <div class="speaker-role">CEO, MakerMind Studio</div>
+        <div class="speaker-topic">Workshop: AI Design for Laser Engraving</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">CB</div>
+        <div class="speaker-name">Carlos Borja</div>
+        <div class="speaker-role">DevRel, GitHub</div>
+        <div class="speaker-topic">Copilot Workflows for Real Teams</div>
+      </div>
+      <div class="speaker-card reveal">
+        <div class="speaker-avatar">AN</div>
+        <div class="speaker-name">Amira Nwosu</div>
+        <div class="speaker-role">Voice AI Architect, Independent</div>
+        <div class="speaker-topic">Building Assistants That Feel Human</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="container">
+    <div class="section-label reveal">Full Schedule</div>
+    <h2 class="section-title reveal">Seven days. No filler.</h2>
+    <p class="section-subtitle reveal">A sample of highlights — full session details and room assignments available after registration.</p>
+
+    <!-- Day 1 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Sunday</div>
+        <div class="schedule-day-date">APR 5</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">4:00 PM</div>
+        <div>
+          <div class="schedule-title">Early Registration & Badge Pickup</div>
+          <div class="schedule-speaker">Main Lobby · Baton Rouge Convention Center</div>
+        </div>
+        <span class="schedule-tag tag-social">Social</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">6:30 PM</div>
+        <div>
+          <div class="schedule-title">Welcome Reception & Sponsor Showcase</div>
+          <div class="schedule-speaker">Grand Terrace · Cocktails by Rombauer</div>
+        </div>
+        <span class="schedule-tag tag-social">Social</span>
+      </div>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Monday</div>
+        <div class="schedule-day-date">APR 6</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">9:00 AM</div>
+        <div>
+          <div class="schedule-title">Opening Keynote: The Post-IDE Era</div>
+          <div class="schedule-speaker">Dr. Dana Reeves · VP of Engineering, OpenClaw</div>
+        </div>
+        <span class="schedule-tag tag-keynote">Keynote</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">10:30 AM</div>
+        <div>
+          <div class="schedule-title">AI-Assisted Code Review: Lessons from 10,000 PRs</div>
+          <div class="schedule-speaker">Carlos Borja · DevRel, GitHub</div>
+        </div>
+        <span class="schedule-tag tag-talk">Talk</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">1:00 PM</div>
+        <div>
+          <div class="schedule-title">Workshop: Laser Engraving Meets Generative AI</div>
+          <div class="schedule-speaker">Leah Prescott · CEO, MakerMind Studio</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">3:30 PM</div>
+        <div>
+          <div class="schedule-title">Panel: Who Actually Owns AI-Generated Code?</div>
+          <div class="schedule-speaker">Reeves, Borja, Nakamura + Moderated Q&A</div>
+        </div>
+        <span class="schedule-tag tag-panel">Panel</span>
+      </div>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Tuesday</div>
+        <div class="schedule-day-date">APR 7</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">9:00 AM</div>
+        <div>
+          <div class="schedule-title">From Etsy to Enterprise: Scaling a Laser Business</div>
+          <div class="schedule-speaker">Marcus Jennings · Founder, LaserPath Co.</div>
+        </div>
+        <span class="schedule-tag tag-keynote">Keynote</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">11:00 AM</div>
+        <div>
+          <div class="schedule-title">Workshop: Build Your First AI Assistant in 90 Minutes</div>
+          <div class="schedule-speaker">Amira Nwosu · Voice AI Architect</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">2:00 PM</div>
+        <div>
+          <div class="schedule-title">Materials Science for Laser Entrepreneurs</div>
+          <div class="schedule-speaker">Leah Prescott + Live Engraving Demo</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">7:00 PM</div>
+        <div>
+          <div class="schedule-title">Dinner on the Levee — Speaker Mixer</div>
+          <div class="schedule-speaker">Tin Roof Brewing Co. · Buses provided</div>
+        </div>
+        <span class="schedule-tag tag-social">Social</span>
+      </div>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Wednesday</div>
+        <div class="schedule-day-date">APR 8</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">9:00 AM</div>
+        <div>
+          <div class="schedule-title">Logistics Intelligence at Scale</div>
+          <div class="schedule-speaker">Dr. Sana Khouri · AI Research Lead, Flexport</div>
+        </div>
+        <span class="schedule-tag tag-keynote">Keynote</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">10:30 AM</div>
+        <div>
+          <div class="schedule-title">AI in the CI/CD Pipeline</div>
+          <div class="schedule-speaker">Ray Nakamura · Staff Engineer, Vercel</div>
+        </div>
+        <span class="schedule-tag tag-talk">Talk</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">1:30 PM</div>
+        <div>
+          <div class="schedule-title">Workshop: Pricing, Packaging & Positioning Your Laser Biz</div>
+          <div class="schedule-speaker">Marcus Jennings + Open Office Hours</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">4:00 PM</div>
+        <div>
+          <div class="schedule-title">Designing Conversational AI That Listens</div>
+          <div class="schedule-speaker">Talia Washington · Principal PM, Anthropic</div>
+        </div>
+        <span class="schedule-tag tag-talk">Talk</span>
+      </div>
+    </div>
+
+    <!-- Day 5 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Thursday</div>
+        <div class="schedule-day-date">APR 9</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">9:00 AM</div>
+        <div>
+          <div class="schedule-title">Multi-Modal Agents: Beyond Text</div>
+          <div class="schedule-speaker">Amira Nwosu · Voice AI Architect</div>
+        </div>
+        <span class="schedule-tag tag-talk">Talk</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">11:00 AM</div>
+        <div>
+          <div class="schedule-title">Workshop: Automated Testing with AI — Live Codebase</div>
+          <div class="schedule-speaker">Ray Nakamura · Bring your laptop</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">2:00 PM</div>
+        <div>
+          <div class="schedule-title">Panel: The Small Business AI Stack</div>
+          <div class="schedule-speaker">Jennings, Prescott, Nwosu · Moderated by Khouri</div>
+        </div>
+        <span class="schedule-tag tag-panel">Panel</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">5:00 PM</div>
+        <div>
+          <div class="schedule-title">C4 Energy Happy Hour & Hack Kickoff</div>
+          <div class="schedule-speaker">48-Hour Hackathon begins · Teams of 2–5</div>
+        </div>
+        <span class="schedule-tag tag-social">Social</span>
+      </div>
+    </div>
+
+    <!-- Day 6 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Friday</div>
+        <div class="schedule-day-date">APR 10</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">9:00 AM</div>
+        <div>
+          <div class="schedule-title">Open Hack Day — All Tracks</div>
+          <div class="schedule-speaker">Mentors on-site · Sponsor challenges posted</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">12:00 PM</div>
+        <div>
+          <div class="schedule-title">Lightning Talks: 10 Ideas in 50 Minutes</div>
+          <div class="schedule-speaker">Community submissions · 5 min each</div>
+        </div>
+        <span class="schedule-tag tag-talk">Talk</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">3:00 PM</div>
+        <div>
+          <div class="schedule-title">Workshop: Personal Knowledge Bases & RAG Systems</div>
+          <div class="schedule-speaker">Talia Washington · Hands-on lab</div>
+        </div>
+        <span class="schedule-tag tag-workshop">Workshop</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">7:30 PM</div>
+        <div>
+          <div class="schedule-title">Crawfish Boil at the Capitol Park</div>
+          <div class="schedule-speaker">Live music · Open bar by Rombauer · All badges welcome</div>
+        </div>
+        <span class="schedule-tag tag-social">Social</span>
+      </div>
+    </div>
+
+    <!-- Day 7 -->
+    <div class="schedule-day reveal">
+      <div class="schedule-day-header">
+        <div class="schedule-day-name">Saturday</div>
+        <div class="schedule-day-date">APR 11</div>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">10:00 AM</div>
+        <div>
+          <div class="schedule-title">Hackathon Demos & Judging</div>
+          <div class="schedule-speaker">$15,000 in prizes · Sponsor awards</div>
+        </div>
+        <span class="schedule-tag tag-keynote">Keynote</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">1:00 PM</div>
+        <div>
+          <div class="schedule-title">Closing Keynote: Building What's Next</div>
+          <div class="schedule-speaker">Full speaker panel · Audience Q&A</div>
+        </div>
+        <span class="schedule-tag tag-keynote">Keynote</span>
+      </div>
+      <div class="schedule-item">
+        <div class="schedule-time">3:00 PM</div>
+        <div>
+          <div class="schedule-title">Farewell Brunch & Networking</div>
+          <div class="schedule-speaker">Grand Terrace · Conference wrap</div>
+        </div>
+        <span class="schedule-tag tag-social">Social</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="section-label reveal">Tickets</div>
+    <h2 class="section-title reveal">Invest in your future</h2>
+    <p class="section-subtitle reveal">Early bird pricing ends March 15, 2026. Group rates available for teams of 5+.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card reveal">
+        <div class="pricing-name">Day Pass</div>
+        <div class="pricing-price"><sup>$</sup>249</div>
+        <div class="pricing-period">per day · pick any single day</div>
+        <ul class="pricing-features">
+          <li>Access to all sessions for one day</li>
+          <li>Lunch & coffee included</li>
+          <li>Digital session recordings (your day)</li>
+          <li>Conference swag bag</li>
+        </ul>
+        <a href="#" class="pricing-btn pricing-btn-secondary">Select Day →</a>
+      </div>
+      <div class="pricing-card featured reveal">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Full Week</div>
+        <div class="pricing-price"><sup>$</sup>899</div>
+        <div class="pricing-period">all 7 days · save $844 vs. daily</div>
+        <ul class="pricing-features">
+          <li>All sessions, workshops & keynotes</li>
+          <li>All meals & social events</li>
+          <li>Full session recording library</li>
+          <li>Hackathon eligibility</li>
+          <li>Speaker meet & greet access</li>
+          <li>1-year AI Week community membership</li>
+        </ul>
+        <a href="#" class="pricing-btn pricing-btn-primary">Get Full Week Pass →</a>
+      </div>
+      <div class="pricing-card reveal">
+        <div class="pricing-name">VIP</div>
+        <div class="pricing-price"><sup>$</sup>1,899</div>
+        <div class="pricing-period">all-access · limited to 100 seats</div>
+        <ul class="pricing-features">
+          <li>Everything in Full Week</li>
+          <li>Reserved front-row seating</li>
+          <li>Private speaker dinners (Tue & Fri)</li>
+          <li>VIP lounge with dedicated concierge</li>
+          <li>Complimentary hotel partner rate</li>
+          <li>Priority 2027 registration</li>
+        </ul>
+        <a href="#" class="pricing-btn pricing-btn-secondary">Claim VIP →</a>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:2rem; font-size:0.82rem; color:var(--text-muted);" class="reveal">
+      Student discounts available with valid .edu email. <a href="#" style="color:var(--accent); border-bottom: 1px solid var(--accent);">Apply here</a> · 
+      Group rates for 5+ attendees. <a href="#" style="color:var(--accent); border-bottom: 1px solid var(--accent);">Contact sales</a>
+    </p>
+  </div>
+</section>
+
+<!-- VENUE & TRAVEL -->
+<section id="venue">
+  <div class="container">
+    <div class="section-label reveal">Venue & Travel</div>
+    <h2 class="section-title reveal">Come for the conference.<br>Stay for the culture.</h2>
+    <p class="section-subtitle reveal">Baton Rouge is easy to get to, impossible to forget.</p>
+    <div class="venue-grid reveal">
+      <div class="venue-card">
+        <div class="venue-map">
+          <div class="venue-map-pin">
+            <span class="pin">📍</span>
+            <span>30.4515° N, 91.1871° W</span>
+          </div>
+        </div>
+        <div class="venue-details">
+          <div class="venue-name">Baton Rouge Raising Cane's River Center</div>
+          <div class="venue-address">275 S River Rd, Baton Rouge, LA 70801</div>
+          <div class="venue-links">
+            <a class="venue-link" href="#">Get directions on Google Maps</a>
+            <a class="venue-link" href="#">View venue floor plan</a>
+            <a class="venue-link" href="#">Accessibility information</a>
+            <a class="venue-link" href="#">Parking details & rates</a>
+          </div>
+        </div>
+      </div>
+      <div class="travel-cards">
+        <div class="travel-card">
+          <div class="travel-card-title">✈️ Flying In</div>
+          <div class="travel-card-desc">Baton Rouge Metropolitan Airport (BTR) is 15 minutes from the venue. New Orleans Louis Armstrong (MSY) is 80 minutes away with more flight options.</div>
+          <a href="#" class="travel-card-link">Search flights to BTR →</a>
+        </div>
+        <div class="travel-card">
+          <div class="travel-card-title">🏨 Hotel Partners</div>
+          <div class="travel-card-desc">Discounted blocks at Hilton Baton Rouge Capitol Center (attached to venue), Watermark Baton Rouge, and Hotel Indigo. Use code <strong style="color:var(--accent);">AIWEEK26</strong> at checkout.</div>
+          <a href="#" class="travel-card-link">View hotel options →</a>
+        </div>
+        <div class="travel-card">
+          <div class="travel-card-title">🚗 Getting Around</div>
+          <div class="travel-card-desc">Complimentary shuttle between partner hotels and the venue. Uber/Lyft widely available. Free parking at the River Center garage for badge holders.</div>
+          <a href="#" class="travel-card-link">Transportation FAQ →</a>
+        </div>
+        <div class="travel-card">
+          <div class="travel-card-title">🍽️ Baton Rouge Eats</div>
+          <div class="travel-card-desc">Don't miss Parrain's Seafood, Elsie's Plate & Pie, or a late-night run to Cane's. Our curated restaurant guide drops March 20.</div>
+          <a href="#" class="travel-card-link">Preview restaurant guide →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPONSORS -->
+<section class="sponsors" id="sponsors">
+  <div class="container" style="text-align:center;">
+    <div class="section-label reveal" style="text-align:center;">Presented By</div>
+    <h2 class="section-title reveal" style="text-align:center; margin-bottom: 3rem;">Our Sponsors</h2>
+    <div class="sponsors-row reveal">
+      <span class="sponsor-logo openclaw">OPENCLAW</span>
+      <span class="sponsor-logo rombauer">Rombauer</span>
+      <span class="sponsor-logo c4">C4 ENERGY</span>
+      <span class="sponsor-logo flexport">flexport</span>
+    </div>
+    <p style="margin-top:3rem; font-size:0.85rem; color:var(--text-muted);" class="reveal">
+      Interested in sponsoring AI Week 2026? <a href="#" style="color:var(--accent); border-bottom:1px solid var(--accent);">Download our prospectus</a>
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="background: var(--bg-elevated);">
+  <div class="container">
+    <div class="section-label reveal">FAQ</div>
+    <h2 class="section-title reveal">Questions? We've got answers.</h2>
+    <div class="faq-list" style="margin-top:2rem;">
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Is AI Week suitable for beginners?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>Absolutely. Each track includes beginner, intermediate, and advanced sessions clearly labeled in the program. The "Just Talking to My Robot" track is specifically designed for people with no technical background.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          What's the refund policy?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>Full refunds are available until March 22, 2026. After that, passes can be transferred to another attendee at no charge. Contact hello@aiweekbr.com for transfers.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Will sessions be recorded?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>Yes. Full Week and VIP pass holders receive access to the complete recording library within 48 hours of each session. Day Pass holders receive recordings for their selected day only.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Do I need to bring my own laptop for workshops?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>Yes, for the SDLC and Robot tracks. The Laser Engraving track provides all equipment on-site. Workshop-specific requirements will be emailed to registered attendees one week before the event.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Is there a Code of Conduct?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>Yes. AI Week is committed to providing a harassment-free experience for everyone. Our full Code of Conduct is available on the registration page and will be enforced throughout the event.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="this.parentElement.classList.toggle('open')">
+          Can I attend just the hackathon?
+          <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer"><p>The hackathon is included with Full Week and VIP passes. We also offer a limited number of Hackathon-Only passes for $149 — check back in March for availability.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <div class="container">
+    <h2 class="cta-title reveal">Ready to build <em style="font-family:var(--serif); color:var(--accent);">what's next</em>?</h2>
+    <p class="cta-sub reveal">Early bird pricing ends March 15. Join 1,200 builders, makers, and dreamers in Baton Rouge.</p>
+    <div class="cta-actions reveal">
+      <a href="#" class="btn-primary">Register Now ↗</a>
+      <a href="#" class="btn-secondary">Subscribe to Updates</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">AI WEEK '26</div>
+        <p class="footer-tagline">Seven days exploring the intersection of artificial intelligence, software, small business, and everyday life. Baton Rouge, Louisiana.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <h4>Event</h4>
+          <ul>
+            <li><a href="#">Schedule</a></li>
+            <li><a href="#">Speakers</a></li>
+            <li><a href="#">Tickets</a></li>
+            <li><a href="#">Hackathon</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Attend</h4>
+          <ul>
+            <li><a href="#">Venue & Map</a></li>
+            <li><a href="#">Hotels</a></li>
+            <li><a href="#">Travel</a></li>
+            <li><a href="#">Accessibility</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">Become a Sponsor</a></li>
+            <li><a href="#">Press Inquiries</a></li>
+            <li><a href="#">Code of Conduct</a></li>
+            <li><a href="#">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2026 AI Week Baton Rouge. All rights reserved.</div>
+      <div class="footer-social">
+        <a href="#">Twitter/X</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">Instagram</a>
+        <a href="#">YouTube</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

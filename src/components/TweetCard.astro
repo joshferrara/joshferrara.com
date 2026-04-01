@@ -1,0 +1,105 @@
+---
+interface Props {
+  id: string;
+  text: string;
+  date: string;
+  isReply?: boolean;
+  compact?: boolean;
+}
+
+const { id, text, date, isReply = false, compact = false } = Astro.props;
+
+const parsedDate = new Date(date);
+const formattedDate = parsedDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+// Linkify URLs, @mentions, and #hashtags
+function linkify(text: string): string {
+  return text
+    // URLs
+    .replace(
+      /(https?:\/\/[^\s]+)/g,
+      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+    )
+    // @mentions
+    .replace(
+      /@(\w+)/g,
+      '<a href="https://x.com/$1" target="_blank" rel="noopener noreferrer">@$1</a>'
+    )
+    // #hashtags
+    .replace(
+      /#(\w+)/g,
+      '<a href="https://x.com/hashtag/$1" target="_blank" rel="noopener noreferrer">#$1</a>'
+    );
+}
+
+const linkedText = linkify(text);
+const tweetUrl = `https://x.com/joshferrara/status/${id}`;
+---
+
+<article class:list={['tweet', { 'tweet--compact': compact, 'tweet--reply': isReply }]}>
+  <p class="tweet__text" set:html={linkedText} />
+  <div class="tweet__meta">
+    <time datetime={parsedDate.toISOString()}>{formattedDate}</time>
+    <a href={tweetUrl} target="_blank" rel="noopener noreferrer" class="tweet__link">View on X</a>
+  </div>
+</article>
+
+<style>
+  .tweet {
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .tweet:last-child {
+    border-bottom: none;
+  }
+
+  .tweet--reply {
+    opacity: 0.75;
+  }
+
+  .tweet__text {
+    font-size: var(--text-base);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-2);
+    word-break: break-word;
+  }
+
+  .tweet__text :global(a) {
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .tweet__text :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .tweet__meta {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+  }
+
+  .tweet__meta time {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .tweet__link {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .tweet__link:hover {
+    color: var(--color-accent);
+  }
+
+  .tweet--compact .tweet__text {
+    font-size: var(--text-sm);
+  }
+</style>

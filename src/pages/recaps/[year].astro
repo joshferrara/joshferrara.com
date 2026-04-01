@@ -1,0 +1,48 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const recaps = await getCollection('recaps');
+  return recaps.map((recap) => ({
+    params: { year: String(recap.data.year) },
+    props: { recap },
+  }));
+}
+
+const { recap } = Astro.props;
+const { Content } = await render(recap);
+---
+
+<BaseLayout title={recap.data.title} description={recap.data.description}>
+  <article class="recap">
+    <header class="recap__header">
+      <span class="recap__year">{recap.data.year}</span>
+      <h1>{recap.data.title}</h1>
+    </header>
+
+    <Prose>
+      <Content />
+    </Prose>
+  </article>
+
+  <div class="back-link">
+    <a href="/recaps/">&larr; All Recaps</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .recap__header { margin-bottom: var(--space-8); }
+  .recap__year {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .recap__header h1 { font-size: var(--text-4xl); margin-top: var(--space-1); }
+  .back-link { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+</style>

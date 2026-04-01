@@ -1,0 +1,64 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const posts = await getCollection('archive');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = post.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={post.data.title}>
+  <article class="archive-post">
+    <header class="archive-post__header">
+      <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
+      <h1>{post.data.title}</h1>
+    </header>
+
+    <Prose>
+      <Content />
+    </Prose>
+  </article>
+
+  <div class="back-link">
+    <a href="/archive/">&larr; Back to Archive</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .archive-post__header {
+    margin-bottom: var(--space-6);
+  }
+
+  .archive-post__header time {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .archive-post__header h1 {
+    font-size: var(--text-3xl);
+    margin-top: var(--space-2);
+  }
+
+  .back-link {
+    margin-top: var(--space-10);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border-subtle);
+    font-size: var(--text-sm);
+  }
+</style>

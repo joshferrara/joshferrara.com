@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const allProjects = await getCollection('projects');
+const projects = allProjects.sort((a, b) => a.data.sortOrder - b.data.sortOrder);
+
+const active = projects.filter((p) => p.data.status === 'active');
+const archived = projects.filter((p) => p.data.status === 'archived');
+---
+
+<BaseLayout title="Projects" description="Side projects, tools, and things Josh Ferrara has built.">
+  <h1>Projects</h1>
+  <p class="page-description">Things I've built, big and small.</p>
+
+  <div class="project-grid">
+    {active.map((project) => (
+      <a
+        href={project.data.url || '#'}
+        class="project-card card"
+        target={project.data.url?.startsWith('http') ? '_blank' : undefined}
+        rel={project.data.url?.startsWith('http') ? 'noopener noreferrer' : undefined}
+      >
+        <h3 class="project-card__title">{project.data.title}</h3>
+        <p class="project-card__description">{project.data.description}</p>
+        {project.data.tags.length > 0 && (
+          <div class="project-card__tags">
+            {project.data.tags.map((tag: string) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </a>
+    ))}
+  </div>
+
+  {archived.length > 0 && (
+    <>
+      <h2 class="section-label">Archived</h2>
+      <div class="project-grid">
+        {archived.map((project) => (
+          <a
+            href={project.data.url || '#'}
+            class="project-card card project-card--archived"
+            target={project.data.url?.startsWith('http') ? '_blank' : undefined}
+            rel={project.data.url?.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            <h3 class="project-card__title">{project.data.title}</h3>
+            <p class="project-card__description">{project.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </>
+  )}
+
+  <hr />
+  <p class="recaps-link">
+    <a href="/recaps/">Annual Recaps &rarr;</a>
+  </p>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .page-description {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .project-card {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .project-card__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text-heading);
+    transition: color var(--transition-fast);
+  }
+
+  .project-card:hover .project-card__title {
+    color: var(--color-accent);
+  }
+
+  .project-card__description {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .project-card__tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: auto;
+  }
+
+  .project-card--archived {
+    opacity: 0.6;
+  }
+
+  .section-label {
+    font-size: var(--text-lg);
+    font-family: var(--font-sans);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .recaps-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import SocialIcons from './SocialIcons.astro';
+
+const secondaryLinks = [
+  { href: '/talks/', label: 'Talks' },
+  { href: '/travel/', label: 'Travel' },
+  { href: '/guides/', label: 'Guides' },
+  { href: '/favorites/', label: 'Favorites' },
+  { href: '/library/', label: 'Library' },
+  { href: '/tweets/', label: 'Tweets' },
+  { href: '/listening/', label: 'Listening' },
+  { href: '/watching/', label: 'Watching' },
+  { href: '/podcasts/', label: 'Podcasts' },
+  { href: '/recaps/', label: 'Annual Recaps' },
+  { href: '/archive/', label: 'Archive' },
+  { href: '/goals/', label: 'Goals' },
+];
+
+const footerLinks = [
+  { href: '/colophon/', label: 'Colophon' },
+  { href: '/feed.xml', label: 'RSS' },
+];
+---
+
+<footer class="footer">
+  <div class="footer__inner container container--wide">
+    <nav class="footer__nav" aria-label="Secondary">
+      <ul class="footer__links" role="list">
+        {secondaryLinks.map((link) => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <hr class="footer__divider" />
+
+    <div class="footer__bottom">
+      <div class="footer__meta">
+        <ul class="footer__meta-links" role="list">
+          {footerLinks.map((link) => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+        <SocialIcons />
+      </div>
+      <p class="footer__copyright">
+        &copy; {new Date().getFullYear()} Josh Ferrara
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: auto;
+    padding: var(--space-12) 0 var(--space-8);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer__links a {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer__links a:hover {
+    color: var(--color-accent);
+  }
+
+  .footer__divider {
+    margin: var(--space-6) 0;
+  }
+
+  .footer__bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .footer__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .footer__meta-links {
+    display: flex;
+    gap: var(--space-4);
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer__meta-links a {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer__meta-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .footer__copyright {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 640px) {
+    .footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const cities = await getCollection('travel');
+  return cities.filter((c) => !c.id.startsWith('_')).map((city) => ({
+    params: { slug: city.id },
+    props: { city },
+  }));
+}
+
+const { city } = Astro.props;
+const { Content } = await render(city);
+---
+
+<BaseLayout title={city.data.title} description={`City guide for ${city.data.title}`}>
+  <article>
+    <header class="city-header">
+      <h1>{city.data.title}</h1>
+      {city.data.region && <p class="city-region">{city.data.region}{city.data.country ? `, ${city.data.country}` : ''}</p>}
+      {city.data.lastUpdated && <p class="city-updated">Last updated {city.data.lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>}
+    </header>
+    <Prose><Content /></Prose>
+  </article>
+  <div class="back-link"><a href="/travel/">&larr; All Cities</a></div>
+</BaseLayout>
+
+<style>
+  .city-header { margin-bottom: var(--space-6); }
+  .city-header h1 { font-size: var(--text-4xl); }
+  .city-region { font-size: var(--text-lg); color: var(--color-accent); margin-top: var(--space-1); }
+  .city-updated { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .back-link { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+</style>

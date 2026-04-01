@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tmux — Interactive Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e14;
+  --surface: #0d1117;
+  --surface2: #131a24;
+  --border: #1e2a3a;
+  --border-bright: #2d4056;
+  --text: #c5cdd8;
+  --text-dim: #6b7d94;
+  --text-bright: #e8edf3;
+  --green: #7ee787;
+  --green-dim: #2ea04333;
+  --blue: #79c0ff;
+  --cyan: #56d4dd;
+  --yellow: #e3b341;
+  --orange: #f0883e;
+  --red: #f47067;
+  --purple: #bc8cff;
+  --pink: #f778ba;
+  --prefix: #f0883e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9999;
+}
+.header {
+  padding: 60px 40px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0.3;
+}
+.logo {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 64px;
+  font-weight: 600;
+  color: var(--green);
+  letter-spacing: -2px;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(126, 231, 135, 0.2);
+}
+.logo span {
+  color: var(--text-dim);
+  font-weight: 300;
+  font-size: 20px;
+  letter-spacing: 4px;
+  display: block;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+.subtitle {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--text-dim);
+  margin-top: 16px;
+  font-style: italic;
+}
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 14, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 40px;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 16px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  position: relative;
+  transition: color 0.2s;
+  letter-spacing: 0.5px;
+}
+.nav-btn:hover { color: var(--text-bright); }
+.nav-btn.active { color: var(--green); }
+.nav-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20px; right: 20px;
+  height: 2px;
+  background: var(--green);
+  border-radius: 2px 2px 0 0;
+}
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+.section {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.section.active { display: block; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.section-header { margin-bottom: 40px; }
+.section-header h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 38px;
+  color: var(--text-bright);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+.section-header p {
+  color: var(--text-dim);
+  font-size: 16px;
+  max-width: 600px;
+}
+.concept {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.concept::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+  background: var(--green);
+  opacity: 0.5;
+  border-radius: 3px 0 0 3px;
+}
+.concept h3 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 16px;
+  color: var(--text-bright);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.concept h3 .tag {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.tag-prefix { background: rgba(240, 136, 62, 0.15); color: var(--orange); }
+.tag-shell { background: rgba(121, 192, 255, 0.15); color: var(--blue); }
+.tag-concept { background: rgba(188, 140, 255, 0.15); color: var(--purple); }
+.concept p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.concept p strong { color: var(--text); font-weight: 500; }
+.cmd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.cmd-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.cmd-card:hover {
+  border-color: var(--border-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.cmd-card.expanded {
+  border-color: var(--green);
+  background: var(--surface2);
+}
+.cmd-card .cmd-key {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 15px;
+  color: var(--green);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cmd-card .cmd-key .prefix-badge {
+  font-size: 10px;
+  color: var(--orange);
+  background: rgba(240, 136, 62, 0.12);
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+.cmd-card .cmd-desc {
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.cmd-card .cmd-detail {
+  display: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.7;
+}
+.cmd-card.expanded .cmd-detail { display: block; }
+.cmd-detail code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: rgba(126, 231, 135, 0.08);
+  color: var(--green);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+.terminal-wrap {
+  margin: 32px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+}
+.terminal-bar {
+  background: var(--surface2);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+.terminal-dot.r { background: #f47067; }
+.terminal-dot.y { background: #e3b341; }
+.terminal-dot.g { background: #7ee787; }
+.terminal-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-left: 12px;
+}
+.terminal-body {
+  background: #000000;
+  padding: 20px;
+  min-height: 300px;
+  max-height: 440px;
+  overflow-y: auto;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.terminal-body::-webkit-scrollbar { width: 6px; }
+.terminal-body::-webkit-scrollbar-track { background: transparent; }
+.terminal-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.term-line { margin-bottom: 2px; white-space: pre-wrap; word-break: break-all; }
+.term-prompt { color: var(--green); }
+.term-cmd { color: var(--text-bright); }
+.term-output { color: var(--text-dim); }
+.term-success { color: var(--green); }
+.term-error { color: var(--red); }
+.term-info { color: var(--cyan); }
+.term-yellow { color: var(--yellow); }
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+.terminal-input-line .prompt {
+  color: var(--green);
+  margin-right: 8px;
+  white-space: nowrap;
+}
+.terminal-input {
+  background: transparent;
+  border: none;
+  color: var(--text-bright);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  flex: 1;
+  outline: none;
+  caret-color: var(--green);
+}
+.visual-demo {
+  margin: 28px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.visual-demo-bar {
+  background: var(--surface2);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.visual-demo-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.visual-demo-body {
+  background: #000;
+  min-height: 260px;
+  position: relative;
+}
+.pane-container {
+  display: grid;
+  height: 260px;
+  transition: all 0.4s ease;
+}
+.pane-container.layout-single { grid-template: 1fr / 1fr; }
+.pane-container.layout-vsplit { grid-template: 1fr / 1fr 1fr; }
+.pane-container.layout-hsplit { grid-template: 1fr 1fr / 1fr; }
+.pane-container.layout-three { grid-template: 1fr 1fr / 1fr 1fr; }
+.pane-container.layout-four { grid-template: 1fr 1fr / 1fr 1fr; }
+.pane {
+  border: 1px solid var(--border);
+  padding: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  position: relative;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+.pane.active-pane {
+  border-color: var(--green);
+  box-shadow: inset 0 0 20px rgba(126, 231, 135, 0.05);
+}
+.pane .pane-label {
+  position: absolute;
+  top: 6px; right: 8px;
+  font-size: 10px;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.05);
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.pane .pane-label.active-label {
+  color: var(--green);
+  background: rgba(126, 231, 135, 0.1);
+}
+.pane .pane-cursor {
+  display: inline-block;
+  width: 7px; height: 14px;
+  background: var(--green);
+  animation: blink 1s step-end infinite;
+  vertical-align: middle;
+}
+@keyframes blink { 50% { opacity: 0; } }
+.demo-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.demo-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.demo-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(126, 231, 135, 0.05);
+}
+.demo-btn.active-demo-btn {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(126, 231, 135, 0.1);
+}
+.session-viz {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.session-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  min-width: 200px;
+  flex: 1;
+  transition: all 0.3s;
+  position: relative;
+}
+.session-card.attached {
+  border-color: var(--green);
+  box-shadow: 0 0 20px rgba(126, 231, 135, 0.1);
+}
+.session-card.detached { opacity: 0.5; border-style: dashed; }
+.session-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 14px;
+  color: var(--text-bright);
+  margin-bottom: 4px;
+}
+.session-status {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.status-dot { width: 6px; height: 6px; border-radius: 50%; }
+.status-dot.on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.status-dot.off { background: var(--text-dim); }
+.session-windows {
+  margin-top: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.cheat-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+.cheat-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+  text-align: left;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.cheat-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(30, 42, 58, 0.5);
+  font-size: 14px;
+}
+.cheat-table tr:hover td { background: rgba(126, 231, 135, 0.02); }
+.cheat-table .cheat-cmd {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--green);
+  font-size: 13px;
+  white-space: nowrap;
+}
+.cheat-table .cheat-desc { color: var(--text-dim); }
+.cheat-table .cheat-cat {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.quiz-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.quiz-q {
+  font-size: 16px;
+  color: var(--text-bright);
+  margin-bottom: 16px;
+}
+.quiz-q .q-num {
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--purple);
+  margin-right: 8px;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.quiz-opt {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+.quiz-opt:hover {
+  border-color: var(--border-bright);
+  background: rgba(126, 231, 135, 0.03);
+}
+.quiz-opt.correct {
+  border-color: var(--green);
+  background: rgba(126, 231, 135, 0.1);
+  color: var(--green);
+}
+.quiz-opt.wrong {
+  border-color: var(--red);
+  background: rgba(244, 112, 103, 0.1);
+  color: var(--red);
+}
+.quiz-opt.disabled { pointer-events: none; opacity: 0.5; }
+.quiz-feedback {
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: rgba(126, 231, 135, 0.08); color: var(--green); }
+.quiz-feedback.wrong-fb { background: rgba(244, 112, 103, 0.08); color: var(--red); }
+.score-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+.score-num { color: var(--green); font-size: 20px; font-weight: 600; }
+.workflow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.workflow-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 18px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  text-align: center;
+  min-width: 120px;
+}
+.workflow-step .step-cmd { color: var(--green); font-size: 11px; margin-top: 4px; }
+.workflow-arrow { color: var(--text-dim); font-size: 18px; }
+@media (max-width: 768px) {
+  .header { padding: 40px 20px 30px; }
+  .logo { font-size: 42px; }
+  .nav { padding: 0 16px; }
+  .main { padding: 24px 20px; }
+  .cmd-grid { grid-template-columns: 1fr; }
+  .section-header h2 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">tmux<span>terminal multiplexer</span></div>
+  <div class="subtitle">An interactive guide to managing sessions, windows, and panes</div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" data-section="basics">Basics</button>
+    <button class="nav-btn" data-section="sessions">Sessions</button>
+    <button class="nav-btn" data-section="windows">Windows</button>
+    <button class="nav-btn" data-section="panes">Panes</button>
+    <button class="nav-btn" data-section="resize">Resize &amp; Navigate</button>
+    <button class="nav-btn" data-section="sandbox">Sandbox</button>
+    <button class="nav-btn" data-section="cheatsheet">Cheat Sheet</button>
+    <button class="nav-btn" data-section="quiz">Quiz</button>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- BASICS -->
+  <div class="section active" id="basics">
+    <div class="section-header">
+      <h2>The Big Idea</h2>
+      <p>tmux lets you run persistent terminal sessions that survive disconnection. Think of it as tabs and split-screens for your terminal — on steroids.</p>
+    </div>
+
+    <div class="concept">
+      <h3>The Prefix Key <span class="tag tag-prefix">essential</span></h3>
+      <p>Almost every tmux command starts with a <strong>prefix key</strong>: <code style="font-family:'IBM Plex Mono';background:rgba(240,136,62,0.12);color:var(--orange);padding:2px 8px;border-radius:4px;font-size:14px;">Ctrl + b</code> — you press it, release, then press the next key. It's like a "hey tmux, listen up!" signal. Throughout this guide, we'll write it as <strong>prefix</strong>.</p>
+    </div>
+
+    <div class="concept">
+      <h3>Hierarchy <span class="tag tag-concept">mental model</span></h3>
+      <p><strong>Server → Sessions → Windows → Panes.</strong> A tmux server runs in the background. Each <strong>session</strong> is a workspace (like a project). Each session has <strong>windows</strong> (like browser tabs). Each window has <strong>panes</strong> (split views). You can detach from a session and it keeps running.</p>
+    </div>
+
+    <div class="workflow">
+      <div class="workflow-step">Server<div class="step-cmd">auto-started</div></div>
+      <div class="workflow-arrow">→</div>
+      <div class="workflow-step">Session<div class="step-cmd">tmux new -s name</div></div>
+      <div class="workflow-arrow">→</div>
+      <div class="workflow-step">Window<div class="step-cmd">prefix + c</div></div>
+      <div class="workflow-arrow">→</div>
+      <div class="workflow-step">Pane<div class="step-cmd">prefix + % or "</div></div>
+    </div>
+
+    <div class="concept">
+      <h3>Why use tmux? <span class="tag tag-concept">motivation</span></h3>
+      <p>Your SSH drops? tmux keeps your processes alive. Want to pair program? Share a tmux session. Need to monitor logs while editing code? Split your terminal. Working on 5 projects? One session per project, switch instantly.</p>
+    </div>
+  </div>
+
+  <!-- SESSIONS -->
+  <div class="section" id="sessions">
+    <div class="section-header">
+      <h2>Sessions</h2>
+      <p>Sessions are your top-level workspaces. Create one per project, detach when you're done, reattach when you're back.</p>
+    </div>
+
+    <div class="cmd-grid">
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux new -s myproject</div>
+        <div class="cmd-desc">Create a new named session</div>
+        <div class="cmd-detail">The <code>-s</code> flag names your session. Always name your sessions — it makes reattaching much easier. Without a name, tmux assigns a number (0, 1, 2…).</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> d</div>
+        <div class="cmd-desc">Detach from current session</div>
+        <div class="cmd-detail">Press <code>Ctrl+b</code> then <code>d</code>. You're back in your normal shell, but the session keeps running in the background. All processes continue.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux attach -t myproject</div>
+        <div class="cmd-desc">Reattach to a named session</div>
+        <div class="cmd-detail">Jump back into a running session. Use <code>tmux a</code> as a shorthand, or <code>tmux a -t name</code> for a specific session. If only one session exists, <code>tmux a</code> works fine.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux ls</div>
+        <div class="cmd-desc">List all sessions</div>
+        <div class="cmd-detail">Shows all running sessions with their names, window counts, and creation times. Great for seeing what's still alive.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> $</div>
+        <div class="cmd-desc">Rename current session</div>
+        <div class="cmd-detail">Opens a prompt at the bottom to type a new name. Useful if you started a session without naming it or want to repurpose it.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> s</div>
+        <div class="cmd-desc">Switch between sessions</div>
+        <div class="cmd-detail">Opens an interactive session picker. Use arrow keys to navigate, Enter to switch. You can even preview windows in each session.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux kill-session -t name</div>
+        <div class="cmd-desc">Kill a session</div>
+        <div class="cmd-detail">Permanently destroys a session and all its windows/panes. Use <code>tmux kill-server</code> to destroy everything.</div>
+      </div>
+    </div>
+
+    <h3 style="font-family:'IBM Plex Mono';font-size:13px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Live Session Visualizer</h3>
+    <div id="session-viz-area" class="session-viz"></div>
+    <div class="demo-controls" style="background:transparent;border:none;padding:8px 0;">
+      <button class="demo-btn" onclick="addSession()">+ New Session</button>
+      <button class="demo-btn" onclick="detachSession()">Detach Current</button>
+      <button class="demo-btn" onclick="attachSession()">Attach First Detached</button>
+      <button class="demo-btn" onclick="killSession()">Kill Last</button>
+      <button class="demo-btn" onclick="resetSessions()">Reset</button>
+    </div>
+  </div>
+
+  <!-- WINDOWS -->
+  <div class="section" id="windows">
+    <div class="section-header">
+      <h2>Windows</h2>
+      <p>Windows are like tabs within a session. Each window takes up the full terminal screen.</p>
+    </div>
+
+    <div class="cmd-grid">
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> c</div>
+        <div class="cmd-desc">Create a new window</div>
+        <div class="cmd-detail">Opens a fresh terminal window within the current session. The status bar shows your windows as numbered tabs.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> ,</div>
+        <div class="cmd-desc">Rename current window</div>
+        <div class="cmd-detail">Type a meaningful name like "editor", "logs", "server". Shows in the status bar so you can find things fast.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> n / p</div>
+        <div class="cmd-desc">Next / Previous window</div>
+        <div class="cmd-detail"><code>prefix + n</code> goes to the next window, <code>prefix + p</code> goes to the previous one. Cycles through all windows in order.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> 0-9</div>
+        <div class="cmd-desc">Jump to window by number</div>
+        <div class="cmd-detail">Direct jump. <code>prefix + 2</code> takes you to window 2. Fast when you know which window you need.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> w</div>
+        <div class="cmd-desc">Interactive window list</div>
+        <div class="cmd-detail">Shows all windows across all sessions in a tree view. Navigate with arrows and Enter to jump anywhere.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> &amp;</div>
+        <div class="cmd-desc">Kill current window</div>
+        <div class="cmd-detail">Closes the window and all its panes. tmux asks for confirmation with (y/n).</div>
+      </div>
+    </div>
+
+    <div class="visual-demo">
+      <div class="visual-demo-bar">
+        <span class="visual-demo-label">Window Tabs Simulation</span>
+      </div>
+      <div style="background:#000;padding:20px;">
+        <div id="window-tabs" style="display:flex;gap:2px;margin-bottom:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;"></div>
+        <div id="window-content" style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--text-dim);min-height:160px;padding:8px;"></div>
+      </div>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="addWindow()">prefix + c (New Window)</button>
+        <button class="demo-btn" onclick="nextWindow()">prefix + n (Next)</button>
+        <button class="demo-btn" onclick="prevWindow()">prefix + p (Prev)</button>
+        <button class="demo-btn" onclick="renameWindow()">prefix + , (Rename)</button>
+        <button class="demo-btn" onclick="killWindow()">prefix + &amp; (Kill)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANES -->
+  <div class="section" id="panes">
+    <div class="section-header">
+      <h2>Panes</h2>
+      <p>Split your window into multiple terminal views. The real power of tmux.</p>
+    </div>
+
+    <div class="cmd-grid">
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> %</div>
+        <div class="cmd-desc">Split vertically (left/right)</div>
+        <div class="cmd-detail">Splits the current pane into two side-by-side panes. The <code>%</code> character looks like two things separated by a line — that's the mnemonic!</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> "</div>
+        <div class="cmd-desc">Split horizontally (top/bottom)</div>
+        <div class="cmd-detail">Splits the current pane into top and bottom. The <code>"</code> character has two horizontal dots — another mnemonic.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Arrow Keys</div>
+        <div class="cmd-desc">Move between panes</div>
+        <div class="cmd-detail">Press prefix then the arrow key pointing to the pane you want. The active pane gets a highlighted border.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> x</div>
+        <div class="cmd-desc">Close current pane</div>
+        <div class="cmd-detail">Kills the current pane. If it's the last pane in a window, the window closes too. Confirms with (y/n).</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> z</div>
+        <div class="cmd-desc">Zoom/unzoom pane</div>
+        <div class="cmd-detail">Temporarily makes the current pane fullscreen. Press again to go back to the split layout. Great for quickly reading something in detail.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Space</div>
+        <div class="cmd-desc">Cycle through layouts</div>
+        <div class="cmd-detail">Rotates between preset layouts: even-horizontal, even-vertical, main-horizontal, main-vertical, tiled. Quick way to reorganize.</div>
+      </div>
+    </div>
+
+    <div class="visual-demo">
+      <div class="visual-demo-bar">
+        <span class="visual-demo-label">Pane Layout Demo</span>
+        <span class="visual-demo-label" id="pane-count-label">1 pane</span>
+      </div>
+      <div class="visual-demo-body">
+        <div id="pane-container" class="pane-container layout-single"></div>
+      </div>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="splitV()">prefix + % (V-Split)</button>
+        <button class="demo-btn" onclick="splitH()">prefix + " (H-Split)</button>
+        <button class="demo-btn" onclick="cyclePane()">prefix + → (Next Pane)</button>
+        <button class="demo-btn" onclick="zoomPane()">prefix + z (Zoom)</button>
+        <button class="demo-btn" onclick="resetPanes()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESIZE & NAVIGATE -->
+  <div class="section" id="resize">
+    <div class="section-header">
+      <h2>Resize &amp; Navigate</h2>
+      <p>Fine-tune your pane sizes and move around like a pro.</p>
+    </div>
+
+    <div class="cmd-grid">
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Ctrl + Arrow</div>
+        <div class="cmd-desc">Resize pane (small increments)</div>
+        <div class="cmd-detail">Hold prefix, then <code>Ctrl + Arrow</code> to nudge the pane border by 1 cell. Repeat for fine adjustments.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Alt + Arrow</div>
+        <div class="cmd-desc">Resize pane (large increments)</div>
+        <div class="cmd-detail">Same as above but jumps 5 cells at a time. Faster for bigger adjustments. Note: on macOS you may need to configure your terminal to pass Alt correctly.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> q</div>
+        <div class="cmd-desc">Show pane numbers</div>
+        <div class="cmd-detail">Briefly flashes numbers on each pane. Press the number to jump there. Useful with many panes where arrow navigation is slow.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> o</div>
+        <div class="cmd-desc">Cycle to next pane</div>
+        <div class="cmd-detail">Cycles through panes in order. Faster than arrow keys when you just want to go to the next one.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> { or }</div>
+        <div class="cmd-desc">Swap pane left/right</div>
+        <div class="cmd-detail">Moves the current pane to the previous <code>{</code> or next <code>}</code> position. The pane content moves with it.</div>
+      </div>
+      <div class="cmd-card" onclick="toggleCard(this)">
+        <div class="cmd-key"><span class="prefix-badge">PREFIX</span> !</div>
+        <div class="cmd-desc">Convert pane to window</div>
+        <div class="cmd-detail">Takes the current pane and makes it a standalone window. Useful when a pane grows too complex for the split view.</div>
+      </div>
+    </div>
+
+    <div class="visual-demo">
+      <div class="visual-demo-bar">
+        <span class="visual-demo-label">Resize Demo</span>
+        <span class="visual-demo-label" id="resize-ratio">50% / 50%</span>
+      </div>
+      <div class="visual-demo-body">
+        <div id="resize-container" style="display:grid;grid-template-columns:1fr 1fr;height:260px;transition:grid-template-columns 0.3s;">
+          <div class="pane active-pane">
+            <span class="pane-label active-label">pane 0</span>
+            <span style="color:var(--green)">~/project $</span> <span class="pane-cursor"></span>
+          </div>
+          <div class="pane">
+            <span class="pane-label">pane 1</span>
+            <span style="color:var(--text-dim)">~/project $ tail -f app.log</span>
+          </div>
+        </div>
+      </div>
+      <div class="demo-controls">
+        <button class="demo-btn" onclick="resizeDemo('left')">← Shrink Left</button>
+        <button class="demo-btn" onclick="resizeDemo('right')">→ Grow Left</button>
+        <button class="demo-btn" onclick="resizeDemo('equal')">= Equal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SANDBOX -->
+  <div class="section" id="sandbox">
+    <div class="section-header">
+      <h2>Sandbox</h2>
+      <p>Practice tmux commands in this simulated terminal. Type a command and see what happens.</p>
+    </div>
+
+    <div class="concept">
+      <h3>Try These Commands <span class="tag tag-concept">practice</span></h3>
+      <p><code>tmux new -s dev</code> · <code>tmux ls</code> · <code>tmux attach -t dev</code> · <code>tmux rename-session -t dev work</code> · <code>tmux kill-session -t work</code> · <code>help</code></p>
+    </div>
+
+    <div class="terminal-wrap">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <div class="terminal-title">tmux sandbox — bash</div>
+      </div>
+      <div class="terminal-body" id="sandbox-body">
+        <div class="term-line term-info">Welcome to the tmux sandbox! Try typing tmux commands.</div>
+        <div class="term-line term-info">Type "help" for a list of supported commands.</div>
+        <div class="term-line">&nbsp;</div>
+      </div>
+      <div style="background:#000;padding:0 20px 16px;">
+        <div class="terminal-input-line">
+          <span class="prompt" id="sandbox-prompt">~ $</span>
+          <input type="text" class="terminal-input" id="sandbox-input" placeholder="Type a tmux command..." autofocus>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHEAT SHEET -->
+  <div class="section" id="cheatsheet">
+    <div class="section-header">
+      <h2>Cheat Sheet</h2>
+      <p>Everything at a glance. Print this or keep it open while you practice.</p>
+    </div>
+
+    <table class="cheat-table">
+      <thead>
+        <tr><th>Category</th><th>Command</th><th>What it does</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">tmux new -s name</td><td class="cheat-desc">New named session</td></tr>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">tmux ls</td><td class="cheat-desc">List sessions</td></tr>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">tmux attach -t name</td><td class="cheat-desc">Attach to session</td></tr>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">tmux kill-session -t name</td><td class="cheat-desc">Kill session</td></tr>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">prefix + d</td><td class="cheat-desc">Detach</td></tr>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">prefix + $</td><td class="cheat-desc">Rename session</td></tr>
+        <tr><td class="cheat-cat">Session</td><td class="cheat-cmd">prefix + s</td><td class="cheat-desc">Session picker</td></tr>
+        <tr><td class="cheat-cat">Window</td><td class="cheat-cmd">prefix + c</td><td class="cheat-desc">New window</td></tr>
+        <tr><td class="cheat-cat">Window</td><td class="cheat-cmd">prefix + ,</td><td class="cheat-desc">Rename window</td></tr>
+        <tr><td class="cheat-cat">Window</td><td class="cheat-cmd">prefix + n / p</td><td class="cheat-desc">Next / prev window</td></tr>
+        <tr><td class="cheat-cat">Window</td><td class="cheat-cmd">prefix + 0-9</td><td class="cheat-desc">Jump to window #</td></tr>
+        <tr><td class="cheat-cat">Window</td><td class="cheat-cmd">prefix + w</td><td class="cheat-desc">Window list</td></tr>
+        <tr><td class="cheat-cat">Window</td><td class="cheat-cmd">prefix + &amp;</td><td class="cheat-desc">Kill window</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + %</td><td class="cheat-desc">Vertical split</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + "</td><td class="cheat-desc">Horizontal split</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + Arrow</td><td class="cheat-desc">Move to pane</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + x</td><td class="cheat-desc">Kill pane</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + z</td><td class="cheat-desc">Zoom toggle</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + Space</td><td class="cheat-desc">Cycle layouts</td></tr>
+        <tr><td class="cheat-cat">Pane</td><td class="cheat-cmd">prefix + o</td><td class="cheat-desc">Next pane</td></tr>
+        <tr><td class="cheat-cat">Resize</td><td class="cheat-cmd">prefix + Ctrl+Arrow</td><td class="cheat-desc">Resize (1 cell)</td></tr>
+        <tr><td class="cheat-cat">Resize</td><td class="cheat-cmd">prefix + Alt+Arrow</td><td class="cheat-desc">Resize (5 cells)</td></tr>
+        <tr><td class="cheat-cat">Navigate</td><td class="cheat-cmd">prefix + q</td><td class="cheat-desc">Show pane numbers</td></tr>
+        <tr><td class="cheat-cat">Navigate</td><td class="cheat-cmd">prefix + { / }</td><td class="cheat-desc">Swap pane</td></tr>
+        <tr><td class="cheat-cat">Navigate</td><td class="cheat-cmd">prefix + !</td><td class="cheat-desc">Pane → window</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section" id="quiz">
+    <div class="section-header">
+      <h2>Test Yourself</h2>
+      <p>See how well you've absorbed the tmux fundamentals.</p>
+    </div>
+
+    <div class="score-bar">
+      Score: <span class="score-num" id="quiz-score">0</span> / <span id="quiz-total">8</span>
+    </div>
+    <div id="quiz-container"></div>
+    <button class="demo-btn" onclick="resetQuiz()" style="margin-top:16px;">Reset Quiz</button>
+  </div>
+
+</div>
+
+<script>
+// NAV
+const navBtns = document.querySelectorAll('.nav-btn');
+const sections = document.querySelectorAll('.section');
+navBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    navBtns.forEach(b => b.classList.remove('active'));
+    sections.forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.section).classList.add('active');
+  });
+});
+
+// CMD CARDS
+function toggleCard(el) { el.classList.toggle('expanded'); }
+
+// SESSION VISUALIZER
+let sessions = [
+  { name: 'dev', attached: true, windows: ['editor', 'server'] },
+  { name: 'logs', attached: false, windows: ['app.log'] },
+];
+let sessionCounter = 2;
+
+function renderSessions() {
+  const area = document.getElementById('session-viz-area');
+  area.innerHTML = sessions.map((s, i) => `
+    <div class="session-card ${s.attached ? 'attached' : 'detached'}">
+      <div class="session-name">${s.name}</div>
+      <div class="session-status">
+        <div class="status-dot ${s.attached ? 'on' : 'off'}"></div>
+        <span style="color:${s.attached ? 'var(--green)' : 'var(--text-dim)'}">${s.attached ? 'attached' : 'detached'}</span>
+      </div>
+      <div class="session-windows">${s.windows.map((w,j) => `${j}: ${w}`).join(' · ')}</div>
+    </div>
+  `).join('');
+}
+function addSession() {
+  const names = ['backend', 'frontend', 'deploy', 'testing', 'docs', 'scratch'];
+  sessions.push({ name: names[sessionCounter % names.length], attached: false, windows: ['bash'] });
+  sessionCounter++;
+  renderSessions();
+}
+function detachSession() {
+  const attached = sessions.find(s => s.attached);
+  if (attached) attached.attached = false;
+  renderSessions();
+}
+function attachSession() {
+  sessions.forEach(s => s.attached = false);
+  const detached = sessions.find(s => !s.attached);
+  if (detached) detached.attached = true;
+  renderSessions();
+}
+function killSession() {
+  if (sessions.length > 0) sessions.pop();
+  renderSessions();
+}
+function resetSessions() {
+  sessions = [
+    { name: 'dev', attached: true, windows: ['editor', 'server'] },
+    { name: 'logs', attached: false, windows: ['app.log'] },
+  ];
+  sessionCounter = 2;
+  renderSessions();
+}
+renderSessions();
+
+// WINDOW TABS DEMO
+let windows = [{ name: 'bash', content: '~/project $ ▌' }];
+let currentWin = 0;
+let winCounter = 0;
+
+function renderWindows() {
+  const tabs = document.getElementById('window-tabs');
+  const content = document.getElementById('window-content');
+  tabs.innerHTML = windows.map((w, i) => `
+    <div style="padding:6px 14px;background:${i===currentWin ? 'var(--green)' : 'var(--surface2)'};color:${i===currentWin ? '#000' : 'var(--text-dim)'};border-radius:4px 4px 0 0;cursor:pointer;transition:all 0.2s;" onclick="currentWin=${i};renderWindows()">
+      ${i}:${w.name}${i===currentWin ? '*' : ''}
+    </div>
+  `).join('');
+  content.innerHTML = `<div style="color:var(--text-dim)">${windows[currentWin].content}</div>`;
+}
+function addWindow() {
+  winCounter++;
+  const names = ['bash', 'zsh', 'bash'];
+  windows.push({ name: names[winCounter % 3], content: `~ $ ▌` });
+  currentWin = windows.length - 1;
+  renderWindows();
+}
+function nextWindow() { currentWin = (currentWin + 1) % windows.length; renderWindows(); }
+function prevWindow() { currentWin = (currentWin - 1 + windows.length) % windows.length; renderWindows(); }
+function renameWindow() {
+  const name = prompt('Rename window to:', windows[currentWin].name);
+  if (name) windows[currentWin].name = name;
+  renderWindows();
+}
+function killWindow() {
+  if (windows.length <= 1) return;
+  windows.splice(currentWin, 1);
+  currentWin = Math.min(currentWin, windows.length - 1);
+  renderWindows();
+}
+renderWindows();
+
+// PANE DEMO
+let panes = [{ id: 0, label: 'pane 0', active: true }];
+let paneIdCounter = 1;
+let zoomed = false;
+
+function renderPanes() {
+  const container = document.getElementById('pane-container');
+  const label = document.getElementById('pane-count-label');
+  label.textContent = `${panes.length} pane${panes.length > 1 ? 's' : ''}`;
+
+  if (zoomed) {
+    const active = panes.find(p => p.active);
+    container.className = 'pane-container layout-single';
+    container.innerHTML = `
+      <div class="pane active-pane">
+        <span class="pane-label active-label">${active.label} (ZOOMED)</span>
+        <span style="color:var(--green)">~ $</span> <span class="pane-cursor"></span>
+      </div>
+    `;
+    return;
+  }
+
+  const layouts = ['layout-single', 'layout-vsplit', 'layout-hsplit', 'layout-three', 'layout-four'];
+  let layout;
+  if (panes.length === 1) layout = layouts[0];
+  else if (panes.length === 2) layout = layouts[1];
+  else if (panes.length === 3) layout = layouts[3];
+  else layout = layouts[4];
+
+  container.className = 'pane-container ' + layout;
+  container.innerHTML = panes.map(p => `
+    <div class="pane ${p.active ? 'active-pane' : ''}">
+      <span class="pane-label ${p.active ? 'active-label' : ''}">${p.label}</span>
+      ${p.active ? '<span style="color:var(--green)">~ $</span> <span class="pane-cursor"></span>' : '<span style="color:var(--text-dim)">~ $</span>'}
+    </div>
+  `).join('');
+}
+function splitV() {
+  if (panes.length >= 4) return;
+  zoomed = false;
+  panes.forEach(p => p.active = false);
+  panes.push({ id: paneIdCounter++, label: `pane ${paneIdCounter - 1}`, active: true });
+  renderPanes();
+}
+function splitH() {
+  if (panes.length >= 4) return;
+  zoomed = false;
+  panes.forEach(p => p.active = false);
+  panes.push({ id: paneIdCounter++, label: `pane ${paneIdCounter - 1}`, active: true });
+  renderPanes();
+}
+function cyclePane() {
+  if (zoomed) return;
+  const idx = panes.findIndex(p => p.active);
+  panes[idx].active = false;
+  panes[(idx + 1) % panes.length].active = true;
+  renderPanes();
+}
+function zoomPane() {
+  if (panes.length <= 1) return;
+  zoomed = !zoomed;
+  renderPanes();
+}
+function resetPanes() {
+  panes = [{ id: 0, label: 'pane 0', active: true }];
+  paneIdCounter = 1;
+  zoomed = false;
+  renderPanes();
+}
+renderPanes();
+
+// RESIZE DEMO
+let resizeRatio = 50;
+function resizeDemo(dir) {
+  if (dir === 'left') resizeRatio = Math.max(20, resizeRatio - 10);
+  else if (dir === 'right') resizeRatio = Math.min(80, resizeRatio + 10);
+  else resizeRatio = 50;
+  document.getElementById('resize-container').style.gridTemplateColumns = `${resizeRatio}fr ${100 - resizeRatio}fr`;
+  document.getElementById('resize-ratio').textContent = `${resizeRatio}% / ${100 - resizeRatio}%`;
+}
+
+// SANDBOX
+const sandboxSessions = {};
+let sandboxAttached = null;
+const sandboxInput = document.getElementById('sandbox-input');
+const sandboxBody = document.getElementById('sandbox-body');
+const sandboxPrompt = document.getElementById('sandbox-prompt');
+
+function addLine(text, cls = '') {
+  const div = document.createElement('div');
+  div.className = 'term-line ' + cls;
+  div.textContent = text;
+  sandboxBody.appendChild(div);
+  sandboxBody.scrollTop = sandboxBody.scrollHeight;
+}
+
+function updatePrompt() {
+  if (sandboxAttached) {
+    sandboxPrompt.textContent = `[${sandboxAttached}] ~ $`;
+  } else {
+    sandboxPrompt.textContent = '~ $';
+  }
+}
+
+sandboxInput.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  const raw = sandboxInput.value.trim();
+  sandboxInput.value = '';
+  if (!raw) return;
+
+  addLine(`${sandboxPrompt.textContent} ${raw}`, 'term-cmd');
+  const parts = raw.split(/\s+/);
+  const cmd = parts[0];
+
+  if (cmd === 'help') {
+    addLine('Supported commands:', 'term-info');
+    addLine('  tmux new -s <name>           Create a session', 'term-output');
+    addLine('  tmux ls                      List sessions', 'term-output');
+    addLine('  tmux attach -t <name>        Attach to session', 'term-output');
+    addLine('  tmux a -t <name>             (shorthand)', 'term-output');
+    addLine('  tmux detach                  Detach from session', 'term-output');
+    addLine('  tmux rename-session -t <old> <new>', 'term-output');
+    addLine('  tmux kill-session -t <name>  Kill a session', 'term-output');
+    addLine('  tmux kill-server             Kill everything', 'term-output');
+    addLine('  clear                        Clear screen', 'term-output');
+    return;
+  }
+
+  if (cmd === 'clear') { sandboxBody.innerHTML = ''; return; }
+
+  if (cmd !== 'tmux') {
+    addLine(`bash: ${cmd}: command not found (try "tmux" or "help")`, 'term-error');
+    return;
+  }
+
+  const sub = parts[1];
+
+  if (sub === 'new' && parts[2] === '-s' && parts[3]) {
+    const name = parts[3];
+    if (sandboxSessions[name]) { addLine(`duplicate session: ${name}`, 'term-error'); return; }
+    sandboxSessions[name] = { windows: 1, created: 'now' };
+    sandboxAttached = name;
+    addLine(`[${name}] Session created and attached.`, 'term-success');
+    updatePrompt();
+    return;
+  }
+  if (sub === 'new' && !parts[3]) { addLine('Usage: tmux new -s <session-name>', 'term-yellow'); return; }
+
+  if (sub === 'ls') {
+    const keys = Object.keys(sandboxSessions);
+    if (keys.length === 0) {
+      addLine('no server running on /tmp/tmux-1000/default', 'term-error');
+    } else {
+      keys.forEach(k => {
+        const s = sandboxSessions[k];
+        const att = k === sandboxAttached ? '(attached)' : '';
+        addLine(`${k}: ${s.windows} windows ${att}`, 'term-output');
+      });
+    }
+    return;
+  }
+
+  if ((sub === 'attach' || sub === 'a') && parts[2] === '-t' && parts[3]) {
+    const name = parts[3];
+    if (!sandboxSessions[name]) { addLine(`can't find session: ${name}`, 'term-error'); return; }
+    sandboxAttached = name;
+    addLine(`[${name}] Attached.`, 'term-success');
+    updatePrompt();
+    return;
+  }
+  if ((sub === 'attach' || sub === 'a') && !parts[3]) {
+    const keys = Object.keys(sandboxSessions);
+    if (keys.length === 0) { addLine('no sessions', 'term-error'); }
+    else if (keys.length === 1) {
+      sandboxAttached = keys[0];
+      addLine(`[${keys[0]}] Attached.`, 'term-success');
+      updatePrompt();
+    } else { addLine('Multiple sessions — specify one with -t <name>', 'term-yellow'); }
+    return;
+  }
+
+  if (sub === 'detach') {
+    if (!sandboxAttached) { addLine('not attached to any session', 'term-error'); return; }
+    addLine(`[detached (from session ${sandboxAttached})]`, 'term-output');
+    sandboxAttached = null;
+    updatePrompt();
+    return;
+  }
+
+  if (sub === 'rename-session' && parts[2] === '-t' && parts[3] && parts[4]) {
+    const old = parts[3], newName = parts[4];
+    if (!sandboxSessions[old]) { addLine(`can't find session: ${old}`, 'term-error'); return; }
+    sandboxSessions[newName] = sandboxSessions[old];
+    delete sandboxSessions[old];
+    if (sandboxAttached === old) sandboxAttached = newName;
+    addLine(`Session "${old}" renamed to "${newName}"`, 'term-success');
+    updatePrompt();
+    return;
+  }
+
+  if (sub === 'kill-session' && parts[2] === '-t' && parts[3]) {
+    const name = parts[3];
+    if (!sandboxSessions[name]) { addLine(`can't find session: ${name}`, 'term-error'); return; }
+    delete sandboxSessions[name];
+    if (sandboxAttached === name) sandboxAttached = null;
+    addLine(`Session "${name}" killed.`, 'term-success');
+    updatePrompt();
+    return;
+  }
+
+  if (sub === 'kill-server') {
+    Object.keys(sandboxSessions).forEach(k => delete sandboxSessions[k]);
+    sandboxAttached = null;
+    addLine('Server killed. All sessions destroyed.', 'term-success');
+    updatePrompt();
+    return;
+  }
+
+  addLine(`Unknown tmux subcommand: "${sub}". Type "help" for usage.`, 'term-error');
+});
+
+// QUIZ
+const quizData = [
+  { q: 'What is the default tmux prefix key?', opts: ['Ctrl + a', 'Ctrl + b', 'Ctrl + t', 'Alt + b'], correct: 1, explain: 'Ctrl + b is the default prefix. Many users remap it to Ctrl + a (like GNU screen).' },
+  { q: 'How do you create a new named session called "work"?', opts: ['tmux new work', 'tmux new -s work', 'tmux create work', 'tmux session work'], correct: 1, explain: 'tmux new -s work — the -s flag names the session.' },
+  { q: 'Which key (after prefix) detaches from a session?', opts: ['q', 'x', 'd', 'e'], correct: 2, explain: 'prefix + d detaches. The session keeps running in the background.' },
+  { q: 'How do you split a pane vertically (left/right)?', opts: ['prefix + |', 'prefix + %', 'prefix + v', 'prefix + "'], correct: 1, explain: 'prefix + % splits vertically. prefix + " splits horizontally.' },
+  { q: 'What does prefix + z do?', opts: ['Kill the pane', 'Undo last action', 'Zoom/unzoom the pane', 'Suspend tmux'], correct: 2, explain: 'prefix + z toggles zoom — makes the current pane fullscreen and back.' },
+  { q: 'How do you rename the current session?', opts: ['prefix + $', 'prefix + ,', 'prefix + r', 'prefix + #'], correct: 0, explain: 'prefix + $ renames the session. prefix + , renames the window.' },
+  { q: 'How do you navigate between panes?', opts: ['Tab key', 'prefix + Arrow keys', 'Ctrl + Arrow keys', 'Alt + number'], correct: 1, explain: 'prefix + Arrow keys moves focus to the pane in that direction.' },
+  { q: 'What command lists all running sessions?', opts: ['tmux sessions', 'tmux list', 'tmux ls', 'tmux ps'], correct: 2, explain: 'tmux ls (or tmux list-sessions) shows all active sessions.' },
+];
+
+let quizScore = 0;
+let answered = new Set();
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = quizData.map((q, i) => `
+    <div class="quiz-card" id="quiz-${i}">
+      <div class="quiz-q"><span class="q-num">${i + 1}.</span>${q.q}</div>
+      <div class="quiz-options">
+        ${q.opts.map((opt, j) => `
+          <button class="quiz-opt" onclick="answerQuiz(${i}, ${j})">${opt}</button>
+        `).join('')}
+      </div>
+      <div class="quiz-feedback" id="quiz-fb-${i}"></div>
+    </div>
+  `).join('');
+}
+
+function answerQuiz(qi, oi) {
+  if (answered.has(qi)) return;
+  answered.add(qi);
+  const card = document.getElementById(`quiz-${qi}`);
+  const opts = card.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById(`quiz-fb-${qi}`);
+
+  opts.forEach((opt, j) => {
+    if (j === quizData[qi].correct) opt.classList.add('correct');
+    else if (j === oi && j !== quizData[qi].correct) opt.classList.add('wrong');
+    else opt.classList.add('disabled');
+  });
+
+  if (oi === quizData[qi].correct) {
+    quizScore++;
+    fb.className = 'quiz-feedback show correct-fb';
+    fb.textContent = '✓ ' + quizData[qi].explain;
+  } else {
+    fb.className = 'quiz-feedback show wrong-fb';
+    fb.textContent = '✗ ' + quizData[qi].explain;
+  }
+  document.getElementById('quiz-score').textContent = quizScore;
+}
+
+function resetQuiz() {
+  quizScore = 0;
+  answered = new Set();
+  document.getElementById('quiz-score').textContent = 0;
+  renderQuiz();
+}
+renderQuiz();
+</script>
+</body>
+</html>

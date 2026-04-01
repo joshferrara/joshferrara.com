@@ -1,0 +1,30 @@
+---
+interface Props {
+  growthStage?: 'draft' | 'published';
+}
+
+const { growthStage = 'published' } = Astro.props;
+---
+
+{growthStage === 'draft' && (
+  <aside class="draft-banner" role="note">
+    <p>This is a work in progress. Ideas here are still forming.</p>
+  </aside>
+)}
+
+<style>
+  .draft-banner {
+    background: var(--color-accent-bg);
+    border: 1px solid var(--color-accent-muted);
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .draft-banner p {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    margin: 0;
+    font-style: italic;
+  }
+</style>

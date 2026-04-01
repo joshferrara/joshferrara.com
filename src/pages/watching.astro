@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getRecentFilms } from '../lib/letterboxd';
+
+export const prerender = true;
+
+const films = await getRecentFilms(30);
+const hasData = films.length > 0;
+---
+
+<BaseLayout title="Watching" description="Recently watched films, tracked on Letterboxd.">
+  <h1>Watching</h1>
+  <p class="page-description">
+    Films I've watched recently, tracked on
+    <a href="https://letterboxd.com/joshferrara" target="_blank" rel="noopener noreferrer">Letterboxd</a>.
+  </p>
+
+  {!hasData ? (
+    <div class="empty-state">
+      <p>Letterboxd data isn't available yet. The RSS feed will be fetched at build time.</p>
+    </div>
+  ) : (
+    <div class="film-grid">
+      {films.map((film) => (
+        <a href={film.link} target="_blank" rel="noopener noreferrer" class="film-card">
+          {film.image ? (
+            <img src={film.image} alt={film.title} class="film-card__poster" loading="lazy" />
+          ) : (
+            <div class="film-card__no-poster">
+              <span>{film.title}</span>
+            </div>
+          )}
+          <div class="film-card__info">
+            <span class="film-card__title">{film.title}</span>
+            {film.year && <span class="film-card__year">{film.year}</span>}
+            {film.rating && <span class="film-card__rating">{'★'.repeat(Math.round(Number(film.rating)))}</span>}
+          </div>
+        </a>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .page-description a { color: var(--color-accent); }
+  .empty-state { color: var(--color-text-muted); }
+
+  .film-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .film-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .film-card__poster {
+    aspect-ratio: 2/3;
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    transition: transform var(--transition-fast);
+  }
+
+  .film-card:hover .film-card__poster {
+    transform: scale(1.03);
+  }
+
+  .film-card__no-poster {
+    aspect-ratio: 2/3;
+    background: var(--color-bg-subtle);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+    text-align: center;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .film-card__info { display: flex; flex-direction: column; gap: 2px; }
+  .film-card__title { font-size: var(--text-sm); font-weight: 500; color: var(--color-text-heading); line-height: var(--leading-snug); }
+  .film-card__year { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .film-card__rating { font-size: var(--text-xs); color: var(--color-accent); }
+</style>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getBooksRead, getBooksWantToRead } from '../lib/books';
+
+export const prerender = true;
+
+const read = getBooksRead();
+const wantToRead = getBooksWantToRead();
+---
+
+<BaseLayout title="Library" description="Books Josh Ferrara has read and wants to read.">
+  <h1>Library</h1>
+  <p class="page-description">Books I've read and want to read.</p>
+
+  <section class="book-section">
+    <h2>Read</h2>
+    {read.length === 0 ? (
+      <p class="empty-state">No books logged yet.</p>
+    ) : (
+      <div class="book-list">
+        {read.map((book) => (
+          <div class="book-item">
+            <div class="book-item__info">
+              <span class="book-item__title">{book.title}</span>
+              <span class="book-item__author">{book.author}</span>
+              {book.rating && <span class="book-item__rating">{'★'.repeat(book.rating)}{'☆'.repeat(5 - book.rating)}</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <section class="book-section">
+    <h2>Want to Read</h2>
+    {wantToRead.length === 0 ? (
+      <p class="empty-state">Nothing on the list right now.</p>
+    ) : (
+      <div class="book-list">
+        {wantToRead.map((book) => (
+          <div class="book-item">
+            <div class="book-item__info">
+              <span class="book-item__title">{book.title}</span>
+              <span class="book-item__author">{book.author}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .empty-state { color: var(--color-text-muted); font-style: italic; }
+
+  .book-section { margin-bottom: var(--space-10); }
+  .book-section h2 { font-size: var(--text-xl); font-family: var(--font-sans); margin-bottom: var(--space-4); }
+
+  .book-list { display: flex; flex-direction: column; }
+  .book-item {
+    display: flex; align-items: center; gap: var(--space-4);
+    padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .book-item:last-child { border-bottom: none; }
+  .book-item__info { display: flex; flex-direction: column; gap: 2px; }
+  .book-item__title { font-weight: 500; color: var(--color-text-heading); }
+  .book-item__author { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .book-item__rating { font-size: var(--text-sm); color: var(--color-accent); }
+</style>

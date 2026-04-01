@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const talks = await getCollection('talks');
+  return talks.filter((t) => !t.id.startsWith('_')).map((talk) => ({
+    params: { slug: talk.id },
+    props: { talk },
+  }));
+}
+
+const { talk } = Astro.props;
+const { Content } = await render(talk);
+
+const formattedDate = talk.data.date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout title={talk.data.title} description={talk.data.description}>
+  <article>
+    <header class="talk-header">
+      <time datetime={talk.data.date.toISOString()}>{formattedDate}</time>
+      <h1>{talk.data.title}</h1>
+      {talk.data.event && <p class="talk-event">{talk.data.event}</p>}
+    </header>
+
+    {talk.data.videoUrl && (
+      <div class="talk-video">
+        <iframe src={talk.data.videoUrl} allowfullscreen></iframe>
+      </div>
+    )}
+
+    {talk.data.slidesUrl && (
+      <p class="talk-slides"><a href={talk.data.slidesUrl} target="_blank" rel="noopener noreferrer">View slides &rarr;</a></p>
+    )}
+
+    <Prose><Content /></Prose>
+  </article>
+
+  <div class="back-link"><a href="/talks/">&larr; All Talks</a></div>
+</BaseLayout>
+
+<style>
+  .talk-header { margin-bottom: var(--space-6); }
+  .talk-header time { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .talk-header h1 { font-size: var(--text-3xl); margin-top: var(--space-2); }
+  .talk-event { font-size: var(--text-base); color: var(--color-accent); margin-top: var(--space-1); }
+  .talk-video { margin: var(--space-6) 0; aspect-ratio: 16/9; }
+  .talk-video iframe { width: 100%; height: 100%; border: none; border-radius: var(--radius-md); }
+  .talk-slides { margin-bottom: var(--space-6); }
+  .back-link { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+</style>

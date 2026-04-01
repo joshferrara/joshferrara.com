@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const allCities = await getCollection('travel');
+const cities = allCities.filter((c) => !c.id.startsWith('_'));
+---
+
+<BaseLayout title="Travel" description="City guides with recommendations — where to eat, drink, see, stay, and do." wide>
+  <h1>Travel</h1>
+  <p class="page-description">City guides with recommendations for where to eat, drink, see, stay, and do.</p>
+
+  {cities.length === 0 ? (
+    <p class="empty-state">No city guides yet. Check back soon.</p>
+  ) : (
+    <div class="city-grid">
+      {cities.map((city) => (
+        <a href={`/travel/${city.id}/`} class="city-card card">
+          <h3>{city.data.title}</h3>
+          {city.data.region && <p class="city-card__region">{city.data.region}{city.data.country ? `, ${city.data.country}` : ''}</p>}
+        </a>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .empty-state { color: var(--color-text-muted); font-style: italic; }
+
+  .city-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .city-card { text-decoration: none; }
+  .city-card h3 { font-family: var(--font-sans); font-size: var(--text-lg); color: var(--color-text-heading); transition: color var(--transition-fast); }
+  .city-card:hover h3 { color: var(--color-accent); }
+  .city-card__region { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+</style>

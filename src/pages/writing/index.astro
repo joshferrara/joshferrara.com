@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import TagList from '../../components/TagList.astro';
+
+const allPosts = await getCollection('writing');
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+---
+
+<BaseLayout title="Writing" description="Blog posts, essays, and long-form pieces by Josh Ferrara.">
+  <h1>Writing</h1>
+  <p class="page-description">Blog posts, essays, and long-form pieces.</p>
+
+  <TagList tags={allTags} baseUrl="/writing/" />
+
+  <div class="post-list">
+    {posts.map((post) => (
+      <PostCard
+        title={post.data.title}
+        date={post.data.date}
+        description={post.data.description}
+        tags={post.data.tags}
+        growthStage={post.data.growthStage}
+        href={`/writing/${post.id}/`}
+      />
+    ))}
+  </div>
+
+  <hr />
+  <p class="archive-link">
+    <a href="/archive/">Browse the college-era archive &rarr;</a>
+  </p>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .page-description {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .archive-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

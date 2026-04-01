@@ -1,0 +1,237 @@
+/*----------------------------- /
+/  Zombie — It's Alive!       	/
+/  Original concept by        	/
+/  David Link & Chase Swindler  /
+/ -----------------------------*/
+
+/* Browser Reset via Blueprint ------------------------------- */
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit;
+	font-size: 100%; font-family: inherit; vertical-align: baseline; }
+
+/* Tables still need 'cellspacing="0"' in the markup. */
+table { border-collapse: separate; border-spacing: 0; }
+caption, th, td { text-align: left; font-weight: normal; }
+table, td, th { vertical-align: middle; }
+
+/* Remove possible quote marks (") from <q>, <blockquote>. */
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+
+/* Remove annoying border on linked images. */
+a img { border: none; }
+
+.container {
+  width: 940px;
+  margin: 0 auto;
+}
+
+.header {
+  background: #303030;
+  width: 100%;
+  padding: 50px 0;
+}
+  .header.space50 { margin: 50px 0; }
+  .header.space25 { margin: 25px 0; }
+
+/*  Layout ---------------------------------------------------- */
+
+body {
+  line-height: 1.5;
+  font-family: 'Open Sans', sans-serif;
+  color: #6e6e6e;
+}
+
+h2 {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+h2 a {
+  text-decoration: none;
+  color: inherit;
+}
+  h2 a:hover {
+    text-decoration: underline;
+  }
+h2 span {
+  font-weight: 300;
+  color: #0093d8;
+  text-transform: none;
+}
+p {
+  padding-bottom: 15px;
+}
+  p a {
+    color: #0093d8;
+    text-decoration: none;
+  }
+    p a:hover {
+      text-decoration: underline;
+    }
+ul {
+  padding-bottom: 15px;
+}
+li {
+  padding-bottom: 15px;
+  margin-left: 20px;
+}
+
+.hi-im-josh {
+  background: url('../images/hi-im-josh.png');
+  background-size: 940px 74px;
+  width: 940px;
+  height: 74px;
+}
+
+.video {
+  width: 790px;
+  margin: 50px auto;
+  box-shadow: 0px 0px 20px -3px;
+  border: 5px solid #f2f2f2;
+  height: 445px;
+}
+  .vid {
+    font-size: 20px;
+    padding: 87px 80px 88px;
+    background: url('../images/vid.jpg') #303030;
+    color: #fff;
+    text-align: center;
+  }
+
+.cw-jb {
+  background: url('../images/cw-jb.png');
+  background-size: 940px 102px;
+  width: 940px;
+  height: 102px;
+}
+  .cw-link {
+    display: block;
+    float: left;
+    width: 400px;
+    height: 47px;
+    margin-top: 28px;
+    text-indent: -99999em;
+  }
+  .jb-link {
+    display: block;
+    float: left;
+    width: 400px;
+    height: 102px;
+    margin-left: 140px;
+    text-indent: -99999em;
+  }
+
+.you-me {
+  background: url('../images/you-me.png');
+  background-size: 940px 50px;
+  width: 940px;
+  height: 50px;
+  margin: 25px auto;
+}
+
+.i-would-love {
+  background: url('../images/i-would-love.png');
+  background-size: 938px 63px;
+  width: 938px;
+  height: 63px;
+}
+
+.edu-exp {
+  background: url('../images/edu-exp.png');
+  background-size: 940px 50px;
+  width: 940px;
+  height: 50px;
+  margin-bottom: 25px;
+}
+
+.assets {
+  background: url('../images/assets.png');
+  background-size: 400px 50px;
+  width: 400px;
+  height: 50px;
+  margin: 25px 0;
+}
+
+.call-me {
+  background: url('../images/call-me.png');
+  background-size: 939px 62px;
+  width: 939px;
+  height: 62px;
+}
+
+.contact {
+  font-size: 53px;
+  margin-bottom: 50px;
+}
+  .contact a {
+    text-decoration: none;
+    color: #303030;
+    transition: all .5s;
+  }
+    .contact a:hover {
+      color: #999999;
+    }
+  .or {
+    font-weight: 300;
+    color: #cecece;
+    padding: 0 20px;
+  }
+
+.download {
+  display: block;
+  color: #ccc;
+  text-align: center;
+  text-decoration: none;
+  margin-bottom: 25px;
+}
+
+/*  General Styles --------------------------------------------- */
+
+	label {
+		display: block;
+		margin-top: 0.5em;
+	}
+	input, select, textarea {
+		display: block;
+		margin-bottom: 1em;
+	}
+	input[type="text"], input[type="password"], textarea {
+		width: 250px;
+		padding: 0.3em 0.5em;
+	}
+		label input {
+			display: inline;
+			margin: 0 0.5em 0 0;
+		}
+	input[type="submit"] {
+		margin-top: 1.5em;
+	}
+
+	table {
+		width: 100%;
+		border-right: 1px solid #ccc;
+		border-top: 1px solid #ccc;
+		margin: 15px 0;
+	}
+		th, td {
+			border-left: 1px solid #ccc;
+			border-bottom: 1px solid #ccc;
+			padding: 0.5em 1em;
+		}
+		th {
+			background: #f5f5f5;
+			font-weight: bold;
+		}
+
+
+
+/*  Global ----------------------------------------------------- */
+
+	.clear { clear: both; }
+	.left { float: left; width: 400px; }
+	.right { float: right; width: 400px; }
+
+	.alignleft { float: left; }
+	.alignright { float: right; }

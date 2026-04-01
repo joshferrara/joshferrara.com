@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const allPosts = await getCollection('archive');
+const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group by year
+const postsByYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.date.getFullYear();
+  if (!postsByYear.has(year)) postsByYear.set(year, []);
+  postsByYear.get(year)!.push(post);
+}
+const years = [...postsByYear.keys()].sort((a, b) => b - a);
+---
+
+<BaseLayout title="Archive" description="Blog posts from the college era (2006–2012).">
+  <h1>Archive</h1>
+  <p class="page-description">
+    The college-era blog — 250 posts from 2006 to 2012. Written at LSU, mostly
+    on WordPress, migrated through several platforms. Preserved here as-is.
+  </p>
+
+  {years.map((year) => (
+    <section class="archive-year">
+      <h2>{year}</h2>
+      <ul class="archive-list">
+        {postsByYear.get(year)!.map((post) => (
+          <li>
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            </time>
+            <a href={`/archive/${post.id}/`}>{post.data.title}</a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .page-description {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-8);
+    max-width: 55ch;
+  }
+
+  .archive-year {
+    margin-bottom: var(--space-8);
+  }
+
+  .archive-year h2 {
+    font-size: var(--text-xl);
+    font-family: var(--font-sans);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .archive-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .archive-list li {
+    display: flex;
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: var(--space-1) 0;
+  }
+
+  .archive-list time {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    min-width: 60px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .archive-list a {
+    font-size: var(--text-base);
+    text-decoration: none;
+    color: var(--color-text-heading);
+  }
+
+  .archive-list a:hover {
+    color: var(--color-accent);
+  }
+</style>

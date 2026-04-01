@@ -1,0 +1,213 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SocialIcons from '../components/SocialIcons.astro';
+import HomepageSection from '../components/HomepageSection.astro';
+import PostCard from '../components/PostCard.astro';
+import TweetCard from '../components/TweetCard.astro';
+import allTweets from '../data/tweets.json';
+import { getTopArtists } from '../lib/lastfm';
+import { getRecentFilms } from '../lib/letterboxd';
+import { getBooksReading } from '../lib/books';
+
+const writing = (await getCollection('writing'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const notes = (await getCollection('notes'))
+  .filter((n) => !n.id.startsWith('_'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const recentTweets = (allTweets as any[])
+  .filter((t) => !t.isRetweet && !t.isReply)
+  .slice(0, 5);
+
+const topArtists = await getTopArtists('1month', 5);
+const recentFilms = await getRecentFilms(5);
+const currentlyReading = getBooksReading();
+---
+
+<BaseLayout title="Home">
+  <!-- Bio Section -->
+  <header class="bio">
+    <div class="bio__photo-wrap">
+      <div class="bio__photo-placeholder" aria-label="Photo of Josh Ferrara">JF</div>
+    </div>
+    <div class="bio__text">
+      <h1 class="bio__name">Josh Ferrara</h1>
+      <p class="bio__tagline">Product strategist, dad, musician, reader, photographer.</p>
+      <SocialIcons class="bio__socials" />
+    </div>
+  </header>
+
+  <hr />
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+    <HomepageSection title="Latest Writing" href="/writing/">
+      {writing.map((post) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          description={post.data.description}
+          href={`/writing/${post.id}/`}
+        />
+      ))}
+    </HomepageSection>
+
+    <HomepageSection title="Recent Notes" href="/notes/">
+      {notes.map((note) => (
+        <PostCard
+          title={note.data.title}
+          date={note.data.date}
+          href={`/notes/${note.id}/`}
+        />
+      ))}
+    </HomepageSection>
+
+    <HomepageSection title="Listening To" href="/listening/" linkText="Full history">
+      {topArtists.length > 0 ? (
+        <div class="artist-list">
+          {topArtists.map((artist, i) => (
+            <a href={artist.url} target="_blank" rel="noopener noreferrer" class="artist-row">
+              {artist.image && <img src={artist.image} alt="" class="artist-row__img" loading="lazy" />}
+              <span class="artist-row__name">{artist.name}</span>
+              <span class="artist-row__plays">{artist.playcount} plays</span>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="placeholder-text">Last.fm data will appear here once connected.</p>
+      )}
+    </HomepageSection>
+
+    <HomepageSection title="Recently Watched" href="/watching/" linkText="Full diary">
+      {recentFilms.length > 0 ? (
+        <div class="film-row">
+          {recentFilms.map((film) => (
+            <a href={film.link} target="_blank" rel="noopener noreferrer" class="film-poster">
+              {film.image ? (
+                <img src={film.image} alt={film.title} loading="lazy" />
+              ) : (
+                <div class="film-poster__fallback">{film.title}</div>
+              )}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="placeholder-text">Letterboxd data will appear here once connected.</p>
+      )}
+    </HomepageSection>
+
+    <HomepageSection title="Currently Reading" href="/library/">
+      {currentlyReading.length > 0 ? (
+        <div class="reading-list">
+          {currentlyReading.map((book) => (
+            <div class="reading-item">
+              <span class="reading-item__title">{book.title}</span>
+              <span class="reading-item__author">{book.author}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="placeholder-text">Add books to <code>books-reading.yaml</code> to show here.</p>
+      )}
+    </HomepageSection>
+
+    <HomepageSection title="Recent Tweets" href="/tweets/" linkText="More on X">
+      {recentTweets.map((tweet: any) => (
+        <TweetCard
+          id={tweet.id}
+          text={tweet.text}
+          date={tweet.date}
+          compact
+        />
+      ))}
+    </HomepageSection>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Bio */
+  .bio {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-bottom: var(--space-10);
+  }
+
+  .bio__photo-placeholder {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--color-bg-subtle);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .bio__name {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-1);
+  }
+
+  .bio__tagline {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  hr {
+    margin-bottom: var(--space-10);
+  }
+
+  /* Content Grid */
+  .content-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .placeholder-text {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-style: italic;
+  }
+
+  /* Artist list (Last.fm) */
+  .artist-list { display: flex; flex-direction: column; gap: var(--space-1); }
+  .artist-row {
+    display: flex; align-items: center; gap: var(--space-3);
+    padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
+    text-decoration: none; color: inherit; transition: background var(--transition-fast);
+  }
+  .artist-row:hover { background: var(--color-bg-subtle); }
+  .artist-row__img { width: 36px; height: 36px; border-radius: var(--radius-sm); object-fit: cover; }
+  .artist-row__name { font-size: var(--text-sm); font-weight: 500; color: var(--color-text-heading); flex: 1; }
+  .artist-row__plays { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  /* Film row (Letterboxd) */
+  .film-row { display: flex; gap: var(--space-3); overflow-x: auto; }
+  .film-poster { flex-shrink: 0; }
+  .film-poster img { width: 90px; aspect-ratio: 2/3; object-fit: cover; border-radius: var(--radius-sm); transition: transform var(--transition-fast); }
+  .film-poster:hover img { transform: scale(1.05); }
+  .film-poster__fallback { width: 90px; aspect-ratio: 2/3; background: var(--color-bg-subtle); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); color: var(--color-text-muted); text-align: center; padding: var(--space-2); }
+
+  /* Reading list */
+  .reading-list { display: flex; flex-direction: column; gap: var(--space-3); }
+  .reading-item { display: flex; flex-direction: column; gap: 2px; }
+  .reading-item__title { font-weight: 500; color: var(--color-text-heading); }
+  .reading-item__author { font-size: var(--text-sm); color: var(--color-text-muted); }
+
+  @media (max-width: 480px) {
+    .bio {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

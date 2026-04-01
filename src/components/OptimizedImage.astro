@@ -1,0 +1,27 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  class?: string;
+}
+
+const { src, alt, width, class: className } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  loading="lazy"
+  decoding="async"
+  class:list={['optimized-image', className]}
+/>
+
+<style>
+  .optimized-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+</style>

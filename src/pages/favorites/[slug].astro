@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Prose from '../../components/Prose.astro';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const favorites = await getCollection('favorites');
+  return favorites.filter((f) => !f.id.startsWith('_')).map((fav) => ({
+    params: { slug: fav.id },
+    props: { fav },
+  }));
+}
+
+const { fav } = Astro.props;
+const { Content } = await render(fav);
+---
+
+<BaseLayout title={fav.data.title}>
+  <article>
+    <header class="fav-header">
+      <p class="fav-category">{fav.data.category}</p>
+      <h1>{fav.data.title}</h1>
+      {fav.data.lastUpdated && (
+        <p class="fav-updated">Last updated {fav.data.lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}</p>
+      )}
+    </header>
+    <Prose><Content /></Prose>
+  </article>
+  <div class="back-link"><a href="/favorites/">&larr; All Favorites</a></div>
+</BaseLayout>
+
+<style>
+  .fav-header { margin-bottom: var(--space-6); }
+  .fav-category { font-size: var(--text-sm); color: var(--color-accent); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+  .fav-header h1 { font-size: var(--text-3xl); margin-top: var(--space-1); }
+  .fav-updated { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2); }
+  .back-link { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
+</style>

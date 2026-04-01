@@ -1,0 +1,37 @@
+# joshferrara.com
+
+> Personal website of Josh Ferrara — product strategist, dad, musician, reader, photographer.
+
+This site aggregates both hand-authored content (essays, notes, projects) and externally-sourced content (tweets, music, movies, books, podcasts) into a unified personal hub.
+
+## Content
+
+- Writing: /writing/ — Blog posts, essays, long-form pieces (2012–present)
+- Notes: /notes/ — Loose ideas, learning in public
+- Projects: /projects/ — Side projects and tools
+- Talks: /talks/ — Presentations and talks
+- Travel: /travel/ — City guides with recommendations
+- Guides: /guides/ — How-to and reference content
+- Favorites: /favorites/ — Curated recommendation lists
+- Tweets: /tweets/ — Twitter archive (2007–2017, 6800+ tweets)
+- Listening: /listening/ — Music listening history via Last.fm
+- Watching: /watching/ — Film diary via Letterboxd
+- Library: /library/ — Books read and want to read
+- Podcasts: /podcasts/ — Podcast episodes
+- Annual Recaps: /recaps/ — Year-in-review posts
+- Archive: /archive/ — College-era blog posts (2006–2012)
+
+## About
+
+- About: /about/
+- Now: /now/ — What Josh is currently up to
+- Colophon: /colophon/ — How the site is built
+
+## Feeds
+
+- RSS: /feed.xml
+- Sitemap: /sitemap-index.xml
+
+## Technical
+
+Built with Astro, hosted on Cloudflare Workers. Content authored in MDX.

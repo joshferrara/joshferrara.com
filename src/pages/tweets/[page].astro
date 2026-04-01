@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import TweetCard from '../../components/TweetCard.astro';
+import allTweets from '../../data/tweets.json';
+
+export const prerender = true;
+
+const PER_PAGE = 50;
+const tweets = allTweets.filter((t: any) => !t.isRetweet);
+const totalPages = Math.ceil(tweets.length / PER_PAGE);
+
+export function getStaticPaths() {
+  const perPage = 50;
+  const tweets = (allTweets as any[]).filter((t) => !t.isRetweet);
+  const totalPages = Math.ceil(tweets.length / perPage);
+
+  // Pages 2..N (page 1 is /tweets/index.astro)
+  return Array.from({ length: totalPages - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
+}
+
+const { page: pageStr } = Astro.params;
+const page = Number(pageStr);
+const start = (page - 1) * PER_PAGE;
+const pageTweets = tweets.slice(start, start + PER_PAGE);
+---
+
+<BaseLayout title={`Tweets — Page ${page}`}>
+  <h1>Tweets</h1>
+  <p class="page-description">Page {page} of {totalPages}</p>
+
+  <div class="tweets-list">
+    {pageTweets.map((tweet: any) => (
+      <TweetCard
+        id={tweet.id}
+        text={tweet.text}
+        date={tweet.date}
+        isReply={tweet.isReply}
+      />
+    ))}
+  </div>
+
+  <nav class="pagination" aria-label="Tweet pages">
+    {page > 1 && (
+      <a href={page === 2 ? '/tweets/' : `/tweets/${page - 1}/`} class="pagination__prev">&larr; Newer</a>
+    )}
+    <span class="pagination__current">Page {page} of {totalPages}</span>
+    {page < totalPages && (
+      <a href={`/tweets/${page + 1}/`} class="pagination__next">Older &rarr;</a>
+    )}
+  </nav>
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-6); }
+  .tweets-list { display: flex; flex-direction: column; }
+
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .pagination__current { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .pagination__next, .pagination__prev { font-size: var(--text-sm); }
+</style>

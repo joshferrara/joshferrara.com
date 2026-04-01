@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import TagList from '../../components/TagList.astro';
+
+const allNotes = await getCollection('notes');
+const notes = allNotes.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allTags = [...new Set(notes.flatMap((note) => note.data.tags))].sort();
+---
+
+<BaseLayout title="Notes" description="Loose ideas, things being figured out. Learning in public.">
+  <h1>Notes</h1>
+  <p class="page-description">Loose ideas, things being figured out. Learning in public.</p>
+
+  <TagList tags={allTags} baseUrl="/notes/" />
+
+  <div class="notes-list">
+    {notes.map((note) => (
+      <PostCard
+        title={note.data.title}
+        date={note.data.date}
+        tags={note.data.tags}
+        growthStage={note.data.growthStage}
+        href={`/notes/${note.id}/`}
+      />
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .page-description {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+
+  .notes-list {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

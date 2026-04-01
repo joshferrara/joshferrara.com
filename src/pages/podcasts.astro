@@ -1,0 +1,67 @@
+---
+import yaml from 'js-yaml';
+import podcastsRaw from '../data/podcasts.yaml?raw';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+interface Episode {
+  showName: string;
+  episodeTitle: string;
+  date: string;
+  url: string;
+  notes?: string;
+}
+
+let episodes: Episode[] = [];
+try {
+  const data = yaml.load(podcastsRaw);
+  if (Array.isArray(data)) episodes = data;
+} catch {}
+
+episodes.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+---
+
+<BaseLayout title="Podcasts" description="Podcast episodes Josh Ferrara has been listening to.">
+  <h1>Podcasts</h1>
+  <p class="page-description">Episodes I've been listening to, manually curated.</p>
+
+  {episodes.length === 0 ? (
+    <div class="empty-state">
+      <p>No episodes logged yet. Add entries to <code>src/data/podcasts.yaml</code> to populate this page.</p>
+    </div>
+  ) : (
+    <div class="episodes-list">
+      {episodes.map((ep) => (
+        <article class="episode">
+          <a href={ep.url} target="_blank" rel="noopener noreferrer" class="episode__link">
+            <span class="episode__show">{ep.showName}</span>
+            <span class="episode__title">{ep.episodeTitle}</span>
+            <time class="episode__date">{new Date(ep.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</time>
+          </a>
+          {ep.notes && <p class="episode__notes">{ep.notes}</p>}
+        </article>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .empty-state { color: var(--color-text-muted); }
+  .empty-state code { font-size: var(--text-sm); }
+
+  .episodes-list { display: flex; flex-direction: column; }
+  .episode { padding: var(--space-4) 0; border-bottom: 1px solid var(--color-border-subtle); }
+  .episode:last-child { border-bottom: none; }
+
+  .episode__link {
+    text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 2px;
+  }
+  .episode__show { font-size: var(--text-xs); color: var(--color-accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+  .episode__title { font-size: var(--text-base); color: var(--color-text-heading); font-weight: 500; transition: color var(--transition-fast); }
+  .episode__link:hover .episode__title { color: var(--color-accent); }
+  .episode__date { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .episode__notes { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-2); font-style: italic; }
+</style>

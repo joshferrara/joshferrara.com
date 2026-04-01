@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const allFavorites = await getCollection('favorites');
+const favorites = allFavorites.filter((f) => !f.id.startsWith('_'));
+
+// Group by category
+const byCategory = new Map<string, typeof favorites>();
+for (const fav of favorites) {
+  const cat = fav.data.category;
+  if (!byCategory.has(cat)) byCategory.set(cat, []);
+  byCategory.get(cat)!.push(fav);
+}
+const categories = [...byCategory.keys()].sort();
+---
+
+<BaseLayout title="Favorites" description="Curated recommendation lists — favorite apps, devices, shows, and more.">
+  <h1>Favorites</h1>
+  <p class="page-description">Evergreen curated lists of things I love. Updated over time, not tied to a specific year.</p>
+
+  {favorites.length === 0 ? (
+    <p class="empty-state">No favorites lists yet. Check back soon.</p>
+  ) : (
+    <div class="favorites-sections">
+      {categories.map((category) => (
+        <section class="favorites-category">
+          <h2>{category}</h2>
+          <div class="favorites-grid">
+            {byCategory.get(category)!.map((fav) => (
+              <a href={`/favorites/${fav.id}/`} class="favorite-card card">
+                <h3>{fav.data.title}</h3>
+                {fav.data.lastUpdated && (
+                  <p class="favorite-card__updated">
+                    Updated {fav.data.lastUpdated.toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
+                  </p>
+                )}
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .empty-state { color: var(--color-text-muted); font-style: italic; }
+
+  .favorites-category { margin-bottom: var(--space-8); }
+  .favorites-category h2 { font-size: var(--text-xl); font-family: var(--font-sans); color: var(--color-text-muted); margin-bottom: var(--space-4); }
+
+  .favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .favorite-card { text-decoration: none; }
+  .favorite-card h3 { font-family: var(--font-sans); font-size: var(--text-lg); color: var(--color-text-heading); transition: color var(--transition-fast); }
+  .favorite-card:hover h3 { color: var(--color-accent); }
+  .favorite-card__updated { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-2); }
+</style>

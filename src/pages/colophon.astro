@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export const prerender = true;
+---
+
+<BaseLayout title="Colophon" description="How joshferrara.com is built — the tech stack, tools, and decisions behind this site.">
+  <article class="prose-page">
+    <h1>Colophon</h1>
+    <p class="lede">A meta-page about how this site is built, what it runs on, and why.</p>
+
+    <h2>Tech Stack</h2>
+    <table>
+      <tbody>
+        <tr><td><strong>Framework</strong></td><td><a href="https://astro.build">Astro</a> with MDX for rich content authoring</td></tr>
+        <tr><td><strong>Hosting</strong></td><td><a href="https://developers.cloudflare.com/workers/">Cloudflare Workers</a></td></tr>
+        <tr><td><strong>Image Hosting</strong></td><td>Cloudflare R2 (zero egress)</td></tr>
+        <tr><td><strong>Search</strong></td><td><a href="https://pagefind.app">Pagefind</a> — static, WASM-powered client-side search</td></tr>
+        <tr><td><strong>CSS</strong></td><td>Vanilla CSS with custom properties, no framework</td></tr>
+        <tr><td><strong>Fonts</strong></td><td>System font stack (to be finalized)</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Integrations</h2>
+    <table>
+      <tbody>
+        <tr><td><strong>Music</strong></td><td><a href="https://last.fm/user/joshferrara">Last.fm API</a> — top artists, recent tracks</td></tr>
+        <tr><td><strong>Films</strong></td><td><a href="https://letterboxd.com/joshferrara">Letterboxd RSS</a> — diary entries, ratings</td></tr>
+        <tr><td><strong>Tweets</strong></td><td>Twitter archive import (6,800+ tweets, 2007–2017)</td></tr>
+        <tr><td><strong>Books</strong></td><td>Manually curated YAML files</td></tr>
+        <tr><td><strong>Podcasts</strong></td><td>Manually curated YAML files</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Content</h2>
+    <p>
+      All authored content lives as MDX or Markdown files in the repository.
+      There's no CMS — I edit files directly and push. External data (music,
+      films) is fetched at build time. The site rebuilds daily via a Workers
+      Cron trigger to keep everything fresh.
+    </p>
+
+    <h2>Design</h2>
+    <p>
+      Calm, type-forward, content-first. Warm off-white backgrounds with a
+      forest green accent. Dark mode via <code>prefers-color-scheme</code>.
+      The design is intentionally minimal — generous whitespace, readable
+      measure (~680px content width), and card-based layouts for listings.
+    </p>
+
+    <h2>Growth Stages</h2>
+    <p>
+      Content has two stages: <strong>Draft</strong> (displayed with a subtle
+      banner: "This is a work in progress") and <strong>Published</strong>
+      (the default, no banner). Learning in public means shipping ideas before
+      they're fully formed.
+    </p>
+
+    <h2>Migration</h2>
+    <p>
+      This is v9 of joshferrara.com. The previous version was Jekyll on GitHub
+      Pages. 264 blog posts were migrated (14 to Writing, 250 to Archive),
+      plus mini-apps, the Twitter archive, and all legacy URLs via 301
+      redirects.
+    </p>
+
+    <h2>Source</h2>
+    <p>
+      The source code is on <a href="https://github.com/joshferrara/joshferrara.com">GitHub</a>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose-page {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .prose-page h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .prose-page h2 {
+    font-size: var(--text-2xl);
+    margin-top: var(--space-6);
+  }
+
+  .lede {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+  }
+
+  table td:first-child {
+    white-space: nowrap;
+    width: 140px;
+    vertical-align: top;
+  }
+</style>

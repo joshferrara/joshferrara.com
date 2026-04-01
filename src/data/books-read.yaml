@@ -1,0 +1,9 @@
+# Books I've read — add entries here
+# Fields: title, author, isbn (optional), dateRead (optional), rating (optional), notes (optional)
+
+- title: "Example Book"
+  author: "Example Author"
+  # isbn: "9780000000000"
+  # dateRead: 2026-01-15
+  # rating: 4
+  # notes: "Great read."

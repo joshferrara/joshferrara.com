@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export const prerender = true;
+
+const allTalks = await getCollection('talks');
+const talks = allTalks
+  .filter((t) => !t.id.startsWith('_'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="Talks" description="Talks and presentations by Josh Ferrara.">
+  <h1>Talks</h1>
+  <p class="page-description">Recordings, slides, and transcripts from talks and teachings.</p>
+
+  {talks.length === 0 ? (
+    <p class="empty-state">No talks yet. Check back soon.</p>
+  ) : (
+    <div class="talks-list">
+      {talks.map((talk) => (
+        <article class="talk-item">
+          <a href={`/talks/${talk.id}/`} class="talk-item__link">
+            <time datetime={talk.data.date.toISOString()}>
+              {talk.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' })}
+            </time>
+            <h3>{talk.data.title}</h3>
+            {talk.data.event && <p class="talk-item__event">{talk.data.event}</p>}
+            {talk.data.description && <p class="talk-item__description">{talk.data.description}</p>}
+          </a>
+        </article>
+      ))}
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  h1 { margin-bottom: var(--space-2); }
+  .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
+  .empty-state { color: var(--color-text-muted); font-style: italic; }
+
+  .talks-list { display: flex; flex-direction: column; }
+
+  .talk-item {
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: var(--space-5) 0;
+  }
+  .talk-item:first-child { padding-top: 0; }
+  .talk-item:last-child { border-bottom: none; }
+
+  .talk-item__link { text-decoration: none; color: inherit; display: block; }
+  .talk-item__link time { font-size: var(--text-sm); color: var(--color-text-muted); }
+  .talk-item__link h3 {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    color: var(--color-text-heading);
+    margin: var(--space-1) 0;
+    transition: color var(--transition-fast);
+  }
+  .talk-item__link:hover h3 { color: var(--color-accent); }
+  .talk-item__event { font-size: var(--text-sm); color: var(--color-accent); }
+  .talk-item__description { font-size: var(--text-sm); color: var(--color-text-muted); margin-top: var(--space-1); }
+</style>
