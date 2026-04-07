@@ -8,14 +8,9 @@ import TweetCard from '../components/TweetCard.astro';
 import allTweets from '../data/tweets.json';
 import { getTopArtists } from '../lib/lastfm';
 import { getRecentFilms } from '../lib/letterboxd';
-import { getBooksReading } from '../lib/books';
+import { getReadBooks } from '../lib/hardcover';
 
 const writing = (await getCollection('writing'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3);
-
-const notes = (await getCollection('notes'))
-  .filter((n) => !n.id.startsWith('_'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 3);
 
@@ -25,14 +20,14 @@ const recentTweets = (allTweets as any[])
 
 const topArtists = await getTopArtists('1month', 5);
 const recentFilms = await getRecentFilms(5);
-const currentlyReading = getBooksReading();
+const recentBooks = await getReadBooks(5);
 ---
 
-<BaseLayout title="Home">
+<BaseLayout title="Home" wide>
   <!-- Bio Section -->
-  <header class="bio">
+  <header class="bio animate-in animate-in-1">
     <div class="bio__photo-wrap">
-      <div class="bio__photo-placeholder" aria-label="Photo of Josh Ferrara">JF</div>
+      <img src="/images/josh.jpg" alt="Josh Ferrara" class="bio__photo" width="96" height="96" />
     </div>
     <div class="bio__text">
       <h1 class="bio__name">Josh Ferrara</h1>
@@ -41,90 +36,99 @@ const currentlyReading = getBooksReading();
     </div>
   </header>
 
-  <hr />
+  <hr class="animate-in animate-in-2" />
 
   <!-- Content Grid -->
   <div class="content-grid">
-    <HomepageSection title="Latest Writing" href="/writing/">
-      {writing.map((post) => (
-        <PostCard
-          title={post.data.title}
-          date={post.data.date}
-          description={post.data.description}
-          href={`/writing/${post.id}/`}
-        />
-      ))}
-    </HomepageSection>
+    <div class="content-grid__left animate-in animate-in-3" data-section="writing">
+      <HomepageSection title="Latest Writing" href="/writing/">
+        {writing.map((post) => (
+          <PostCard
+            title={post.data.title}
+            date={post.data.date}
+            description={post.data.description}
+            href={`/writing/${post.id}/`}
+          />
+        ))}
+      </HomepageSection>
+    </div>
 
-    <HomepageSection title="Recent Notes" href="/notes/">
-      {notes.map((note) => (
-        <PostCard
-          title={note.data.title}
-          date={note.data.date}
-          href={`/notes/${note.id}/`}
-        />
-      ))}
-    </HomepageSection>
+    <div class="content-grid__right animate-in animate-in-4" data-section="listening">
+      <HomepageSection title="Listening To" href="/listening/" linkText="Full history">
+        {topArtists.length > 0 ? (
+          <div class="artist-list">
+            {topArtists.map((artist) => (
+              <a href={artist.url} target="_blank" rel="noopener noreferrer" class="artist-row">
+                {artist.image ? (
+                  <img src={artist.image} alt="" class="artist-row__img" loading="lazy" />
+                ) : (
+                  <div class="artist-row__img-fallback" />
+                )}
+                <span class="artist-row__name">{artist.name}</span>
+                <span class="artist-row__plays">{artist.playcount} plays</span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="placeholder-text">Last.fm data will appear here once connected.</p>
+        )}
+      </HomepageSection>
+    </div>
 
-    <HomepageSection title="Listening To" href="/listening/" linkText="Full history">
-      {topArtists.length > 0 ? (
-        <div class="artist-list">
-          {topArtists.map((artist, i) => (
-            <a href={artist.url} target="_blank" rel="noopener noreferrer" class="artist-row">
-              {artist.image && <img src={artist.image} alt="" class="artist-row__img" loading="lazy" />}
-              <span class="artist-row__name">{artist.name}</span>
-              <span class="artist-row__plays">{artist.playcount} plays</span>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <p class="placeholder-text">Last.fm data will appear here once connected.</p>
-      )}
-    </HomepageSection>
+    <div class="content-grid__right animate-in animate-in-4" data-section="watching">
+      <HomepageSection title="Recently Watched" href="/watching/" linkText="Full diary">
+        {recentFilms.length > 0 ? (
+          <div class="film-row">
+            {recentFilms.map((film) => (
+              <a href={film.link} target="_blank" rel="noopener noreferrer" class="film-poster" title={film.title}>
+                {film.image ? (
+                  <img src={film.image} alt={film.title} loading="lazy" />
+                ) : (
+                  <div class="film-poster__fallback">{film.title}</div>
+                )}
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="placeholder-text">Letterboxd data will appear here once connected.</p>
+        )}
+      </HomepageSection>
+    </div>
 
-    <HomepageSection title="Recently Watched" href="/watching/" linkText="Full diary">
-      {recentFilms.length > 0 ? (
-        <div class="film-row">
-          {recentFilms.map((film) => (
-            <a href={film.link} target="_blank" rel="noopener noreferrer" class="film-poster">
-              {film.image ? (
-                <img src={film.image} alt={film.title} loading="lazy" />
-              ) : (
-                <div class="film-poster__fallback">{film.title}</div>
-              )}
-            </a>
-          ))}
-        </div>
-      ) : (
-        <p class="placeholder-text">Letterboxd data will appear here once connected.</p>
-      )}
-    </HomepageSection>
+    <div class="content-grid__right animate-in animate-in-4" data-section="reading">
+      <HomepageSection title="Recently Read" href="/library/">
+        {recentBooks.length > 0 ? (
+          <div class="reading-row">
+            {recentBooks.map((book) => (
+              <a href={`https://hardcover.app/books/${book.slug}`} target="_blank" rel="noopener noreferrer" class="reading-book">
+                {book.coverUrl ? (
+                  <img src={book.coverUrl} alt={book.title} loading="lazy" />
+                ) : (
+                  <div class="reading-book__fallback">{book.title}</div>
+                )}
+                <span class="reading-book__title">{book.title}</span>
+                <span class="reading-book__author">{book.author}</span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="placeholder-text">Hardcover data will appear here once connected.</p>
+        )}
+      </HomepageSection>
+    </div>
 
-    <HomepageSection title="Currently Reading" href="/library/">
-      {currentlyReading.length > 0 ? (
-        <div class="reading-list">
-          {currentlyReading.map((book) => (
-            <div class="reading-item">
-              <span class="reading-item__title">{book.title}</span>
-              <span class="reading-item__author">{book.author}</span>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p class="placeholder-text">Add books to <code>books-reading.yaml</code> to show here.</p>
-      )}
-    </HomepageSection>
-
-    <HomepageSection title="Recent Tweets" href="/tweets/" linkText="More on X">
-      {recentTweets.map((tweet: any) => (
-        <TweetCard
-          id={tweet.id}
-          text={tweet.text}
-          date={tweet.date}
-          compact
-        />
-      ))}
-    </HomepageSection>
+    <div class="content-grid__left animate-in animate-in-3" data-section="tweets">
+      <HomepageSection title="Recent Tweets" href="/tweets/" linkText="More on X">
+        {recentTweets.map((tweet: any) => (
+          <TweetCard
+            id={tweet.id}
+            text={tweet.text}
+            date={tweet.date}
+            compact
+          />
+        ))}
+      </HomepageSection>
+    </div>
   </div>
 </BaseLayout>
 
@@ -133,44 +137,50 @@ const currentlyReading = getBooksReading();
   .bio {
     display: flex;
     align-items: center;
-    gap: var(--space-6);
-    margin-bottom: var(--space-10);
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
   }
 
-  .bio__photo-placeholder {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: var(--color-bg-subtle);
-    border: 2px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-serif);
-    font-size: var(--text-xl);
-    font-weight: 700;
-    color: var(--color-text-muted);
+  .bio__photo {
+    width: 96px;
+    height: 96px;
+    border-radius: var(--radius-xl);
+    object-fit: cover;
     flex-shrink: 0;
+    box-shadow: var(--shadow-lg);
+    border: 3px solid var(--color-bg-raised);
+    outline: 2px solid var(--color-border);
   }
 
   .bio__name {
-    font-size: var(--text-3xl);
-    margin-bottom: var(--space-1);
+    font-size: var(--text-4xl);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-2);
   }
 
   .bio__tagline {
+    font-size: var(--text-lg);
     color: var(--color-text-muted);
-    margin-bottom: var(--space-3);
-  }
-
-  hr {
-    margin-bottom: var(--space-10);
+    margin-bottom: var(--space-4);
+    font-family: var(--font-serif);
+    font-style: italic;
   }
 
   /* Content Grid */
   .content-grid {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .content-grid__left {
+    grid-column: 1;
+  }
+
+  .content-grid__right {
+    grid-column: 2;
   }
 
   .placeholder-text {
@@ -184,30 +194,71 @@ const currentlyReading = getBooksReading();
   .artist-row {
     display: flex; align-items: center; gap: var(--space-3);
     padding: var(--space-2) var(--space-3); border-radius: var(--radius-md);
-    text-decoration: none; color: inherit; transition: background var(--transition-fast);
+    text-decoration: none; color: inherit; transition: background var(--transition-fast), transform var(--transition-fast);
   }
-  .artist-row:hover { background: var(--color-bg-subtle); }
-  .artist-row__img { width: 36px; height: 36px; border-radius: var(--radius-sm); object-fit: cover; }
-  .artist-row__name { font-size: var(--text-sm); font-weight: 500; color: var(--color-text-heading); flex: 1; }
-  .artist-row__plays { font-size: var(--text-xs); color: var(--color-text-muted); }
+  .artist-row:hover { background: var(--color-bg-subtle); transform: translateX(4px); }
+  .artist-row__img {
+    width: 40px; height: 40px; border-radius: var(--radius-md); object-fit: cover;
+    box-shadow: var(--shadow-sm);
+  }
+  .artist-row__img-fallback {
+    width: 40px; height: 40px; border-radius: var(--radius-md);
+    background: var(--color-bg-subtle);
+  }
+  .artist-row__name { font-size: var(--text-sm); font-weight: 600; color: var(--color-text-heading); flex: 1; }
+  .artist-row__plays { font-size: var(--text-xs); color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
 
   /* Film row (Letterboxd) */
-  .film-row { display: flex; gap: var(--space-3); overflow-x: auto; }
+  .film-row { display: flex; gap: var(--space-3); overflow-x: auto; padding-bottom: var(--space-2); }
   .film-poster { flex-shrink: 0; }
-  .film-poster img { width: 90px; aspect-ratio: 2/3; object-fit: cover; border-radius: var(--radius-sm); transition: transform var(--transition-fast); }
-  .film-poster:hover img { transform: scale(1.05); }
-  .film-poster__fallback { width: 90px; aspect-ratio: 2/3; background: var(--color-bg-subtle); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); color: var(--color-text-muted); text-align: center; padding: var(--space-2); }
+  .film-poster img {
+    width: 100px; aspect-ratio: 2/3; object-fit: cover; border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .film-poster:hover img { transform: translateY(-4px) scale(1.03); box-shadow: var(--shadow-xl); }
+  .film-poster__fallback { width: 100px; aspect-ratio: 2/3; background: var(--color-bg-subtle); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); color: var(--color-text-muted); text-align: center; padding: var(--space-2); }
 
-  /* Reading list */
-  .reading-list { display: flex; flex-direction: column; gap: var(--space-3); }
-  .reading-item { display: flex; flex-direction: column; gap: 2px; }
-  .reading-item__title { font-weight: 500; color: var(--color-text-heading); }
-  .reading-item__author { font-size: var(--text-sm); color: var(--color-text-muted); }
+  /* Reading row (Hardcover) */
+  .reading-row { display: flex; gap: var(--space-4); overflow-x: auto; padding-bottom: var(--space-2); }
+  .reading-book { flex-shrink: 0; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: var(--space-2); max-width: 100px; }
+  .reading-book img {
+    width: 100px; aspect-ratio: 2/3; object-fit: cover; border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+  .reading-book:hover img { transform: translateY(-4px); box-shadow: var(--shadow-xl); }
+  .reading-book__fallback { width: 100px; aspect-ratio: 2/3; background: var(--color-bg-subtle); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: var(--text-xs); color: var(--color-text-muted); text-align: center; padding: var(--space-2); }
+  .reading-book__title { font-size: var(--text-xs); font-weight: 600; color: var(--color-text-heading); line-height: var(--leading-snug); }
+  .reading-book__author { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+  @media (max-width: 768px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .content-grid__left,
+    .content-grid__right {
+      grid-column: auto;
+    }
+
+    /* Reorder: Writing(1) → Listening(2) → Watched(3) → Read(4) → Tweets(5) */
+    [data-section="writing"]  { order: 1; }
+    [data-section="listening"] { order: 2; }
+    [data-section="watching"]  { order: 3; }
+    [data-section="reading"]   { order: 4; }
+    [data-section="tweets"]    { order: 5; }
+  }
 
   @media (max-width: 480px) {
     .bio {
       flex-direction: column;
       text-align: center;
+    }
+
+    .bio__photo {
+      width: 80px;
+      height: 80px;
     }
   }
 </style>
