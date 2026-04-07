@@ -39,37 +39,47 @@ async function fetchLastfm(method: string, params: Record<string, string> = {}) 
   }
 }
 
-/** Fetch artist image from Deezer (free, no auth required), fall back to Last.fm */
-async function getArtistImage(name: string, lastfmImage: string): Promise<string> {
+/** Fetch artist image from Deezer (free, no auth required), fall back to Last.fm.
+ *  Returns empty string if the artist isn't found on Deezer (likely an audiobook). */
+async function getArtistImage(name: string, lastfmImage: string): Promise<{ image: string; found: boolean }> {
   try {
     const res = await fetch(
       `https://api.deezer.com/search/artist?q=${encodeURIComponent(name)}&limit=1`
     );
-    if (!res.ok) return lastfmImage;
+    if (!res.ok) return { image: lastfmImage, found: true };
     const data = await res.json();
-    return data.data?.[0]?.picture_medium || lastfmImage;
+    const match = data.data?.[0];
+    if (!match) return { image: lastfmImage, found: false };
+    return { image: match.picture_medium || lastfmImage, found: true };
   } catch {
-    return lastfmImage;
+    return { image: lastfmImage, found: true };
   }
 }
 
-export async function getTopArtists(period = '1month', limit = 5): Promise<Artist[]> {
-  const data = await fetchLastfm('user.gettopartists', { period, limit: String(limit) });
+export async function getTopArtists(period = '7day', limit = 5): Promise<Artist[]> {
+  // Fetch extra artists so we still have enough after filtering audiobooks
+  const fetchLimit = limit + 10;
+  const data = await fetchLastfm('user.gettopartists', { period, limit: String(fetchLimit) });
   if (!data?.topartists?.artist) return [];
 
-  const artists = data.topartists.artist.map((a: any) => ({
+  const raw = data.topartists.artist.map((a: any) => ({
     name: a.name,
     playcount: a.playcount,
     url: a.url,
     image: a.image?.find((i: any) => i.size === 'large')?.['#text'] || '',
   }));
 
-  // Fetch images from Deezer in parallel, falling back to Last.fm
-  const images = await Promise.all(
-    artists.map((a: Artist) => getArtistImage(a.name, a.image))
+  // Fetch images from Deezer in parallel; filter out artists not found (likely audiobooks)
+  const results = await Promise.all(
+    raw.map((a: Artist) => getArtistImage(a.name, a.image))
   );
-  for (let i = 0; i < artists.length; i++) {
-    artists[i].image = images[i];
+
+  const artists: Artist[] = [];
+  for (let i = 0; i < raw.length && artists.length < limit; i++) {
+    if (results[i].found) {
+      raw[i].image = results[i].image;
+      artists.push(raw[i]);
+    }
   }
 
   return artists;

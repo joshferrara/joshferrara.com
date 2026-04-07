@@ -41,31 +41,51 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
 ---
 
 <article class:list={['tweet', { 'tweet--compact': compact, 'tweet--reply': isReply }]}>
-  <p class="tweet__text" set:html={linkedText} />
   <div class="tweet__meta">
     <time datetime={parsedDate.toISOString()}>{formattedDate}</time>
-    <a href={tweetUrl} target="_blank" rel="noopener noreferrer" class="tweet__link">View on X</a>
+    <a href={tweetUrl} target="_blank" rel="noopener noreferrer" class="tweet__link">View on X &rarr;</a>
   </div>
+  <p class="tweet__text" set:html={linkedText} />
 </article>
 
 <style>
   .tweet {
-    padding: var(--space-4) 0;
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .tweet:last-child {
-    border-bottom: none;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
   }
 
   .tweet--reply {
     opacity: 0.75;
   }
 
+  .tweet__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-3);
+  }
+
+  .tweet__meta time {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .tweet__link {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  .tweet__link:hover {
+    color: var(--color-accent);
+  }
+
   .tweet__text {
     font-size: var(--text-base);
     line-height: var(--leading-normal);
-    margin-bottom: var(--space-2);
     word-break: break-word;
     white-space: pre-wrap;
   }
@@ -77,27 +97,6 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
 
   .tweet__text :global(a:hover) {
     text-decoration: underline;
-  }
-
-  .tweet__meta {
-    display: flex;
-    gap: var(--space-3);
-    align-items: center;
-  }
-
-  .tweet__meta time {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-  }
-
-  .tweet__link {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    text-decoration: none;
-  }
-
-  .tweet__link:hover {
-    color: var(--color-accent);
   }
 
   .tweet--compact .tweet__text {

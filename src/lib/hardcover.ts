@@ -46,7 +46,7 @@ function parseBooks(data: any): Book[] {
     title: ub.book?.title || ub.edition?.title || '',
     author: ub.book?.contributions?.[0]?.author?.name || '',
     slug: ub.book?.slug || '',
-    coverUrl: ub.edition?.image?.url || null,
+    coverUrl: ub.edition?.image?.url || ub.book?.image?.url || null,
     rating: ub.rating,
     dateAdded: ub.date_added,
   }));
@@ -59,7 +59,7 @@ export async function getCurrentlyReading(): Promise<Book[]> {
     ) {
       id rating date_added
       edition { title image { url } }
-      book { title slug contributions { author { name } } }
+      book { title slug image { url } contributions { author { name } } }
     }
   }`);
   return parseBooks(data);
@@ -74,7 +74,7 @@ export async function getReadBooks(limit = 20): Promise<Book[]> {
     ) {
       id rating date_added
       edition { title image { url } }
-      book { title slug contributions { author { name } } }
+      book { title slug image { url } contributions { author { name } } }
     }
   }`);
   return parseBooks(data);
@@ -89,7 +89,7 @@ export async function getWantToRead(limit = 20): Promise<Book[]> {
     ) {
       id rating date_added
       edition { title image { url } }
-      book { title slug contributions { author { name } } }
+      book { title slug image { url } contributions { author { name } } }
     }
   }`);
   return parseBooks(data);
