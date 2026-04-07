@@ -13,16 +13,6 @@ const writing = defineCollection({
   }),
 });
 
-const notes = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/notes' }),
-  schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
-    tags: z.array(z.string()).default([]),
-    growthStage: z.enum(['draft', 'published']).default('published'),
-  }),
-});
-
 const archive = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/archive' }),
   schema: z.object({
@@ -101,7 +91,6 @@ const recaps = defineCollection({
 
 export const collections = {
   writing,
-  notes,
   archive,
   projects,
   talks,

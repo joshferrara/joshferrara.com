@@ -1,0 +1,211 @@
+---
+export const prerender = true;
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Font Pairing Test</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Montserrat:ital,wght@0,300..900;1,300..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,300..900;1,14..32,300..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Manrope:wght@300..800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --color-bg: #faf8f5;
+      --color-text: #3a3632;
+      --color-text-heading: #1c1917;
+      --color-text-muted: #78716c;
+      --color-accent: #2d6a4f;
+      --color-border: #e7e0d6;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-bg: #171412;
+        --color-text: #d6d0c8;
+        --color-text-heading: #f0ece6;
+        --color-text-muted: #998f83;
+        --color-accent: #52b788;
+        --color-border: #3a3530;
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 3rem 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+      min-width: 0;
+    }
+
+    .page-title {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      margin-bottom: 2rem;
+    }
+
+    .pair {
+      border-bottom: 1px solid var(--color-border);
+      padding: 3rem 0;
+    }
+
+    .pair:last-child {
+      border-bottom: none;
+    }
+
+    .pair__label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .pair__vibe {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8125rem;
+      color: var(--color-text-muted);
+      margin-bottom: 2rem;
+      font-style: italic;
+    }
+
+    .pair h1 {
+      color: var(--color-text-heading);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      font-size: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+      overflow-wrap: break-word;
+    }
+
+    .pair h2 {
+      color: var(--color-text-heading);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+      font-size: clamp(1.5rem, 1.3rem + 0.75vw, 1.875rem);
+    }
+
+    .pair h3 {
+      color: var(--color-text-heading);
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+      font-size: clamp(1.125rem, 1.05rem + 0.35vw, 1.25rem);
+    }
+
+    .pair p {
+      max-width: 60ch;
+      margin-bottom: 1rem;
+    }
+
+    .pair p.small {
+      font-size: 0.875rem;
+      color: var(--color-text-muted);
+    }
+
+    /* --- Pair 1: Playfair Display & Source Sans 3 --- */
+    .pair--1 h1, .pair--1 h2, .pair--1 h3 { font-family: 'Playfair Display', serif; }
+    .pair--1 p { font-family: 'Source Sans 3', sans-serif; }
+
+    /* --- Pair 2: Cormorant Garamond & Montserrat --- */
+    .pair--2 h1, .pair--2 h2, .pair--2 h3 { font-family: 'Cormorant Garamond', serif; }
+    .pair--2 p { font-family: 'Montserrat', sans-serif; }
+    .pair--2 h1 { font-weight: 500; }
+    .pair--2 h2 { font-weight: 500; }
+
+    /* --- Pair 3: Lora & Inter --- */
+    .pair--3 h1, .pair--3 h2, .pair--3 h3 { font-family: 'Lora', serif; }
+    .pair--3 p { font-family: 'Inter', sans-serif; }
+
+    /* --- Pair 4: Libre Baskerville & Poppins --- */
+    .pair--4 h1, .pair--4 h2, .pair--4 h3 { font-family: 'Libre Baskerville', serif; }
+    .pair--4 p { font-family: 'Poppins', sans-serif; }
+
+    /* --- Pair 5: Playfair Display & Inter --- */
+    .pair--5 h1, .pair--5 h2, .pair--5 h3 { font-family: 'Playfair Display', serif; }
+    .pair--5 p { font-family: 'Inter', sans-serif; }
+
+    /* --- Pair 6: Fraunces & Manrope --- */
+    .pair--6 h1, .pair--6 h2, .pair--6 h3 { font-family: 'Fraunces', serif; }
+    .pair--6 p { font-family: 'Manrope', sans-serif; }
+  </style>
+</head>
+<body>
+  <p class="page-title">Font Pairing Comparison</p>
+
+  <section class="pair pair--1">
+    <p class="pair__label">Pairing 1 — Playfair Display & Source Sans 3</p>
+    <p class="pair__vibe">High-end, editorial, and dramatic</p>
+    <h1>Josh Ferrara</h1>
+    <h2>Product strategist, dad, musician</h2>
+    <h3>Latest Writing</h3>
+    <p>I spend my days thinking about how technology shapes the way people live, work, and connect. This is a placeholder paragraph to show how body copy looks at this size. The quick brown fox jumps over the lazy dog.</p>
+    <p class="small">April 1, 2026 — A fresh start: rebuilding joshferrara.com from the ground up with Astro and Cloudflare Workers.</p>
+  </section>
+
+  <section class="pair pair--2">
+    <p class="pair__label">Pairing 2 — Cormorant Garamond & Montserrat</p>
+    <p class="pair__vibe">Sophisticated, minimalist, and modern</p>
+    <h1>Josh Ferrara</h1>
+    <h2>Product strategist, dad, musician</h2>
+    <h3>Latest Writing</h3>
+    <p>I spend my days thinking about how technology shapes the way people live, work, and connect. This is a placeholder paragraph to show how body copy looks at this size. The quick brown fox jumps over the lazy dog.</p>
+    <p class="small">April 1, 2026 — A fresh start: rebuilding joshferrara.com from the ground up with Astro and Cloudflare Workers.</p>
+  </section>
+
+  <section class="pair pair--3">
+    <p class="pair__label">Pairing 3 — Lora & Inter</p>
+    <p class="pair__vibe">Warm, inviting, and highly functional</p>
+    <h1>Josh Ferrara</h1>
+    <h2>Product strategist, dad, musician</h2>
+    <h3>Latest Writing</h3>
+    <p>I spend my days thinking about how technology shapes the way people live, work, and connect. This is a placeholder paragraph to show how body copy looks at this size. The quick brown fox jumps over the lazy dog.</p>
+    <p class="small">April 1, 2026 — A fresh start: rebuilding joshferrara.com from the ground up with Astro and Cloudflare Workers.</p>
+  </section>
+
+  <section class="pair pair--4">
+    <p class="pair__label">Pairing 4 — Libre Baskerville & Poppins</p>
+    <p class="pair__vibe">Traditional meets friendly</p>
+    <h1>Josh Ferrara</h1>
+    <h2>Product strategist, dad, musician</h2>
+    <h3>Latest Writing</h3>
+    <p>I spend my days thinking about how technology shapes the way people live, work, and connect. This is a placeholder paragraph to show how body copy looks at this size. The quick brown fox jumps over the lazy dog.</p>
+    <p class="small">April 1, 2026 — A fresh start: rebuilding joshferrara.com from the ground up with Astro and Cloudflare Workers.</p>
+  </section>
+
+  <section class="pair pair--5">
+    <p class="pair__label">Pairing 5 — Playfair Display & Inter</p>
+    <p class="pair__vibe">Editorial drama with interface-grade readability</p>
+    <h1>Josh Ferrara</h1>
+    <h2>Product strategist, dad, musician</h2>
+    <h3>Latest Writing</h3>
+    <p>I spend my days thinking about how technology shapes the way people live, work, and connect. This is a placeholder paragraph to show how body copy looks at this size. The quick brown fox jumps over the lazy dog.</p>
+    <p class="small">April 1, 2026 — A fresh start: rebuilding joshferrara.com from the ground up with Astro and Cloudflare Workers.</p>
+  </section>
+
+  <section class="pair pair--6">
+    <p class="pair__label">Pairing 6 — Fraunces & Manrope</p>
+    <p class="pair__vibe">Trendy, expressive, and tech-forward (currently on the site with Plus Jakarta Sans instead of Manrope)</p>
+    <h1>Josh Ferrara</h1>
+    <h2>Product strategist, dad, musician</h2>
+    <h3>Latest Writing</h3>
+    <p>I spend my days thinking about how technology shapes the way people live, work, and connect. This is a placeholder paragraph to show how body copy looks at this size. The quick brown fox jumps over the lazy dog.</p>
+    <p class="small">April 1, 2026 — A fresh start: rebuilding joshferrara.com from the ground up with Astro and Cloudflare Workers.</p>
+  </section>
+</body>
+</html>

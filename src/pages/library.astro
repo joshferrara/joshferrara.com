@@ -1,71 +1,181 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getBooksRead, getBooksWantToRead } from '../lib/books';
+import { getCurrentlyReading, getReadBooks, getWantToRead } from '../lib/hardcover';
 
 export const prerender = true;
 
-const read = getBooksRead();
-const wantToRead = getBooksWantToRead();
+const reading = await getCurrentlyReading();
+const read = await getReadBooks(30);
+const wantToRead = await getWantToRead(30);
+const hasData = reading.length > 0 || read.length > 0 || wantToRead.length > 0;
 ---
 
-<BaseLayout title="Library" description="Books Josh Ferrara has read and wants to read.">
+<BaseLayout title="Library" description="Books Josh Ferrara is reading, has read, and wants to read." wide>
   <h1>Library</h1>
-  <p class="page-description">Books I've read and want to read.</p>
+  <p class="page-description">
+    Tracked on <a href="https://hardcover.app/@josh.ferrara" target="_blank" rel="noopener noreferrer">Hardcover</a>.
+  </p>
 
-  <section class="book-section">
-    <h2>Read</h2>
-    {read.length === 0 ? (
-      <p class="empty-state">No books logged yet.</p>
-    ) : (
-      <div class="book-list">
-        {read.map((book) => (
-          <div class="book-item">
-            <div class="book-item__info">
-              <span class="book-item__title">{book.title}</span>
-              <span class="book-item__author">{book.author}</span>
-              {book.rating && <span class="book-item__rating">{'★'.repeat(book.rating)}{'☆'.repeat(5 - book.rating)}</span>}
-            </div>
+  {!hasData ? (
+    <p class="empty-state">Book data isn't available yet. Set <code>HARDCOVER_API_TOKEN</code> to enable.</p>
+  ) : (
+    <>
+      {reading.length > 0 && (
+        <section class="book-section">
+          <h2>Currently Reading</h2>
+          <div class="book-grid">
+            {reading.map((book) => (
+              <a href={`https://hardcover.app/books/${book.slug}`} target="_blank" rel="noopener noreferrer" class="book-card">
+                {book.coverUrl ? (
+                  <img src={book.coverUrl} alt={book.title} class="book-card__cover" loading="lazy" />
+                ) : (
+                  <div class="book-card__no-cover"><span>{book.title}</span></div>
+                )}
+                <div class="book-card__info">
+                  <span class="book-card__title">{book.title}</span>
+                  <span class="book-card__author">{book.author}</span>
+                </div>
+              </a>
+            ))}
           </div>
-        ))}
-      </div>
-    )}
-  </section>
+        </section>
+      )}
 
-  <section class="book-section">
-    <h2>Want to Read</h2>
-    {wantToRead.length === 0 ? (
-      <p class="empty-state">Nothing on the list right now.</p>
-    ) : (
-      <div class="book-list">
-        {wantToRead.map((book) => (
-          <div class="book-item">
-            <div class="book-item__info">
-              <span class="book-item__title">{book.title}</span>
-              <span class="book-item__author">{book.author}</span>
-            </div>
+      {read.length > 0 && (
+        <section class="book-section">
+          <h2>Read</h2>
+          <div class="book-grid">
+            {read.map((book) => (
+              <a href={`https://hardcover.app/books/${book.slug}`} target="_blank" rel="noopener noreferrer" class="book-card">
+                {book.coverUrl ? (
+                  <img src={book.coverUrl} alt={book.title} class="book-card__cover" loading="lazy" />
+                ) : (
+                  <div class="book-card__no-cover"><span>{book.title}</span></div>
+                )}
+                <div class="book-card__info">
+                  <span class="book-card__title">{book.title}</span>
+                  <span class="book-card__author">{book.author}</span>
+                  {book.rating && (
+                    <span class="book-card__rating">{'★'.repeat(Math.round(book.rating))}</span>
+                  )}
+                </div>
+              </a>
+            ))}
           </div>
-        ))}
-      </div>
-    )}
-  </section>
+        </section>
+      )}
+
+      {wantToRead.length > 0 && (
+        <section class="book-section">
+          <h2>Want to Read</h2>
+          <div class="book-grid">
+            {wantToRead.map((book) => (
+              <a href={`https://hardcover.app/books/${book.slug}`} target="_blank" rel="noopener noreferrer" class="book-card">
+                {book.coverUrl ? (
+                  <img src={book.coverUrl} alt={book.title} class="book-card__cover" loading="lazy" />
+                ) : (
+                  <div class="book-card__no-cover"><span>{book.title}</span></div>
+                )}
+                <div class="book-card__info">
+                  <span class="book-card__title">{book.title}</span>
+                  <span class="book-card__author">{book.author}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </>
+  )}
 </BaseLayout>
 
 <style>
   h1 { margin-bottom: var(--space-2); }
   .page-description { color: var(--color-text-muted); margin-bottom: var(--space-8); }
-  .empty-state { color: var(--color-text-muted); font-style: italic; }
+  .page-description a { color: var(--color-accent); }
+  .empty-state { color: var(--color-text-muted); }
 
-  .book-section { margin-bottom: var(--space-10); }
-  .book-section h2 { font-size: var(--text-xl); font-family: var(--font-sans); margin-bottom: var(--space-4); }
-
-  .book-list { display: flex; flex-direction: column; }
-  .book-item {
-    display: flex; align-items: center; gap: var(--space-4);
-    padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border-subtle);
+  .book-section { margin-bottom: var(--space-12); }
+  .book-section h2 {
+    font-size: var(--text-xl);
+    font-family: var(--font-sans);
+    margin-bottom: var(--space-5);
   }
-  .book-item:last-child { border-bottom: none; }
-  .book-item__info { display: flex; flex-direction: column; gap: 2px; }
-  .book-item__title { font-weight: 500; color: var(--color-text-heading); }
-  .book-item__author { font-size: var(--text-sm); color: var(--color-text-muted); }
-  .book-item__rating { font-size: var(--text-sm); color: var(--color-accent); }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: var(--space-5);
+  }
+
+  .book-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .book-card__cover {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .book-card:hover .book-card__cover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .book-card__no-cover {
+    width: 100%;
+    aspect-ratio: 2/3;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+    text-align: center;
+  }
+
+  .book-card__no-cover span {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+  }
+
+  .book-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .book-card__title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-heading);
+    line-height: var(--leading-snug);
+  }
+
+  .book-card__author {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  .book-card__rating {
+    font-size: var(--text-xs);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 480px) {
+    .book-grid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: var(--space-3);
+    }
+  }
 </style>

@@ -8,7 +8,7 @@ import SocialIcons from '../components/SocialIcons.astro';
   description="About Josh Ferrara — product strategist, dad, musician, reader, photographer."
 >
   <header class="about-header">
-    <div class="about-photo-placeholder" aria-label="Photo of Josh Ferrara">JF</div>
+    <img src="/images/josh.jpg" alt="Josh Ferrara" class="about-photo" width="100" height="100" />
     <h1>About</h1>
   </header>
 
@@ -30,29 +30,65 @@ import SocialIcons from '../components/SocialIcons.astro';
     <h2>Career</h2>
     <div class="timeline">
       <div class="timeline__item">
-        <div class="timeline__date">2023 &ndash; Present</div>
+        <div class="timeline__date">2019 &ndash; Present</div>
         <div class="timeline__content">
-          <h3>[Current Role]</h3>
-          <p class="timeline__company">[Company]</p>
-          <p>[Brief description of role and responsibilities.]</p>
+          <h3>Head of Product Solutions</h3>
+          <p class="timeline__company">Make (letsMake.com) / Oven Bits</p>
+          <p>Leading the product solutions practice for a full-cycle software agency, developing client discovery and delivery processes.</p>
         </div>
       </div>
 
       <div class="timeline__item">
-        <div class="timeline__date">2020 &ndash; 2023</div>
+        <div class="timeline__date">2017 &ndash; 2019</div>
         <div class="timeline__content">
-          <h3>[Previous Role]</h3>
-          <p class="timeline__company">[Company]</p>
-          <p>[Brief description.]</p>
+          <h3>Chief Operating Officer</h3>
+          <p class="timeline__company">Sozo Church</p>
+          <p>Oversaw the planning, launch, and ongoing operations of an investment-funded startup church in San Francisco.</p>
         </div>
       </div>
 
       <div class="timeline__item">
-        <div class="timeline__date">2017 &ndash; 2020</div>
+        <div class="timeline__date">2013 &ndash; 2017</div>
         <div class="timeline__content">
-          <h3>[Earlier Role]</h3>
-          <p class="timeline__company">[Company]</p>
-          <p>[Brief description.]</p>
+          <h3>Director of Digital Product</h3>
+          <p class="timeline__company">Gateway Church</p>
+          <p>Led a cross-functional department building and deploying technology products for a staff of over 1,500 and a congregation of 100,000+.</p>
+        </div>
+      </div>
+
+      <div class="timeline__item">
+        <div class="timeline__date">2013 &ndash; 2017</div>
+        <div class="timeline__content">
+          <h3>Creative / Marketing</h3>
+          <p class="timeline__company">Hivemind Creative, LLC</p>
+          <p>Co-founded a technology consulting agency supporting small to medium businesses in building their web presence.</p>
+        </div>
+      </div>
+
+      <div class="timeline__item">
+        <div class="timeline__date">2012 &ndash; 2013</div>
+        <div class="timeline__content">
+          <h3>Software Engineer</h3>
+          <p class="timeline__company">Anedot</p>
+          <p>Early stage full-stack engineer in a venture-funded startup building products for political fundraising campaigns.</p>
+        </div>
+      </div>
+
+      <div class="timeline__item">
+        <div class="timeline__date">2011 &ndash; 2013</div>
+        <div class="timeline__content">
+          <h3>Co-Founder / Developer</h3>
+          <p class="timeline__company">Hivemind Labs</p>
+          <p>Account executive and interactive web and mobile application developer, working directly with clients.</p>
+        </div>
+      </div>
+
+      <div class="timeline__item">
+        <div class="timeline__date">2010 &ndash; 2011</div>
+        <div class="timeline__content">
+          <h3>Interactive Developer</h3>
+          <p class="timeline__company">Gatorworks</p>
+          <p>Crafting interactive websites and applications for clients.</p>
         </div>
       </div>
     </div>
@@ -77,20 +113,15 @@ import SocialIcons from '../components/SocialIcons.astro';
     margin-bottom: var(--space-8);
   }
 
-  .about-photo-placeholder {
+  .about-photo {
     width: 100px;
     height: 100px;
-    border-radius: 50%;
-    background: var(--color-bg-subtle);
-    border: 2px solid var(--color-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-serif);
-    font-size: var(--text-2xl);
-    font-weight: 700;
-    color: var(--color-text-muted);
+    border-radius: var(--radius-xl);
+    object-fit: cover;
     flex-shrink: 0;
+    box-shadow: var(--shadow-lg);
+    border: 3px solid var(--color-bg-raised);
+    outline: 2px solid var(--color-border);
   }
 
   .prose {

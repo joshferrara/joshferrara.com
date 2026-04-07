@@ -1,8 +1,6 @@
 ---
 const navLinks = [
-  { href: '/', label: 'Home' },
   { href: '/writing/', label: 'Writing' },
-  { href: '/notes/', label: 'Notes' },
   { href: '/projects/', label: 'Projects' },
   { href: '/now/', label: 'Now' },
   { href: '/about/', label: 'About' },
@@ -18,7 +16,7 @@ function isActive(href: string): boolean {
 
 <nav class="nav" aria-label="Primary">
   <div class="nav__inner container container--wide">
-    <a href="/" class="nav__logo">JF</a>
+    <a href="/" class="nav__logo">Josh Ferrara</a>
     <ul class="nav__links" role="list">
       {navLinks.map((link) => (
         <li>
@@ -40,7 +38,9 @@ function isActive(href: string): boolean {
     position: sticky;
     top: 0;
     z-index: 100;
-    background: var(--color-bg);
+    background: color-mix(in srgb, var(--color-bg) 85%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border-subtle);
     height: var(--nav-height);
     display: flex;
@@ -56,10 +56,11 @@ function isActive(href: string): boolean {
   .nav__logo {
     font-family: var(--font-serif);
     font-size: var(--text-lg);
-    font-weight: 700;
+    font-weight: 400;
     color: var(--color-text-heading);
     text-decoration: none;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    transition: color var(--transition-fast);
   }
 
   .nav__logo:hover {
@@ -75,21 +76,42 @@ function isActive(href: string): boolean {
 
   .nav__link {
     font-size: var(--text-sm);
+    font-weight: 500;
     color: var(--color-text-muted);
     text-decoration: none;
     padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
-    transition: color var(--transition-fast), background var(--transition-fast);
+    position: relative;
+    transition: color var(--transition-fast);
+  }
+
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: var(--space-3);
+    right: var(--space-3);
+    height: 2px;
+    background: var(--color-accent);
+    border-radius: 1px;
+    transform: scaleX(0);
+    transition: transform var(--transition-base);
   }
 
   .nav__link:hover {
     color: var(--color-text-heading);
-    background: var(--color-bg-subtle);
+  }
+
+  .nav__link:hover::after {
+    transform: scaleX(1);
   }
 
   .nav__link--active {
-    color: var(--color-text-heading);
-    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .nav__link--active::after {
+    transform: scaleX(1);
   }
 
   @media (max-width: 640px) {
@@ -100,6 +122,11 @@ function isActive(href: string): boolean {
     .nav__link {
       padding: var(--space-2);
       font-size: var(--text-xs);
+    }
+
+    .nav__link::after {
+      left: var(--space-2);
+      right: var(--space-2);
     }
   }
 </style>
