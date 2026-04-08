@@ -36,6 +36,17 @@ const recentBooks = await getReadBooks(6);
 ---
 
 <BaseLayout title="Home" wide>
+  <!-- SVG Filters -->
+  <svg class="sr-only" aria-hidden="true">
+    <defs>
+      <filter id="ink-settle" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+        <feTurbulence id="ink-turbulence" type="fractalNoise" baseFrequency="0.04 0.03" numOctaves="3" seed="5" result="noise" />
+        <feDisplacementMap id="ink-displacement" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+        <feGaussianBlur id="ink-blur" in="displaced" stdDeviation="0" />
+      </filter>
+    </defs>
+  </svg>
+
   <!-- Bio Section -->
   <header class="bio animate-in animate-in-1">
     <div class="bio__photo-wrap">
@@ -160,12 +171,29 @@ const recentBooks = await getReadBooks(6);
 </BaseLayout>
 
 <style>
+  /* ── Hero: Living Ink ────────────────────────────── */
+
   /* Bio */
   .bio {
+    position: relative;
     display: flex;
     align-items: center;
     gap: var(--space-10);
     margin-bottom: var(--space-16);
+  }
+
+  /* Floating photo */
+  .bio__photo-wrap {
+    position: relative;
+    z-index: 1;
+    animation: photo-float 8s ease-in-out infinite;
+  }
+
+  @keyframes photo-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25%      { transform: translateY(-3px) rotate(0.3deg); }
+    50%      { transform: translateY(-5px) rotate(0deg); }
+    75%      { transform: translateY(-2px) rotate(-0.3deg); }
   }
 
   .bio__photo {
@@ -179,14 +207,23 @@ const recentBooks = await getReadBooks(6);
     outline: 3px solid var(--color-accent);
   }
 
+  .bio__text {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Ink-settle filter on the name */
   .bio__name {
     font-size: clamp(3.5rem, 3rem + 3vw, 6rem);
     font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 1;
     margin-bottom: 0;
+    filter: url(#ink-settle);
+    will-change: filter;
   }
 
+  /* Breathing accent line */
   .bio__accent {
     display: block;
     width: 48px;
@@ -195,6 +232,13 @@ const recentBooks = await getReadBooks(6);
     border-radius: 2px;
     margin-top: var(--space-6);
     margin-bottom: 0;
+    animation: accent-breathe 5s ease-in-out infinite;
+    transform-origin: left center;
+  }
+
+  @keyframes accent-breathe {
+    0%, 100% { transform: scaleX(1); opacity: 1; }
+    50%      { transform: scaleX(1.25); opacity: 0.7; }
   }
 
   .bio__tagline {
@@ -218,7 +262,14 @@ const recentBooks = await getReadBooks(6);
     margin-right: var(--space-1);
   }
 
-  /* Content Grid */
+  /* ── Reduced motion ────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .bio__photo-wrap { animation: none; }
+    .bio__accent { animation: none; }
+    .bio__name { filter: none; }
+  }
+
+  /* ── Content Grid ──────────────────────────────── */
   .content-grid {
     display: grid;
     grid-template-columns: 3fr 2fr;
@@ -333,3 +384,67 @@ const recentBooks = await getReadBooks(6);
     }
   }
 </style>
+
+<script>
+  // Living Ink: animate displacement + blur on the name heading.
+  // On load, text appears organically distorted (like wet ink on paper)
+  // then settles into crisp text with a barely perceptible organic breathing.
+  (function inkSettle() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) return;
+
+    const displacement = document.getElementById('ink-displacement');
+    const blur = document.getElementById('ink-blur');
+    if (!displacement) return;
+
+    // Displacement: how much the noise distorts the text
+    const dispStart = 30;
+    const dispSettled = 0.5;
+    // Blur: text starts slightly soft (wet ink) and dries sharp
+    const blurStart = 1.8;
+    const blurSettled = 0;
+    // Timing
+    const settleDuration = 2400;
+    const breatheAmplitude = 0.3;
+    const breathePeriod = 8000;
+    const startTime = performance.now();
+
+    function easeOutExpo(t: number): number {
+      return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    }
+
+    displacement.setAttribute('scale', String(dispStart));
+    if (blur) blur.setAttribute('stdDeviation', String(blurStart));
+
+    let settled = false;
+
+    function tick(now: number) {
+      const elapsed = now - startTime;
+
+      if (!settled) {
+        const progress = Math.min(elapsed / settleDuration, 1);
+        const eased = easeOutExpo(progress);
+
+        const scale = dispStart + (dispSettled - dispStart) * eased;
+        displacement.setAttribute('scale', String(scale));
+
+        if (blur) {
+          const b = blurStart + (blurSettled - blurStart) * eased;
+          blur.setAttribute('stdDeviation', String(Math.max(0, b)));
+        }
+
+        if (progress >= 1) settled = true;
+      } else {
+        // Subtle breathing — barely perceptible organic wavering
+        const breatheElapsed = elapsed - settleDuration;
+        const t = (breatheElapsed % breathePeriod) / breathePeriod;
+        const scale = dispSettled + Math.sin(t * Math.PI * 2) * breatheAmplitude;
+        displacement.setAttribute('scale', String(Math.max(0, scale)));
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  })();
+</script>

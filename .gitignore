@@ -29,3 +29,14 @@ pnpm-debug.log*
 # wrangler
 .wrangler/
 worker-configuration.d.ts
+
+# playwright
+.playwright-mcp/
+
+# root-level screenshots (CI/tool artifacts)
+/*.png
+/*.jpeg
+
+# superpowers
+.superpowers/
+docs/superpowers/

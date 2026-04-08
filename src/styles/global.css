@@ -35,6 +35,9 @@
   --color-accent-bg: #edf7f1;
   --color-accent-subtle: #d8f0e3;
 
+  /* Dot grid — sits between border and text-muted for subtle visibility */
+  --color-dot-grid: #d4cdc3;
+
   /* Warm highlight for special elements */
   --color-warm: #c2956a;
   --color-warm-bg: #fdf6ef;
@@ -122,6 +125,8 @@
     --color-warm: #d4a574;
     --color-warm-bg: #252220;
 
+    --color-dot-grid: #424244;
+
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -146,6 +151,9 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
+  background-image: radial-gradient(circle, var(--color-dot-grid) 0.75px, transparent 0.75px);
+  background-size: 28px 28px;
+  background-position: 14px 14px;
 }
 
 ::selection {

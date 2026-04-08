@@ -25,6 +25,7 @@ const socials = [
         rel="noopener noreferrer"
         aria-label={social.label}
         class="social-icons__link"
+        data-tooltip={social.label}
       >
         {social.icon === 'x' && (
           <svg viewBox="0 0 448 512" width="18" height="18" fill="currentColor" aria-hidden="true">
@@ -85,10 +86,38 @@ const socials = [
   }
 
   .social-icons__link {
+    position: relative;
     color: var(--color-text-muted);
     transition: color var(--transition-fast);
     display: flex;
     align-items: center;
+    text-decoration: none;
+  }
+
+  .social-icons__link::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-text-heading);
+    background: var(--color-bg-raised);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 2px 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .social-icons__link:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 
   .social-icons__link:hover {
