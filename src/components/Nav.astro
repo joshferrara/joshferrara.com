@@ -16,7 +16,13 @@ function isActive(href: string): boolean {
 
 <nav class="nav" aria-label="Primary">
   <div class="nav__inner container container--wide">
-    <a href="/" class="nav__logo">Josh Ferrara</a>
+    <a href="/" class="nav__home">
+      <span class="nav__monogram">JF</span>
+      <span class="nav__identity" data-nav-logo>
+        <img src="/images/josh.jpg" alt="" class="nav__photo" width="28" height="28" />
+        <span class="nav__name">Josh Ferrara</span>
+      </span>
+    </a>
     <ul class="nav__links" role="list">
       {navLinks.map((link) => (
         <li>
@@ -32,6 +38,27 @@ function isActive(href: string): boolean {
     </ul>
   </div>
 </nav>
+
+<script>
+  const identity = document.querySelector('[data-nav-logo]');
+  const monogram = document.querySelector('.nav__monogram');
+  const bio = document.querySelector('.bio');
+
+  if (identity && monogram && bio) {
+    identity.classList.add('nav__identity--hidden');
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const heroVisible = entry.isIntersecting;
+        identity.classList.toggle('nav__identity--hidden', heroVisible);
+        monogram.classList.toggle('nav__monogram--hidden', !heroVisible);
+      },
+      { threshold: 0, rootMargin: '-64px 0px 0px 0px' }
+    );
+
+    observer.observe(bio);
+  }
+</script>
 
 <style>
   .nav {
@@ -53,18 +80,61 @@ function isActive(href: string): boolean {
     justify-content: space-between;
   }
 
-  .nav__logo {
-    font-family: var(--font-serif);
-    font-size: var(--text-lg);
-    font-weight: 400;
-    color: var(--color-text-heading);
+  .nav__home {
+    display: flex;
+    align-items: center;
     text-decoration: none;
-    letter-spacing: -0.01em;
+    color: var(--color-text-heading);
+    position: relative;
     transition: color var(--transition-fast);
   }
 
-  .nav__logo:hover {
+  .nav__home:hover {
     color: var(--color-accent);
+  }
+
+  .nav__monogram {
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    transition: opacity var(--transition-base);
+  }
+
+  .nav__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    transition: opacity var(--transition-base);
+    position: absolute;
+    left: 0;
+    white-space: nowrap;
+  }
+
+  .nav__identity--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav__identity--hidden + .nav__monogram,
+  .nav__identity:not(.nav__identity--hidden) ~ .nav__monogram {
+    /* handled by JS toggle below */
+  }
+
+  .nav__monogram.nav__monogram--hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .nav__photo {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    object-fit: cover;
   }
 
   .nav__links {

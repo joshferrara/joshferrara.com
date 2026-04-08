@@ -103,15 +103,15 @@
 /* --- Dark Mode --- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-bg: #171412;
-    --color-bg-raised: #211e1b;
-    --color-bg-subtle: #282420;
-    --color-bg-section: #1e1b18;
-    --color-text: #d6d0c8;
-    --color-text-heading: #f0ece6;
-    --color-text-muted: #998f83;
-    --color-border: #3a3530;
-    --color-border-subtle: #302b27;
+    --color-bg: #151516;
+    --color-bg-raised: #1e1e20;
+    --color-bg-subtle: #252527;
+    --color-bg-section: #1b1b1d;
+    --color-text: #d2d0cd;
+    --color-text-heading: #eeece8;
+    --color-text-muted: #908e89;
+    --color-border: #363638;
+    --color-border-subtle: #2d2d2f;
 
     --color-accent: #52b788;
     --color-accent-hover: #74c69d;
@@ -120,7 +120,7 @@
     --color-accent-subtle: #1f3529;
 
     --color-warm: #d4a574;
-    --color-warm-bg: #2a2118;
+    --color-warm-bg: #252220;
 
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);

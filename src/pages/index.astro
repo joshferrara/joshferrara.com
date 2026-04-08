@@ -39,12 +39,16 @@ const recentBooks = await getReadBooks(6);
   <!-- Bio Section -->
   <header class="bio animate-in animate-in-1">
     <div class="bio__photo-wrap">
-      <img src="/images/josh.jpg" alt="Josh Ferrara" class="bio__photo" width="128" height="128" />
+      <img src="/images/josh.jpg" alt="Josh Ferrara" class="bio__photo" width="200" height="200" />
     </div>
     <div class="bio__text">
       <h1 class="bio__name">Josh Ferrara</h1>
       <span class="bio__accent" aria-hidden="true"></span>
-      <p class="bio__tagline">Product strategy, AI, family. Baton Rouge, LA.</p>
+      <p class="bio__tagline">Product strategy, AI, family.</p>
+      <p class="bio__location">
+        <svg class="bio__icon" viewBox="0 0 384 512" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+        Baton Rouge, Louisiana
+      </p>
       <SocialIcons class="bio__socials" />
     </div>
   </header>
@@ -165,9 +169,9 @@ const recentBooks = await getReadBooks(6);
   }
 
   .bio__photo {
-    width: 128px;
-    height: 128px;
-    border-radius: var(--radius-xl);
+    width: 200px;
+    height: 200px;
+    border-radius: 44px;
     object-fit: cover;
     flex-shrink: 0;
     box-shadow: var(--shadow-xl);
@@ -176,11 +180,11 @@ const recentBooks = await getReadBooks(6);
   }
 
   .bio__name {
-    font-size: var(--text-5xl);
-    font-weight: 900;
+    font-size: clamp(3.5rem, 3rem + 3vw, 6rem);
+    font-weight: 700;
     letter-spacing: -0.04em;
-    line-height: 1.05;
-    margin-bottom: var(--space-3);
+    line-height: 1;
+    margin-bottom: 0;
   }
 
   .bio__accent {
@@ -189,15 +193,29 @@ const recentBooks = await getReadBooks(6);
     height: 3px;
     background: var(--color-accent);
     border-radius: 2px;
-    margin-bottom: var(--space-4);
+    margin-top: var(--space-6);
+    margin-bottom: 0;
   }
 
   .bio__tagline {
-    font-size: var(--text-xl);
+    font-size: var(--text-3xl);
     color: var(--color-text);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-2);
     font-family: var(--font-serif);
     font-style: italic;
+  }
+
+  .bio__location {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+  }
+
+  .bio__icon {
+    display: inline-block;
+    vertical-align: -0.1em;
+    opacity: 0.4;
+    margin-right: var(--space-1);
   }
 
   /* Content Grid */
@@ -303,10 +321,15 @@ const recentBooks = await getReadBooks(6);
     .bio__photo {
       width: 104px;
       height: 104px;
+      border-radius: 23px;
     }
 
     .bio__accent {
       margin-inline: auto;
+    }
+
+    .bio :global(.social-icons) {
+      justify-content: center;
     }
   }
 </style>

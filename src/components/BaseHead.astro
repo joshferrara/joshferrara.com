@@ -9,7 +9,7 @@ interface Props {
 
 const {
   title,
-  description = 'Product strategist, dad, musician, reader, photographer.',
+  description = 'Josh Ferrara — Product strategy, AI, family. Baton Rouge, Louisiana.',
   image = '/og-default.png',
   date,
   type = 'website',
@@ -34,13 +34,16 @@ const jsonLd = type === 'article' && date
       '@type': 'Person',
       name: 'Josh Ferrara',
       url: 'https://joshferrara.com',
-      jobTitle: 'Product Strategist',
+      jobTitle: 'Product Strategy & AI',
       sameAs: [
         'https://x.com/joshferrara',
-        'https://github.com/joshferrara',
         'https://instagram.com/joshferrara',
-        'https://letterboxd.com/joshferrara',
+        'https://www.threads.net/@joshferrara',
+        'https://youtube.com/joshferrara',
+        'https://flickr.com/joshferrara',
+        'https://github.com/joshferrara',
         'https://www.linkedin.com/in/josh-ferrara',
+        'https://letterboxd.com/joshferrara',
         'https://last.fm/user/joshferrara',
       ],
     };
