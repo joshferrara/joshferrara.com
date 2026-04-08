@@ -30,7 +30,7 @@ const recentTweets = (allTweets as any[])
   .filter((t) => !t.isRetweet && !t.isReply)
   .slice(0, 5);
 
-const topArtists = await getTopArtists('7day', 6);
+const topArtists = await getTopArtists('1month', 6);
 const recentFilms = await getRecentFilms(6);
 const recentBooks = await getReadBooks(6);
 ---
