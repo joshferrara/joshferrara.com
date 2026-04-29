@@ -12,7 +12,7 @@ import { getReadBooks } from '../lib/hardcover';
 
 const writing = (await getCollection('writing'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 3)
+  .slice(0, 4)
   .map((post) => {
     // Extract first ~150 chars of plain text from body as excerpt
     const plain = post.body
@@ -28,7 +28,7 @@ const writing = (await getCollection('writing'))
 
 const recentTweets = (allTweets as any[])
   .filter((t) => !t.isRetweet && !t.isReply)
-  .slice(0, 5);
+  .slice(0, 4);
 
 const topArtists = await getTopArtists('1month', 6);
 const recentFilms = await getRecentFilms(6);

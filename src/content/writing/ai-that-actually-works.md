@@ -1,6 +1,6 @@
 ---
-title: The Recipe for AI That Actually Works
-date: 2026-04-27
+title: AI That Actually Works
+date: 2026-04-26
 growthStage: published
 ---
 
