@@ -18,15 +18,17 @@ But respecting something and reaching for it on a random Tuesday afternoon are t
 
 For whatever reason, country music became one of those categories I quietly filed away in my head. I didn't hate it. I just decided, somewhere along the way, that it wasn't really mine.
 
+## A nudge from the group chat
+
 Then last year, a friend dropped a message in our group chat.
 
-"I'm listening to a vinyl recording of _Golden Hour_ from Kacey Musgraves and it's fantastic."
+> I'm listening to a vinyl recording of [_Golden Hour_](https://en.wikipedia.org/wiki/Golden_Hour_(Kacey_Musgraves_album)) from Kacey Musgraves and it's fantastic.
 
 I noticed his message, but I didn't immediately do anything with it.
 
 Four days later he followed up:
 
-"Man y'all really need to listen to this album."
+> Man y'all really need to listen to this album.
 
 That second message popped up right as I was sitting down at my desk for some deep work. The timing was right so I put it on.
 
@@ -38,6 +40,8 @@ _Golden Hour_ hit me immediately, and it hit me in a way that felt almost embarr
 
 I kept coming back to it.
 
+## The floodgates open
+
 Then I started branching out.
 
 That was the real surprise. It wasn't just that I loved one Kacey Musgraves album. That would have been easy enough to explain away as an exception. The bigger surprise was realizing there was a whole style of country music, and country-adjacent music, that I genuinely loved. I just hadn't gone looking in the right corners.
@@ -46,7 +50,7 @@ And once you realize that, the floodgates open a little.
 
 Suddenly I'm finding albums I should have heard years ago. Suddenly I'm paying attention to artists I would have skimmed past before. Suddenly the thing I thought was "not really my thing" is exactly the thing I want on during a quiet afternoon, or while I'm working late at night, or when I'm driving with nowhere urgent to be.
 
-The new Ella Langley album, _Dandelion_, is another one that grabbed me right away. Different from _Golden Hour_, but it hits some of the same pleasure centers for me. Great songs. Great feel. A little throwback, a little modern. An album that knows exactly what it's trying to be.
+The new Ella Langley album, [_Dandelion_](https://en.wikipedia.org/wiki/Dandelion_(album)), is another one that grabbed me right away. Different from _Golden Hour_, but it hits some of the same pleasure centers for me. Great songs. Great feel. A little throwback, a little modern. An album that knows exactly what it's trying to be.
 
 And I think that's what has stuck with me most.
 
@@ -55,6 +59,8 @@ I spent 36 years assuming I wasn't really into country music. Then, because a fr
 Not wrong in some dramatic, identity-shattering way. Just wrong in the ordinary way we're all wrong about ourselves sometimes.
 
 We decide we don't like something. Or we decide we're done trying it. Or we decide that our old opinion is still accurate because it used to be accurate. And then years go by. We change, but the opinion stays in the same dusty little folder where we left it.
+
+## Avoidance vs. lost curiosity
 
 That's the part I keep thinking about.
 
@@ -76,9 +82,11 @@ It makes me wonder what else I've done that with.
 
 What other food, book, city, hobby, movie, artist, or type of music have I written off because of an earlier version of myself? What else did I try at the wrong time, in the wrong mood, through the wrong example? What else did I decide I didn't like before I had really found the door into it?
 
-Taste is personal, but it isn't fixed. That's easy to forget.
+_Taste is personal, but it isn't fixed._ That's easy to forget.
 
 We talk about taste like it's a set of permanent facts. "I like this." "I don't like that." "That's my thing." "That's not my thing." Some of that is useful. Nobody needs to live in a constant state of reconsidering every preference they've ever had. That sounds exhausting.
+
+## Leaving the door cracked open
 
 But there's something nice about leaving the door cracked open.
 
@@ -92,6 +100,6 @@ Maybe I always liked more of it than I realized. Maybe I needed the right record
 
 Whatever the reason, I'm glad it happened.
 
-And if there's a larger lesson in it, it's probably this: don't let your old opinions do all your listening for you.
+And if there's a larger lesson in it, it's probably this: _don't let your old opinions do all your listening for you._
 
 They might be out of date.
