@@ -100,6 +100,6 @@ Maybe I always liked more of it than I realized. Maybe I needed the right record
 
 Whatever the reason, I'm glad it happened.
 
-And if there's a larger lesson in it, it's probably this: don't let your old opinions do all your listening for you.
+And if there's a larger lesson in it, it's probably this: **don't let your old opinions do all your listening for you.**
 
 They might be out of date.
