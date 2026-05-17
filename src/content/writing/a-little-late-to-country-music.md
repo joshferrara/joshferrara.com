@@ -82,7 +82,7 @@ It makes me wonder what else I've done that with.
 
 What other food, book, city, hobby, movie, artist, or type of music have I written off because of an earlier version of myself? What else did I try at the wrong time, in the wrong mood, through the wrong example? What else did I decide I didn't like before I had really found the door into it?
 
-**Taste is personal, but it isn't fixed.** That's easy to forget.
+_Taste is personal, but it isn't fixed._ That's easy to forget.
 
 We talk about taste like it's a set of permanent facts. "I like this." "I don't like that." "That's my thing." "That's not my thing." Some of that is useful. Nobody needs to live in a constant state of reconsidering every preference they've ever had. That sounds exhausting.
 
@@ -100,6 +100,6 @@ Maybe I always liked more of it than I realized. Maybe I needed the right record
 
 Whatever the reason, I'm glad it happened.
 
-And if there's a larger lesson in it, it's probably this: <u>don't let your old opinions do all your listening for you.</u>
+And if there's a larger lesson in it, it's probably this: _don't let your old opinions do all your listening for you._
 
 They might be out of date.
