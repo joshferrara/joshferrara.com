@@ -22,7 +22,7 @@ For whatever reason, country music became one of those categories I quietly file
 
 Then last year, a friend dropped a message in our group chat.
 
-> I'm listening to a vinyl recording of _Golden Hour_ from [Kacey Musgraves](https://en.wikipedia.org/wiki/Kacey_Musgraves) and it's fantastic.
+> I'm listening to a vinyl recording of [_Golden Hour_](https://en.wikipedia.org/wiki/Golden_Hour_(Kacey_Musgraves_album)) from Kacey Musgraves and it's fantastic.
 
 I noticed his message, but I didn't immediately do anything with it.
 
@@ -50,7 +50,7 @@ And once you realize that, the floodgates open a little.
 
 Suddenly I'm finding albums I should have heard years ago. Suddenly I'm paying attention to artists I would have skimmed past before. Suddenly the thing I thought was "not really my thing" is exactly the thing I want on during a quiet afternoon, or while I'm working late at night, or when I'm driving with nowhere urgent to be.
 
-The new [Ella Langley](https://en.wikipedia.org/wiki/Ella_Langley) album, _Dandelion_, is another one that grabbed me right away. Different from _Golden Hour_, but it hits some of the same pleasure centers for me. Great songs. Great feel. A little throwback, a little modern. An album that knows exactly what it's trying to be.
+The new Ella Langley album, [_Dandelion_](https://en.wikipedia.org/wiki/Dandelion_(album)), is another one that grabbed me right away. Different from _Golden Hour_, but it hits some of the same pleasure centers for me. Great songs. Great feel. A little throwback, a little modern. An album that knows exactly what it's trying to be.
 
 And I think that's what has stuck with me most.
 
