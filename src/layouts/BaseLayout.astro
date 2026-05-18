@@ -2,6 +2,7 @@
 import BaseHead from '../components/BaseHead.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import BackgroundSwitcher from '../components/BackgroundSwitcher.astro';
 
 interface Props {
   title: string;
@@ -14,9 +15,19 @@ const { title, description, image, wide = false } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bg="vignette">
   <head>
     <BaseHead title={title} description={description} image={image} />
+    <script is:inline>
+      (function () {
+        try {
+          var v = localStorage.getItem('bg-variant');
+          if (v && ['vignette', 'dots', 'lines', 'grain'].indexOf(v) !== -1) {
+            document.documentElement.setAttribute('data-bg', v);
+          }
+        } catch (e) {}
+      })();
+    </script>
   </head>
   <body>
     <Nav />
@@ -24,6 +35,7 @@ const { title, description, image, wide = false } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <BackgroundSwitcher />
   </body>
 </html>
 
