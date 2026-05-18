@@ -23,7 +23,7 @@
   --color-bg-subtle: #f3f0eb;
   --color-bg-section: #f7f5f0;
   --color-text: #3a3632;
-  --color-text-heading: #1c1917;
+  --color-text-heading: #353534;
   --color-text-muted: #78716c;
   --color-border: #e7e0d6;
   --color-border-subtle: #ede8e0;
@@ -34,28 +34,6 @@
   --color-accent-muted: #95d5b2;
   --color-accent-bg: #edf7f1;
   --color-accent-subtle: #d8f0e3;
-
-  /* Dot grid — sits between border and text-muted for subtle visibility */
-  --color-dot-grid: #d4cdc3;
-
-  /* Vignette tints — used by the "vignette" background variant */
-  --bg-vignette-warm: #f7ecdb;
-  --bg-vignette-cool: #e6f1ea;
-
-  /* Bolder smooth-color background tints */
-  --bg-aurora-green: rgba(45, 106, 79, 0.11);
-  --bg-aurora-warm: rgba(194, 149, 106, 0.16);
-  --bg-aurora-sage: rgba(149, 213, 178, 0.18);
-  --bg-aurora-peach: rgba(220, 165, 130, 0.14);
-
-  --bg-sunrise-warm: #f3cfa3;
-  --bg-sunrise-sage: #bcdcc6;
-
-  --bg-wash-warm: #f1dcb8;
-  --bg-wash-sage: #d4e6d8;
-
-  --bg-forest-green: #cfe2d4;
-  --bg-forest-cream: #f5e6cf;
 
   /* Warm highlight for special elements */
   --color-warm: #c2956a;
@@ -144,24 +122,6 @@
     --color-warm: #d4a574;
     --color-warm-bg: #252220;
 
-    --color-dot-grid: #424244;
-    --bg-vignette-warm: #2d2520;
-    --bg-vignette-cool: #1a2620;
-
-    --bg-aurora-green: rgba(82, 183, 136, 0.10);
-    --bg-aurora-warm: rgba(212, 165, 116, 0.10);
-    --bg-aurora-sage: rgba(149, 213, 178, 0.08);
-    --bg-aurora-peach: rgba(220, 165, 130, 0.08);
-
-    --bg-sunrise-warm: #3a2a1f;
-    --bg-sunrise-sage: #1c2e25;
-
-    --bg-wash-warm: #2e2418;
-    --bg-wash-sage: #1d2a24;
-
-    --bg-forest-green: #1c2e25;
-    --bg-forest-cream: #2c241a;
-
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
@@ -186,67 +146,6 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-}
-
-/* --- Background variants — swap via html[data-bg] --- */
-
-/* C. Soft warm vignette (default) — two faint glows, no pattern */
-html[data-bg='vignette'] body {
-  background-image:
-    radial-gradient(ellipse 85% 55% at 100% -5%, var(--bg-vignette-warm) 0%, transparent 65%),
-    radial-gradient(ellipse 70% 50% at 0% 105%, var(--bg-vignette-cool) 0%, transparent 70%);
-  background-attachment: fixed;
-}
-
-/* A. Sparser, softer dots — original DNA, quieter */
-html[data-bg='dots'] body {
-  background-image: radial-gradient(circle, var(--color-dot-grid) 0.6px, transparent 0.6px);
-  background-size: 44px 44px;
-  background-position: 22px 22px;
-}
-
-/* Aurora — soft mesh of four corner blobs, most "alive" */
-html[data-bg='aurora'] body {
-  background-image:
-    radial-gradient(ellipse 55% 45% at 12% 8%, var(--bg-aurora-green) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 92% 6%, var(--bg-aurora-warm) 0%, transparent 70%),
-    radial-gradient(ellipse 65% 50% at 85% 95%, var(--bg-aurora-sage) 0%, transparent 70%),
-    radial-gradient(ellipse 60% 50% at 6% 92%, var(--bg-aurora-peach) 0%, transparent 70%);
-  background-attachment: fixed;
-}
-
-/* Sunrise — bigger, more saturated warm + sage vignette */
-html[data-bg='sunrise'] body {
-  background-image:
-    radial-gradient(ellipse 95% 60% at 100% -8%, var(--bg-sunrise-warm) 0%, transparent 60%),
-    radial-gradient(ellipse 80% 55% at 0% 108%, var(--bg-sunrise-sage) 0%, transparent 65%);
-  background-attachment: fixed;
-}
-
-/* Wash — smooth diagonal warm → sage, painterly */
-html[data-bg='wash'] body {
-  background-image: linear-gradient(
-    135deg,
-    var(--bg-wash-warm) 0%,
-    transparent 45%,
-    transparent 55%,
-    var(--bg-wash-sage) 100%
-  );
-  background-attachment: fixed;
-}
-
-/* Forest — green-forward, leans into the brand color */
-html[data-bg='forest'] body {
-  background-image:
-    radial-gradient(ellipse 110% 65% at 50% -5%, var(--bg-forest-green) 0%, transparent 60%),
-    radial-gradient(ellipse 90% 55% at 50% 105%, var(--bg-forest-cream) 0%, transparent 65%);
-  background-attachment: fixed;
-}
-
-/* D. Paper grain — neutral SVG noise that blends in light & dark */
-html[data-bg='grain'] body {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.42 0 0 0 0 0.38 1.5 0 0 0 -0.3'/></filter><rect width='220' height='220' filter='url(%23n)' opacity='0.55'/></svg>");
-  background-size: 220px 220px;
 }
 
 ::selection {
