@@ -1,10 +1,15 @@
 ---
 const options = [
-  { id: 'vignette', label: 'Vignette' },
-  { id: 'dots', label: 'Dots' },
-  { id: 'lines', label: 'Lines' },
-  { id: 'grain', label: 'Grain' },
+  { id: 'vignette', label: 'Vignette', group: 'Smooth' },
+  { id: 'aurora', label: 'Aurora', group: 'Smooth' },
+  { id: 'sunrise', label: 'Sunrise', group: 'Smooth' },
+  { id: 'wash', label: 'Wash', group: 'Smooth' },
+  { id: 'forest', label: 'Forest', group: 'Smooth' },
+  { id: 'dots', label: 'Dots', group: 'Textured' },
+  { id: 'grain', label: 'Grain', group: 'Textured' },
 ];
+
+const groups = [...new Set(options.map((o) => o.group))];
 ---
 
 <div class="bg-switcher" data-bg-switcher>
@@ -13,17 +18,21 @@ const options = [
     <span class="bg-switcher__label" data-bg-current>Vignette</span>
   </button>
   <div id="bg-switcher-panel" class="bg-switcher__panel" hidden>
-    <p class="bg-switcher__title">Background</p>
-    {options.map((opt) => (
-      <button
-        type="button"
-        class="bg-switcher__option"
-        data-bg-option={opt.id}
-        aria-pressed="false"
-      >
-        <span class={`bg-switcher__swatch bg-switcher__swatch--${opt.id}`} aria-hidden="true"></span>
-        <span>{opt.label}</span>
-      </button>
+    {groups.map((group) => (
+      <>
+        <p class="bg-switcher__title">{group}</p>
+        {options.filter((o) => o.group === group).map((opt) => (
+          <button
+            type="button"
+            class="bg-switcher__option"
+            data-bg-option={opt.id}
+            aria-pressed="false"
+          >
+            <span class={`bg-switcher__swatch bg-switcher__swatch--${opt.id}`} aria-hidden="true"></span>
+            <span>{opt.label}</span>
+          </button>
+        ))}
+      </>
     ))}
   </div>
 </div>
@@ -140,20 +149,40 @@ const options = [
       radial-gradient(ellipse 100% 80% at 0% 100%, var(--bg-vignette-cool) 0%, transparent 70%);
   }
 
+  .bg-switcher__swatch--aurora {
+    background-image:
+      radial-gradient(ellipse 70% 60% at 15% 10%, var(--bg-aurora-green) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 60% at 90% 5%, var(--bg-aurora-warm) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 60% at 85% 95%, var(--bg-aurora-sage) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 60% at 5% 90%, var(--bg-aurora-peach) 0%, transparent 70%);
+  }
+
+  .bg-switcher__swatch--sunrise {
+    background-image:
+      radial-gradient(ellipse 100% 80% at 100% 0%, var(--bg-sunrise-warm) 0%, transparent 65%),
+      radial-gradient(ellipse 100% 80% at 0% 100%, var(--bg-sunrise-sage) 0%, transparent 70%);
+  }
+
+  .bg-switcher__swatch--wash {
+    background-image: linear-gradient(
+      135deg,
+      var(--bg-wash-warm) 0%,
+      transparent 45%,
+      transparent 55%,
+      var(--bg-wash-sage) 100%
+    );
+  }
+
+  .bg-switcher__swatch--forest {
+    background-image:
+      radial-gradient(ellipse 110% 70% at 50% 0%, var(--bg-forest-green) 0%, transparent 65%),
+      radial-gradient(ellipse 90% 60% at 50% 100%, var(--bg-forest-cream) 0%, transparent 70%);
+  }
+
   .bg-switcher__swatch--dots {
     background-image: radial-gradient(circle, var(--color-dot-grid) 0.8px, transparent 0.8px);
     background-size: 8px 8px;
     background-position: 4px 4px;
-  }
-
-  .bg-switcher__swatch--lines {
-    background-image: repeating-linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent 5px,
-      var(--color-rule) 5px,
-      var(--color-rule) 6px
-    );
   }
 
   .bg-switcher__swatch--grain {
@@ -171,7 +200,7 @@ const options = [
 <script>
   const STORAGE_KEY = 'bg-variant';
   const DEFAULT = 'vignette';
-  const VALID = ['vignette', 'dots', 'lines', 'grain'];
+  const VALID = ['vignette', 'aurora', 'sunrise', 'wash', 'forest', 'dots', 'grain'];
 
   function getStored(): string {
     try {

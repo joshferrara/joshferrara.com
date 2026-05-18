@@ -22,7 +22,7 @@ const { title, description, image, wide = false } = Astro.props;
       (function () {
         try {
           var v = localStorage.getItem('bg-variant');
-          if (v && ['vignette', 'dots', 'lines', 'grain'].indexOf(v) !== -1) {
+          if (v && ['vignette', 'aurora', 'sunrise', 'wash', 'forest', 'dots', 'grain'].indexOf(v) !== -1) {
             document.documentElement.setAttribute('data-bg', v);
           }
         } catch (e) {}
