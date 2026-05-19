@@ -85,11 +85,24 @@ export async function getTopArtists(period = '7day', limit = 5): Promise<Artist[
   return artists;
 }
 
+async function getTrackImage(trackName: string, artistName: string, lastfmImage: string): Promise<string> {
+  try {
+    const q = encodeURIComponent(`${artistName} ${trackName}`);
+    const res = await fetch(`https://api.deezer.com/search/track?q=${q}&limit=1`);
+    if (!res.ok) return lastfmImage;
+    const data = await res.json();
+    const match = data.data?.[0];
+    return match?.album?.cover_medium || lastfmImage;
+  } catch {
+    return lastfmImage;
+  }
+}
+
 export async function getRecentTracks(limit = 10): Promise<Track[]> {
   const data = await fetchLastfm('user.getrecenttracks', { limit: String(limit) });
   if (!data?.recenttracks?.track) return [];
 
-  return data.recenttracks.track.map((t: any) => ({
+  const raw = data.recenttracks.track.map((t: any) => ({
     name: t.name,
     artist: t.artist?.['#text'] || '',
     album: t.album?.['#text'] || '',
@@ -98,4 +111,10 @@ export async function getRecentTracks(limit = 10): Promise<Track[]> {
     date: t.date?.['#text'] || '',
     nowPlaying: t['@attr']?.nowplaying === 'true',
   }));
+
+  const images = await Promise.all(
+    raw.map((t: Track) => getTrackImage(t.name, t.artist, t.image))
+  );
+
+  return raw.map((t: Track, i: number) => ({ ...t, image: images[i] }));
 }
