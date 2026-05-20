@@ -293,9 +293,16 @@ const samplePosts = [
   }
   :root.v-b-prose .prose h3 { font-weight: 500; }
 
-  /* --- A · site-wide --- */
+  /* --- A · site-wide (~+10% across the scale) --- */
   :root.v-a-site {
-    --text-base: clamp(1.0625rem, 1rem + 0.3vw, 1.15rem);
+    --text-xs:   clamp(0.8125rem, 0.775rem + 0.15vw, 0.875rem);
+    --text-sm:   clamp(0.875rem,  0.825rem + 0.2vw,  0.9375rem);
+    --text-base: clamp(1.0625rem, 1rem      + 0.3vw, 1.15rem);
+    --text-lg:   clamp(1.1875rem, 1.1rem    + 0.35vw, 1.3125rem);
+    --text-xl:   clamp(1.375rem,  1.25rem   + 0.55vw, 1.65rem);
+    --text-2xl:  clamp(1.625rem,  1.4rem    + 0.8vw,  2.0625rem);
+    --text-3xl:  clamp(2.0625rem, 1.75rem   + 1.1vw,  2.625rem);
+    --text-4xl:  clamp(2.5rem,    2rem      + 1.65vw, 3.625rem);
     --content-width: 740px;
   }
   :root.v-a-site .prose,
@@ -310,9 +317,16 @@ const samplePosts = [
   :root.v-a-site .prose h2,
   :root.v-a-site .prose h3 { font-weight: 500; }
 
-  /* --- B · site-wide --- */
+  /* --- B · site-wide (~+20% across the scale) --- */
   :root.v-b-site {
-    --text-base: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+    --text-xs:   clamp(0.875rem,  0.825rem + 0.15vw, 0.9375rem);
+    --text-sm:   clamp(0.9375rem, 0.9rem   + 0.2vw,  1rem);
+    --text-base: clamp(1.125rem,  1.05rem  + 0.4vw,  1.25rem);
+    --text-lg:   clamp(1.25rem,   1.15rem  + 0.4vw,  1.4375rem);
+    --text-xl:   clamp(1.5rem,    1.35rem  + 0.6vw,  1.8125rem);
+    --text-2xl:  clamp(1.75rem,   1.5rem   + 0.9vw,  2.25rem);
+    --text-3xl:  clamp(2.25rem,   1.9rem   + 1.2vw,  2.875rem);
+    --text-4xl:  clamp(2.75rem,   2.2rem   + 1.8vw,  3.875rem);
     --content-width: 780px;
   }
   :root.v-b-site .prose,
