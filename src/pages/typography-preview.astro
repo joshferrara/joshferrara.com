@@ -1,0 +1,473 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Prose from '../components/Prose.astro';
+import PostCard from '../components/PostCard.astro';
+
+export const prerender = true;
+
+const variants = [
+  {
+    id: 'v-current',
+    label: 'Current',
+    blurb: 'Baseline — body 15–16px, column 680px.',
+  },
+  {
+    id: 'v-a-prose',
+    label: 'A · prose only',
+    blurb: 'Body bumps to 17–18.5px, column 740px, leading 1.7. Chrome unchanged.',
+  },
+  {
+    id: 'v-b-prose',
+    label: 'B · prose only',
+    blurb: 'Body bumps to 18–20px, column 780px, lighter heading weights. Chrome unchanged.',
+  },
+  {
+    id: 'v-a-site',
+    label: 'A · site-wide',
+    blurb: 'Same A bumps, but `--text-base` and `--content-width` change globally — nav, cards, footer scale too.',
+  },
+  {
+    id: 'v-b-site',
+    label: 'B · site-wide',
+    blurb: 'Same B bumps applied globally.',
+  },
+];
+
+const samplePosts = [
+  {
+    title: 'AI That Actually Works',
+    date: new Date('2026-04-26'),
+    description:
+      'The workflows that feel magical share three ingredients: a clear plan, the right context, and a way to validate.',
+    tags: ['ai', 'work'],
+    href: '#',
+  },
+  {
+    title: 'The Great Collectors',
+    date: new Date('2025-11-12'),
+    description:
+      'On the people who quietly compound taste over decades — and what their shelves teach us about attention.',
+    tags: ['essays', 'taste'],
+    href: '#',
+  },
+  {
+    title: 'Sharp Tools and Interesting Problems',
+    date: new Date('2025-09-04'),
+    description: 'A short defense of investing in your tools before you need them.',
+    tags: ['craft'],
+    href: '#',
+  },
+];
+---
+
+<BaseLayout title="Typography Preview" description="A/B compare typography variants">
+  <div class="picker-wrap">
+    <div class="picker">
+      <div class="picker__title">Typography variant</div>
+      <div class="picker__options" role="radiogroup" aria-label="Typography variant">
+        {variants.map((v, i) => (
+          <label class="picker__option">
+            <input
+              type="radio"
+              name="variant"
+              value={v.id}
+              checked={i === 0}
+              data-variant={v.id}
+            />
+            <span class="picker__label">{v.label}</span>
+          </label>
+        ))}
+      </div>
+      <p class="picker__blurb" data-blurb>{variants[0].blurb}</p>
+    </div>
+  </div>
+
+  <article class="post">
+    <header class="post__header">
+      <time datetime="2026-04-26T00:00:00.000Z">April 26, 2026</time>
+      <h1>AI That Actually Works</h1>
+      <p class="post__description">
+        The workflows that feel magical share three ingredients: a clear plan,
+        the right context, and a way to validate.
+      </p>
+      <div class="post__tags">
+        <span class="tag">ai</span>
+        <span class="tag">work</span>
+      </div>
+    </header>
+
+    <Prose>
+      <p>
+        The bulk of the conversation about AI agents in 2026 is happening inside
+        the software world. Coding assistants, autonomous developers, agentic
+        IDEs. That's where the loudest experimentation is happening. But the
+        fundamentals that make those workflows feel magical aren't really about
+        code. They apply just as cleanly to a customer support team, a marketing
+        operation, a finance back office, or any other corner of a business
+        trying to get real leverage out of AI.
+      </p>
+      <p>
+        After spending a lot of time both building with these tools and helping
+        teams figure out how to adopt them, I keep coming back to the same
+        observation. The workflows that feel genuinely magical (and the ones
+        where AI produces something close to what you'd produce yourself) share
+        three ingredients:
+      </p>
+      <ol>
+        <li><strong>A clear plan</strong>: detailed enough that "done" is obvious</li>
+        <li><strong>The right context</strong>: access to the data, docs, and history so it's not guessing</li>
+        <li><strong>A way to validate</strong>: a feedback loop so it can check its own work</li>
+      </ol>
+      <p>
+        When all three are present, agents stop feeling like a novelty and start
+        feeling like a teammate. When even one is missing, you get the
+        experience most people have had with AI: a confident-sounding answer
+        that misses the mark, needs heavy rework, or hallucinates its way into
+        the wrong outcome.
+      </p>
+
+      <h2>1. A clear plan</h2>
+      <p>
+        The biggest mistake I see is treating AI like a wish-granting genie. You
+        toss it a vague prompt, hope it dreams up the right thing, and then feel
+        disappointed when it doesn't. Vague directions leave enormous room for
+        the model to either hallucinate or do something perfectly competent
+        that's just pointed in the wrong direction.
+      </p>
+      <p>
+        The mental shift that unlocks better results is this: spend the bulk of
+        your time on the task in the planning phase. Work back and forth with
+        the AI to construct a detailed plan, then review and refine it. The
+        more effort you put in here, the less effort you'll spend cleaning up
+        the output later. This is probably the single biggest unlock for people
+        who feel like AI isn't working for them. For a longer take on the same
+        idea, see <a href="#">the planning-first essay</a>.
+      </p>
+      <blockquote>
+        The other thing a great plan does is explicitly describe the ideal
+        outcome. Not just the steps, but what "done" looks like. If you only
+        specify how the work should be done, the agent has no real way to know
+        whether what it produced is actually right.
+      </blockquote>
+
+      <h2>2. The right context</h2>
+      <p>
+        If the agent is guessing about how it interacts with the rest of your
+        world, it has to take creative liberties. Those liberties are where
+        hallucinations come from. Context is what shrinks that gap. Depending on
+        the work, it might mean:
+      </p>
+      <ul>
+        <li>Details about the customers the agent is working with</li>
+        <li>Documentation for your product</li>
+        <li>Your help desk wiki and internal knowledge base</li>
+        <li>A customer's account history: what plan they're on, how long they've been a member, their most recent service interaction</li>
+        <li>Brand guidelines, tone of voice, prior examples of work you considered "good"</li>
+      </ul>
+      <p>
+        The more relevant context the agent has, the closer its output gets to
+        what you or a senior person on your team would have produced. Context
+        doesn't just reduce hallucinations. It raises the ceiling on what the
+        agent can actually do.
+      </p>
+
+      <h3>An aside on tooling</h3>
+      <p>
+        An agent with the right context can make judgment calls that look
+        informed rather than generic. Even small things — like access to the
+        last <code>git log</code> entry or the customer's most recent ticket —
+        change the texture of what comes back.
+      </p>
+
+      <h2>Why this matters</h2>
+      <p>
+        When all three ingredients are in place, hallucinations drop and quality
+        climbs. When people tell me they've tried AI and aren't getting great
+        results, it almost always comes back to one or more of these three
+        pieces being missing. The agent isn't underperforming because the
+        technology is bad. It's underperforming because it's been set up to
+        fail.
+      </p>
+      <p>
+        Plan deeply. Provide context generously. Build in validation. That's the
+        recipe.
+      </p>
+    </Prose>
+  </article>
+
+  <section class="chrome-sample">
+    <div class="section-heading">
+      <h2>How chrome looks at this size</h2>
+      <a href="#">view all →</a>
+    </div>
+    <div class="chrome-sample__cards">
+      {samplePosts.map((p) => (
+        <PostCard
+          title={p.title}
+          date={p.date}
+          description={p.description}
+          tags={p.tags}
+          href={p.href}
+        />
+      ))}
+    </div>
+  </section>
+
+  <script is:inline define:vars={{ variants }}>
+    const root = document.documentElement;
+    const radios = document.querySelectorAll('input[name="variant"]');
+    const blurb = document.querySelector('[data-blurb]');
+    const ids = variants.map((v) => v.id);
+
+    function apply(id) {
+      ids.forEach((x) => root.classList.remove(x));
+      root.classList.add(id);
+      const v = variants.find((x) => x.id === id);
+      if (v && blurb) blurb.textContent = v.blurb;
+    }
+
+    radios.forEach((r) =>
+      r.addEventListener('change', (e) => apply(e.target.value))
+    );
+
+    apply('v-current');
+  </script>
+</BaseLayout>
+
+<style is:global>
+  /* =========================================================
+     Variant overrides
+     ========================================================= */
+
+  /* --- A · prose only --- */
+  :root.v-a-prose .post {
+    max-width: 740px;
+    margin-inline: auto;
+  }
+  :root.v-a-prose .prose,
+  :root.v-a-prose .post__description {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.15rem);
+    line-height: 1.7;
+  }
+  :root.v-a-prose .prose p,
+  :root.v-a-prose .prose li {
+    font-size: inherit;
+  }
+  :root.v-a-prose .post__description {
+    font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.4rem);
+    font-style: italic;
+  }
+  :root.v-a-prose .post h1 {
+    font-weight: 600;
+  }
+  :root.v-a-prose .prose h2 { font-weight: 500; }
+  :root.v-a-prose .prose h3 { font-weight: 500; }
+
+  /* --- B · prose only (Maggie-faithful) --- */
+  :root.v-b-prose .post {
+    max-width: 780px;
+    margin-inline: auto;
+  }
+  :root.v-b-prose .prose,
+  :root.v-b-prose .post__description {
+    font-size: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+    line-height: 1.7;
+  }
+  :root.v-b-prose .prose p,
+  :root.v-b-prose .prose li {
+    font-size: inherit;
+  }
+  :root.v-b-prose .post__description {
+    font-size: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  :root.v-b-prose .post h1 {
+    font-size: clamp(2.5rem, 2rem + 1.8vw, 3.75rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+  :root.v-b-prose .prose h2 {
+    font-size: clamp(1.625rem, 1.4rem + 0.8vw, 2.125rem);
+    font-weight: 500;
+  }
+  :root.v-b-prose .prose h3 { font-weight: 500; }
+
+  /* --- A · site-wide --- */
+  :root.v-a-site {
+    --text-base: clamp(1.0625rem, 1rem + 0.3vw, 1.15rem);
+    --content-width: 740px;
+  }
+  :root.v-a-site .prose,
+  :root.v-a-site .post__description {
+    line-height: 1.7;
+  }
+  :root.v-a-site .post__description {
+    font-size: clamp(1.25rem, 1.15rem + 0.5vw, 1.4rem);
+    font-style: italic;
+  }
+  :root.v-a-site .post h1 { font-weight: 600; }
+  :root.v-a-site .prose h2,
+  :root.v-a-site .prose h3 { font-weight: 500; }
+
+  /* --- B · site-wide --- */
+  :root.v-b-site {
+    --text-base: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+    --content-width: 780px;
+  }
+  :root.v-b-site .prose,
+  :root.v-b-site .post__description {
+    line-height: 1.7;
+  }
+  :root.v-b-site .post__description {
+    font-size: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);
+    font-style: italic;
+    line-height: 1.5;
+  }
+  :root.v-b-site .post h1 {
+    font-size: clamp(2.5rem, 2rem + 1.8vw, 3.75rem);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+  :root.v-b-site .prose h2 {
+    font-size: clamp(1.625rem, 1.4rem + 0.8vw, 2.125rem);
+    font-weight: 500;
+  }
+  :root.v-b-site .prose h3 { font-weight: 500; }
+</style>
+
+<style>
+  /* =========================================================
+     Picker (sticky control bar)
+     ========================================================= */
+  .picker-wrap {
+    position: sticky;
+    top: var(--nav-height);
+    z-index: 50;
+    margin: calc(-1 * var(--space-10)) calc(-1 * var(--space-6)) var(--space-8);
+    padding: var(--space-4) var(--space-6);
+    background: color-mix(in srgb, var(--color-bg-raised) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .picker {
+    max-width: var(--wide-width);
+    margin: 0 auto;
+  }
+
+  .picker__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .picker__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .picker__option {
+    cursor: pointer;
+  }
+
+  .picker__option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .picker__label {
+    display: inline-block;
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: 100px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    transition:
+      background var(--transition-fast),
+      color var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .picker__option:hover .picker__label {
+    color: var(--color-text-heading);
+    border-color: var(--color-text-muted);
+  }
+
+  .picker__option input:checked + .picker__label {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+  }
+
+  .picker__blurb {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+    max-width: 70ch;
+  }
+
+  /* =========================================================
+     Post (mirrors writing/[slug].astro)
+     ========================================================= */
+  .post {
+    transition: max-width var(--transition-base);
+  }
+
+  .post__header {
+    margin-bottom: var(--space-8);
+  }
+
+  .post__header time {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .post__header h1 {
+    font-size: var(--text-4xl);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-3);
+    transition:
+      font-size var(--transition-base),
+      font-weight var(--transition-base);
+  }
+
+  .post__description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-3);
+    transition:
+      font-size var(--transition-base),
+      line-height var(--transition-base);
+  }
+
+  .post__tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+  }
+
+  /* =========================================================
+     Chrome sample
+     ========================================================= */
+  .chrome-sample {
+    margin-top: var(--space-16);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .chrome-sample__cards {
+    margin-top: var(--space-4);
+  }
+</style>
