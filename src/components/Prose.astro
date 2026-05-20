@@ -13,8 +13,14 @@ const { class: className } = Astro.props;
 <style>
   .prose {
     font-size: var(--text-base);
-    line-height: var(--leading-normal);
+    line-height: 1.7;
     color: var(--color-text);
+  }
+
+  .prose :global(p),
+  .prose :global(li) {
+    line-height: 1.7;
+    max-width: none;
   }
 
   .prose :global(h1) {
