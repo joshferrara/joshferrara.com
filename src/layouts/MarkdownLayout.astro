@@ -1,0 +1,27 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Prose from '../components/Prose.astro';
+
+interface Props {
+  frontmatter: {
+    title: string;
+    description?: string;
+  };
+}
+
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout title={frontmatter.title} description={frontmatter.description}>
+  <article class="markdown-page">
+    <Prose>
+      <slot />
+    </Prose>
+  </article>
+</BaseLayout>
+
+<style>
+  .markdown-page :global(h1:first-child) {
+    margin-bottom: var(--space-6);
+  }
+</style>
