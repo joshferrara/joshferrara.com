@@ -2,6 +2,10 @@
 title: Sharp Tools and Interesting Problems
 date: 2026-03-29
 growthStage: published
+tags:
+  - craft
+  - management
+  - work
 ---
 
 I heard this idea years ago. I've never been able to find a clean source for it, which makes me think it's either well-worn folk wisdom or a mashup of a few things I heard and started repeating as one. Either way, it's the clearest lens I have for how to hire and keep skilled craftspeople. Designers, engineers, editors, videographers, anyone whose work depends on a craft and not just on throughput or talking the right people into things.

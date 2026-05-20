@@ -2,6 +2,10 @@
 title: "Identity & Motivation"
 date: 2012-09-17
 growthStage: published
+tags:
+  - identity
+  - motivation
+  - psychology
 ---
 
 It’s the ultimate accessory. We don’t leave home without it, and yet, somehow, very few of us really pay much attention to it. Like a watch with a dead battery that still gets worn because it’s in style, we waltz through life with an identity that seldom gets paid any direct attention. We wear our identity with pride, typically without much real regard as to how it’s formed. 

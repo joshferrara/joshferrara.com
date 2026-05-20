@@ -2,6 +2,10 @@
 title: Shake and Fold
 date: 2026-04-17
 growthStage: published
+tags:
+  - habits
+  - growth
+  - life
 ---
 
 Fourteen years ago I watched a TED Talk by Joe Smith called ["How to Use a Paper Towel"](https://www.youtube.com/watch?v=2FMBSblpcrc). It's about four minutes long. The premise is exactly what the title says: Smith shows that you can dry your hands with a single paper towel if you shake your hands twelve times first, then fold the towel before drying. Shake and fold. That's it.

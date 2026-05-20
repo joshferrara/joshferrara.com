@@ -2,6 +2,10 @@
 title: The New Wayfarer
 date: 2012-10-22
 growthStage: published
+tags:
+  - novelty
+  - design
+  - commentary
 ---
 
 While shopping around for the perfect pair of Wayfarers recently, I noticed a few pairs marked with the label “New Wayfarer”, ever so subtly. I like to make informed purchases, so I decided to try to determine the difference between the Wayfarers I was initially shopping for and these New Wayfarers. Because obviously, [new is better](http://blog.josh-bob.com/my-name-is-josh-im-a-neophile/).

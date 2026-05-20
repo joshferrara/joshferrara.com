@@ -2,6 +2,10 @@
 title: Wild Cards
 date: 2013-07-01
 growthStage: published
+tags:
+  - dreams
+  - risk
+  - growth
 ---
 
 We all have our wild card. We keep them in our back pocket as a backup plan just in case our typical conservative plans don’t work out. 

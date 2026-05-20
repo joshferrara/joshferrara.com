@@ -2,6 +2,10 @@
 title: Backward Compatibility
 date: 2012-08-15
 growthStage: published
+tags:
+  - technology
+  - innovation
+  - commentary
 ---
 
 It’s wonderful idea, right? The concept that new innovations should still support past methods. We’ve seen it touted in video game consoles and computer systems for years, always to the praise of consumers. If I had to guess, at sometime in your life have heard or said something along the lines of this: 

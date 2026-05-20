@@ -2,6 +2,10 @@
 title: "My Name Is Josh, I'm A Neophile"
 date: 2012-08-14
 growthStage: published
+tags:
+  - novelty
+  - innovation
+  - personal
 ---
 
 I don’t know when it first started. I’ve always considered myself a fairly traditional guy, but in the last year I’ve noticed a shift. 

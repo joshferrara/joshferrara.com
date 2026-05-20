@@ -14,7 +14,15 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
   <h1>Writing</h1>
   <p class="page-description">Blog posts, essays, and long-form pieces.</p>
 
-  <TagList tags={allTags} baseUrl="/writing/" />
+  <details class="topic-picker">
+    <summary class="topic-picker__summary">
+      <span class="topic-picker__caret" aria-hidden="true">›</span>
+      <span>Browse {allTags.length} topics</span>
+    </summary>
+    <div class="topic-picker__body">
+      <TagList tags={allTags} tagBaseUrl="/writing/tag/" />
+    </div>
+  </details>
 
   <div class="post-list">
     {posts.map((post) => (
@@ -42,7 +50,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 
   .page-description {
     color: var(--color-text-muted);
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-5);
   }
 
   .post-list {
@@ -53,5 +61,62 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
   .archive-link {
     font-size: var(--text-sm);
     color: var(--color-text-muted);
+  }
+
+  /* Topic picker — quiet disclosure so the post list leads */
+  .topic-picker {
+    margin-bottom: var(--space-6);
+  }
+
+  .topic-picker__summary {
+    list-style: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    padding: var(--space-1) 0;
+    user-select: none;
+    transition: color var(--transition-fast);
+  }
+
+  .topic-picker__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .topic-picker__summary::marker {
+    content: "";
+  }
+
+  .topic-picker__summary:hover {
+    color: var(--color-accent);
+  }
+
+  .topic-picker__caret {
+    display: inline-block;
+    transition: transform var(--transition-base);
+    font-size: 0.95rem;
+    line-height: 0.5;
+    transform-origin: center;
+  }
+
+  .topic-picker[open] .topic-picker__caret {
+    transform: rotate(90deg);
+  }
+
+  .topic-picker__body {
+    margin-top: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  /* Tighten the TagList inside the disclosure (no bottom margin) */
+  .topic-picker__body :global(.tag-list) {
+    margin-bottom: 0;
   }
 </style>

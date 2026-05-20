@@ -3,9 +3,20 @@ interface Props {
   tags: string[];
   activeTag?: string;
   baseUrl?: string;
+  /**
+   * If provided, builds tag links as `${tagBaseUrl}${tag}/` (clean URLs)
+   * instead of the legacy `?tag=...` query format.
+   */
+  tagBaseUrl?: string;
 }
 
-const { tags, activeTag, baseUrl } = Astro.props;
+const { tags, activeTag, baseUrl, tagBaseUrl } = Astro.props;
+
+function tagHref(tag: string) {
+  if (tagBaseUrl) return `${tagBaseUrl}${encodeURIComponent(tag)}/`;
+  if (baseUrl) return `${baseUrl}?tag=${encodeURIComponent(tag)}`;
+  return '#';
+}
 ---
 
 {tags.length > 0 && (
@@ -20,7 +31,7 @@ const { tags, activeTag, baseUrl } = Astro.props;
     )}
     {tags.map((tag) => (
       <a
-        href={baseUrl ? `${baseUrl}?tag=${encodeURIComponent(tag)}` : '#'}
+        href={tagHref(tag)}
         class:list={['tag', { 'tag--active': activeTag === tag }]}
       >
         {tag}

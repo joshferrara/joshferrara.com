@@ -30,7 +30,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 });
 ---
 
-<BaseLayout title={post.data.title} description={post.data.description}>
+<BaseLayout title={post.data.title} description={post.data.description} wide>
   <article class="post">
     <header class="post__header">
       <time datetime={post.data.date.toISOString()}>{formattedDate}</time>
@@ -39,10 +39,15 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
         <p class="post__description">{post.data.description}</p>
       )}
       {post.data.tags.length > 0 && (
-        <div class="post__tags">
-          {post.data.tags.map((tag: string) => (
-            <span class="tag">{tag}</span>
-          ))}
+        <div class="post__tags" aria-label="Topics">
+          <span class="post__tags-label">Filed under</span>
+          <ul class="post__tags-list">
+            {post.data.tags.map((tag: string) => (
+              <li class="post__tag">
+                <a href={`/writing/tag/${tag}/`}>{tag}</a>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </header>
@@ -91,6 +96,17 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
     margin-bottom: var(--space-3);
   }
 
+  /* Keep prose body at a comfortable reading measure even though
+     the surrounding container is wider for the headline. */
+  .post :global(.prose) {
+    max-width: var(--content-width);
+  }
+
+  .post__header,
+  .post-nav {
+    max-width: var(--wide-width);
+  }
+
   .post__description {
     font-size: clamp(1.375rem, 1.25rem + 0.6vw, 1.5rem);
     font-style: italic;
@@ -99,10 +115,68 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
     margin-bottom: var(--space-3);
   }
 
+  /* Topic line — quiet editorial treatment, like a "Filed under" line in a magazine */
   .post__tags {
     display: flex;
-    gap: var(--space-2);
+    align-items: baseline;
     flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .post__tags-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+
+  .post__tags-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+  }
+
+  .post__tag {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .post__tag a {
+    color: var(--color-accent);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    transition: color var(--transition-fast);
+  }
+
+  .post__tag a:hover {
+    color: var(--color-accent-hover);
+  }
+
+  /* Render the separator as a true mid-line dot, not the U+00B7 character
+     which sits on the baseline under uppercase text. */
+  .post__tag + .post__tag::before {
+    content: "";
+    display: block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--color-text-muted);
+    opacity: 0.5;
+    flex-shrink: 0;
   }
 
   /* Post Navigation */

@@ -2,6 +2,10 @@
 title: Setting Goals
 date: 2013-07-28
 growthStage: published
+tags:
+  - goals
+  - growth
+  - personal
 ---
 
 Chess Grandmaster Garry Kasparov won his first world-championship chess match in 1985 and went on to dominate the chess world for several decades. In [his book](https://www.amazon.com/How-Life-Imitates-Chess-Boardroom/dp/1596913886/) he shares this thought:

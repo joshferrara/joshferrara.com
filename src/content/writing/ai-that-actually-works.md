@@ -2,6 +2,10 @@
 title: AI That Actually Works
 date: 2026-04-26
 growthStage: published
+tags:
+  - ai
+  - agents
+  - work
 ---
 
 The bulk of the conversation about AI agents in 2026 is happening inside the software world. Coding assistants, autonomous developers, agentic IDEs. That's where the loudest experimentation is happening. But the fundamentals that make those workflows feel magical aren't really about code. They apply just as cleanly to a customer support team, a marketing operation, a finance back office, or any other corner of a business trying to get real leverage out of AI.

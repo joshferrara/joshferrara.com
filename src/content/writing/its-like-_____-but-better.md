@@ -2,6 +2,10 @@
 title: "It's like _____, but better"
 date: 2012-08-24
 growthStage: published
+tags:
+  - technology
+  - business
+  - commentary
 ---
 
 In light of [upcoming changes](https://dev.twitter.com/blog/changes-coming-to-twitter-api) in the Twitter app climate, developers the world over are up in arms. As a result, internet pundits have begun to rally forces behind [Dalton Caldwell](http://daltoncaldwell.com/) and his remade [app.net](https://join.app.net/) service.

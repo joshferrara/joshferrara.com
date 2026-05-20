@@ -2,6 +2,10 @@
 title: "I'm Good At The Internet"
 date: 2012-09-04
 growthStage: published
+tags:
+  - curiosity
+  - learning
+  - personal
 ---
 
 Gifted. Talented. Ahead of the curve. Over-achiever. Genius. I’ve grown up hearing these words used in reference to me, and it’s time to set the record straight.

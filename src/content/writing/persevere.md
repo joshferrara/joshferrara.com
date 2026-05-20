@@ -2,6 +2,10 @@
 title: Persevere
 date: 2012-08-26
 growthStage: published
+tags:
+  - perseverance
+  - life
+  - personal
 ---
 
 It’s not a matter of *if*, but rather *when* your life will meet with adversity. Laid off at work. Family drama. A passing relative. Financial strains. Lack of direction. The list goes on and on, and no one is safe from the experience. It’s not a bad thing, it’s life.

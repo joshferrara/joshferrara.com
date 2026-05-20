@@ -2,6 +2,10 @@
 title: The Great Collectors
 date: 2013-09-23
 growthStage: published
+tags:
+  - minimalism
+  - life
+  - personal
 ---
 
 We all have stuff. Things, objects, possessions. Some have much, while others have little. The size of your possession collection is usually irrelevant because over time, no matter what we own, an interesting phenomenon begins to occur between us and our things: the things we own slowly begin to own us.

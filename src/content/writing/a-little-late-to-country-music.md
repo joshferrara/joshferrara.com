@@ -2,6 +2,10 @@
 title: A Little Late to Country Music
 date: 2026-05-17
 growthStage: published
+tags:
+  - music
+  - taste
+  - curiosity
 ---
 
 I grew up in the South, around country music, around people who loved country music, around pickup trucks and porches and backroads and radio stations where a steel guitar was never too far away.

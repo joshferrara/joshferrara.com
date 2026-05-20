@@ -2,6 +2,10 @@
 title: Tire Pressure Sensors
 date: 2026-04-08
 growthStage: published
+tags:
+  - growth
+  - feedback
+  - self-awareness
 ---
 
 Years ago, after a few years of driving a handed down car from my parents, I got my first newish car. Among the other exciting features for a 19-year-old, it had tire pressure sensors. A few months in, I started getting alerts. Tire pressure low. Tire pressure high. It seemed like I was seeing a tire pressure alert popping up every other month.

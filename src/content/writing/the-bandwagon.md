@@ -2,6 +2,10 @@
 title: The Bandwagon
 date: 2013-01-06
 growthStage: published
+tags:
+  - identity
+  - sports
+  - experiences
 ---
 
 On September 22, 2012, I was introduced to a whole new world. After a lifetime of unrivaled support for LSU Tiger football, I watched the Notre Dame Fighting Irish take on the University of Michigan Wolverines on an electric night at Notre Dame Stadium. I loved it, and I wasn’t sure why.
