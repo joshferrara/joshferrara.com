@@ -171,9 +171,9 @@
 - [ ] Homepage integration: "Recent Tweets" section showing last 5-10
 
 ### 4.3 Ongoing Sync Script
-- [ ] `scripts/sync-tweets.js` — hits X API for tweets since last import
-- [ ] Appends new tweets to `tweets.json`
-- [ ] Designed to be run manually before deploys (automatable later via cron)
+- [x] `scripts/sync-tweets.js` — hits X API for tweets since last import
+- [x] Appends new tweets to `tweets.json`
+- [x] Automated via `.github/workflows/sync-content.yml` (cron every 6h)
 - [ ] Document X API free tier setup (API key, app registration)
 
 **Deliverable**: 7.5k tweets imported, browsable, individually linkable. Sync script ready for ongoing use.
