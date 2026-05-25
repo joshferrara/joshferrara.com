@@ -1,5 +1,14 @@
 [
   {
+    "id": "2058687092125835641",
+    "text": "@AmbRealismX @DavidOndrej1 Yeah, I’ve tried out those features, but it still has some gaps in what tmux handles with session managementy question was how has tmux inside of cmux been for you?",
+    "date": "2026-05-24 23:10:25 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2058676947656339712",
+    "urls": []
+  },
+  {
     "id": "2058568741214994776",
     "text": "@AmbRealismX @DavidOndrej1 Have you had a good experience with this? I love too much of my tmux functionality but the cmux hype had me curious about tmux inside cmux",
     "date": "2026-05-24 15:20:08 +0000",
