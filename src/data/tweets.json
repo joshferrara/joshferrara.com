@@ -1,5 +1,23 @@
 [
   {
+    "id": "2059256551269937353",
+    "text": "@recap_david Newsletter",
+    "date": "2026-05-26 12:53:15 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2058946693421576570",
+    "urls": []
+  },
+  {
+    "id": "2059255981863747819",
+    "text": "@ryancarson Is the actual /goal you’re using something straightforward like “satisfy all acceptance criteria in prd.md”?",
+    "date": "2026-05-26 12:50:59 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2059030057239142907",
+    "urls": []
+  },
+  {
     "id": "2058687092125835641",
     "text": "@AmbRealismX @DavidOndrej1 Yeah, I’ve tried out those features, but it still has some gaps in what tmux handles with session managementy question was how has tmux inside of cmux been for you?",
     "date": "2026-05-24 23:10:25 +0000",
