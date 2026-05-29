@@ -1,5 +1,36 @@
 [
   {
+    "id": "2060357214175433212",
+    "text": "Your style guide is just markdown.\n\nSo you can use it with Claude, Codex, OpenClaw, Hermes, Cursor, wherever. No platform lock-in, no hosted service, no new account.\n\nClone it here:\nhttps://github.com/joshferrara/ghostwriter",
+    "date": "2026-05-29 13:46:54 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2060357212497686742",
+    "urls": [
+      "https://github.com/joshferrara/ghostwriter"
+    ]
+  },
+  {
+    "id": "2060357212497686742",
+    "text": "Most \"make this sound human\" prompts and skills just remove the obvious AI tells.\n\nThat helps, but it still pushes everything toward the same generic voice.\n\nGhostwriter flips it, your actual writing style comes first. Cleanup comes second.",
+    "date": "2026-05-29 13:46:53 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2060357210530627669",
+    "urls": []
+  },
+  {
+    "id": "2060357210530627669",
+    "text": "New thing: Ghostwriter.\n\nIt analyzes writing you've actually sent and turns it into a personal style guide your agent can use anywhere.\n\nThe result is drafts that sound like you instead of AI trying to sound human.\n\nhttps://github.com/joshferrara/ghostwriter",
+    "date": "2026-05-29 13:46:53 +0000",
+    "isReply": false,
+    "isRetweet": false,
+    "inReplyTo": null,
+    "urls": [
+      "https://github.com/joshferrara/ghostwriter"
+    ]
+  },
+  {
     "id": "2060095243827970530",
     "text": "@clairevo been following your content about using multiple OpenClaw agents (thanks!) \n\nCurious technical question: for multiple agents on the same machine, do you prefer multiple agents in a single OpenClaw instance, or totally separate OpenClaw instances?",
     "date": "2026-05-28 20:25:55 +0000",
