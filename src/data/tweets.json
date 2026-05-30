@@ -1,5 +1,14 @@
 [
   {
+    "id": "2060440073594646539",
+    "text": "@suekhim I’d love to try it out with our son. We want to strengthen his 3rd grade math skills before heading to 4th grade in the fall.",
+    "date": "2026-05-29 19:16:09 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2060378988606878147",
+    "urls": []
+  },
+  {
     "id": "2060357214175433212",
     "text": "Your style guide is just markdown.\n\nSo you can use it with Claude, Codex, OpenClaw, Hermes, Cursor, wherever. No platform lock-in, no hosted service, no new account.\n\nClone it here:\nhttps://github.com/joshferrara/ghostwriter",
     "date": "2026-05-29 13:46:54 +0000",
