@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Josh's Plex — Setup Guide</title>
+<meta name="description" content="How to join Josh Ferrara's Plex server: create your free account, install the apps, and request what you want to watch.">
+<meta property="og:title" content="Josh's Plex — Setup Guide">
+<meta property="og:description" content="How to join Josh Ferrara's Plex server: create your free account, install the apps, and request what you want to watch.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0e0e10">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e0e10;
+  --bg-soft: #141417;
+  --bg-elevated: #1b1b1f;
+  --bg-card: #1f1f24;
+  --bg-card-hover: #25252b;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-dim: #71717a;
+  --gold: #ebaf00;
+  --gold-bright: #f5c633;
+  --gold-deep: #b88600;
+  --gold-glow: rgba(235, 175, 0, 0.22);
+  --plexamp-1: #ff6a3d;
+  --plexamp-2: #c1185a;
+  --prologue-1: #d4ad7a;
+  --prologue-2: #8a5a32;
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.3);
+  --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 48px rgba(235, 175, 0, 0.2);
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle film grain overlay across the page for cinematic feel */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.045 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+::selection {
+  background: var(--gold);
+  color: #0e0e10;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--gold-bright);
+}
+
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ─────────────  HERO  ───────────── */
+.hero {
+  position: relative;
+  padding: 7rem 0 6rem;
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (min-width: 768px) {
+  .hero { padding: 9rem 0 7rem; }
+}
+
+/* Layered cinematic backdrop */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  max-width: 1400px;
+  height: 800px;
+  background:
+    radial-gradient(ellipse 60% 50% at center, var(--gold-glow) 0%, transparent 55%),
+    radial-gradient(ellipse 90% 70% at center, rgba(235, 175, 0, 0.06) 0%, transparent 70%);
+  z-index: -2;
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 80% 60% at center, black 0%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at center, black 0%, transparent 75%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero-logo {
+  display: block;
+  width: 124px;
+  height: auto;
+  margin: 0 auto 2.5rem;
+  filter: drop-shadow(0 8px 32px rgba(235, 175, 0, 0.25));
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.25rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(235, 175, 0, 0.3);
+  border-radius: 999px;
+  background: rgba(235, 175, 0, 0.06);
+}
+
+.hero h1 {
+  font-size: clamp(2.6rem, 6.5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 .accent {
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero .lede {
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  color: var(--text-muted);
+  max-width: 640px;
+  margin: 0 auto 3rem;
+  line-height: 1.55;
+}
+
+.hero-scroll {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.hero-scroll-line {
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(to bottom, transparent, var(--text-dim));
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-scroll-line::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: scroll-pulse 2.4s var(--ease) infinite;
+}
+
+@keyframes scroll-pulse {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+/* ─────────────  SECTIONS  ───────────── */
+.section {
+  padding: 5rem 0;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .section { padding: 6rem 0; }
+}
+
+.section + .section {
+  border-top: 1px solid var(--border);
+}
+
+.section-header {
+  margin-bottom: 3rem;
+  max-width: 720px;
+}
+
+.section-header.center {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.section h2 {
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+  margin-bottom: 0.85rem;
+}
+
+.section-header > p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.section-header strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ─────────────  STEPS  ───────────── */
+.steps {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 800px) {
+  .steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.step {
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025) 0%, transparent 100%),
+    var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem 2rem;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), background 0.3s var(--ease);
+  display: flex;
+  flex-direction: column;
+}
+
+.step:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 50%, var(--gold-deep) 100%);
+  color: #0e0e10;
+  font-weight: 700;
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 4px 16px rgba(235, 175, 0, 0.35);
+  font-family: var(--mono);
+}
+
+.step h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.6rem;
+  line-height: 1.25;
+}
+
+.step p {
+  color: var(--text-muted);
+  font-size: 0.97rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
+}
+
+.step-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  align-self: flex-start;
+}
+
+.step-action.primary {
+  padding: 0.65rem 1.1rem;
+  background: var(--gold);
+  color: #0e0e10;
+  border-radius: 8px;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.step-action.primary:hover {
+  background: var(--gold-bright);
+  color: #0e0e10;
+}
+
+.step-action.subtle {
+  color: var(--gold);
+}
+
+.step-action::after {
+  content: '→';
+  transition: transform 0.2s var(--ease);
+}
+
+.step-action:hover::after {
+  transform: translateX(3px);
+}
+
+.step-action.muted {
+  color: var(--text-dim);
+}
+
+.step-action.muted::after {
+  content: '✓';
+  color: var(--gold);
+  transition: none;
+}
+
+/* ─────────────  APPS  ───────────── */
+.apps {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 800px) {
+  .apps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.app {
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), background 0.3s var(--ease);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.app::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -40%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  opacity: 0.18;
+  filter: blur(40px);
+  z-index: -1;
+  transition: opacity 0.4s var(--ease);
+}
+
+.app:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+.app:hover::before {
+  opacity: 0.32;
+}
+
+.app--plex::before { background: var(--gold); }
+.app--plexamp::before { background: linear-gradient(135deg, var(--plexamp-1), var(--plexamp-2)); }
+.app--prologue::before { background: linear-gradient(135deg, var(--prologue-1), var(--prologue-2)); }
+
+.app-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+}
+
+.app h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.3rem;
+}
+
+.app .app-tag {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+.app p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  flex: 1;
+  line-height: 1.55;
+}
+
+.app-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.app-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.app-link:hover {
+  background: rgba(235, 175, 0, 0.1);
+  border-color: var(--gold);
+  color: var(--gold-bright);
+}
+
+/* TV note */
+.tv-note {
+  margin-top: 2.25rem;
+  padding: 1.4rem 1.6rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.97rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  line-height: 1.55;
+}
+
+.tv-note strong {
+  color: var(--text);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.tv-note .tv-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  color: var(--gold);
+}
+
+.tv-platforms {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.6rem;
+}
+
+.tv-platforms span {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.55rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+}
+
+/* ─────────────  HOW IT WORKS  ───────────── */
+.how-list {
+  list-style: none;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.how-list li {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem 1.4rem;
+  color: var(--text-muted);
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  font-size: 0.97rem;
+  line-height: 1.55;
+  transition: border-color 0.25s var(--ease);
+}
+
+.how-list li:hover {
+  border-color: var(--border-strong);
+}
+
+.how-list li::before {
+  content: '';
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 0.55rem;
+  box-shadow: 0 0 12px rgba(235, 175, 0, 0.5);
+}
+
+.how-list strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+/* ─────────────  REQUEST CTA  ───────────── */
+.requests-card {
+  position: relative;
+  background:
+    radial-gradient(ellipse 100% 80% at 80% 0%, rgba(235, 175, 0, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 80% at 20% 100%, rgba(235, 175, 0, 0.08) 0%, transparent 70%),
+    var(--bg-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  padding: 4rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.requests-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 80%);
+  z-index: -1;
+}
+
+.requests-card .section-eyebrow {
+  margin-bottom: 1.25rem;
+}
+
+.requests-card h2 {
+  margin-bottom: 1rem;
+}
+
+.requests-card p {
+  color: var(--text-muted);
+  max-width: 580px;
+  margin: 0 auto 2.25rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.requests-card p em {
+  color: var(--text);
+  font-style: normal;
+  font-weight: 500;
+  padding: 0.05rem 0.4rem;
+  background: rgba(235, 175, 0, 0.12);
+  border-radius: 4px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.85rem;
+  background: var(--gold);
+  color: #0e0e10;
+  font-weight: 600;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.3s var(--ease);
+  box-shadow: 0 6px 24px rgba(235, 175, 0, 0.3), 0 0 0 1px rgba(235, 175, 0, 0.4);
+  font-family: var(--sans);
+  letter-spacing: -0.005em;
+}
+
+.btn:hover {
+  background: var(--gold-bright);
+  color: #0e0e10;
+  box-shadow: 0 10px 32px rgba(235, 175, 0, 0.45), 0 0 0 1px rgba(235, 175, 0, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn::after {
+  content: '→';
+  font-weight: 500;
+  transition: transform 0.2s var(--ease);
+}
+
+.btn:hover::after {
+  transform: translateX(3px);
+}
+
+/* ─────────────  FOOTER  ───────────── */
+.footer {
+  padding: 4rem 0 5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+.footer-logo {
+  width: 64px;
+  height: auto;
+  margin: 0 auto 1.75rem;
+  opacity: 0.45;
+  filter: grayscale(0.3);
+}
+
+.footer p + p {
+  margin-top: 0.55rem;
+}
+
+.footer a {
+  color: var(--text-muted);
+}
+
+.footer a:hover {
+  color: var(--gold);
+}
+
+.footer-back {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+}
+
+/* ─────────────  REDUCED MOTION  ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<main>
+
+  <!-- ─── HERO ─── -->
+  <header class="hero">
+    <div class="container">
+      <img class="hero-logo" src="/plex/img/plex-logo.svg" alt="Plex" width="124" height="57">
+      <div class="eyebrow">You're Invited</div>
+      <h1>Welcome to <span class="accent">Josh's Plex</span></h1>
+      <p class="lede">A personal media library — movies, TV, music, and audiobooks — streamable on every device you own. Three quick steps to get you in.</p>
+      <a class="hero-scroll" href="#setup" aria-label="Skip to setup steps">
+        <span>Get Started</span>
+        <span class="hero-scroll-line" aria-hidden="true"></span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ─── STEPS ─── -->
+  <section class="section" id="setup" aria-labelledby="setup-heading">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Getting In · 5 minutes</div>
+        <h2 id="setup-heading">Three steps to join the library</h2>
+        <p>You'll need a free Plex account, then I'll add you to the library. That's it.</p>
+      </div>
+
+      <div class="steps">
+        <article class="step">
+          <div class="step-num">1</div>
+          <h3>Create a free Plex account</h3>
+          <p>Plex accounts are free. Sign up with the email address you want associated with your library access.</p>
+          <a class="step-action primary" href="https://www.plex.tv/sign-up/" target="_blank" rel="noopener">Sign up at plex.tv</a>
+        </article>
+
+        <article class="step">
+          <div class="step-num">2</div>
+          <h3>Verify your email</h3>
+          <p>Plex will send a confirmation link — click it to activate your account. Check your spam folder if you don't see it within a minute or two.</p>
+          <span class="step-action muted">Quick inbox check</span>
+        </article>
+
+        <article class="step">
+          <div class="step-num">3</div>
+          <h3>Send me the email you used</h3>
+          <p>Text me, or shoot me a quick email letting me know which address you signed up with so I can invite you.</p>
+          <a class="step-action subtle" href="mailto:joshferrara@gmail.com?subject=I%20joined%20Plex%20%E2%80%94%20please%20invite%20me&body=Hi%20Josh%2C%0A%0AI%20created%20my%20Plex%20account.%20My%20Plex%20email%20is%3A%20%0A%0AThanks%21">Email Josh</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── APPS ─── -->
+  <section class="section" aria-labelledby="apps-heading">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Get the Apps</div>
+        <h2 id="apps-heading">Install Plex on your devices</h2>
+        <p>Sign into any of these with the same Plex account once I've added you. Movies and TV live in <strong>Plex</strong>; music has its own dedicated app called <strong>Plexamp</strong>; audiobooks have a third app called <strong>Prologue</strong>.</p>
+      </div>
+
+      <div class="apps">
+
+        <article class="app app--plex">
+          <img class="app-icon" src="/plex/img/plex-icon.png" alt="Plex app icon" width="64" height="64">
+          <h3>Plex</h3>
+          <div class="app-tag">Movies &amp; TV</div>
+          <p>The main app. Watch the entire library on your phone, computer, browser, or TV. Start here.</p>
+          <div class="app-links">
+            <a class="app-link" href="https://www.plex.tv/apps-devices/" target="_blank" rel="noopener">Mobile &amp; TV</a>
+            <a class="app-link" href="https://www.plex.tv/media-server-downloads/?cat=2&amp;plat=1" target="_blank" rel="noopener">Desktop</a>
+            <a class="app-link" href="https://app.plex.tv" target="_blank" rel="noopener">Web</a>
+          </div>
+        </article>
+
+        <article class="app app--plexamp">
+          <img class="app-icon" src="/plex/img/plexamp-icon.png" alt="Plexamp app icon" width="64" height="64">
+          <h3>Plexamp</h3>
+          <div class="app-tag">Music</div>
+          <p>A gorgeous, dedicated music player for the Plex music library. Worth installing even if you mostly stream movies.</p>
+          <div class="app-links">
+            <a class="app-link" href="https://www.plexamp.com/" target="_blank" rel="noopener">All downloads</a>
+          </div>
+        </article>
+
+        <article class="app app--prologue">
+          <img class="app-icon" src="/plex/img/prologue-icon.png" alt="Prologue app icon" width="64" height="64">
+          <h3>Prologue</h3>
+          <div class="app-tag">Audiobooks · iOS</div>
+          <p>A purpose-built audiobook player. iPhone &amp; iPad only — Android folks can use the main Plex app for audiobooks.</p>
+          <div class="app-links">
+            <a class="app-link" href="https://prologue.audio/" target="_blank" rel="noopener">prologue.audio</a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="tv-note">
+        <svg class="tv-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+          <line x1="8" y1="21" x2="16" y2="21"></line>
+          <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+        <div>
+          <strong>Streaming on a TV?</strong>
+          Search for <em>"Plex"</em> in your device's app store and sign in with the same account — your library will be waiting.
+          <div class="tv-platforms" aria-label="Supported TV platforms">
+            <span>Apple TV</span>
+            <span>Roku</span>
+            <span>Fire TV</span>
+            <span>Chromecast</span>
+            <span>Smart TVs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── HOW IT WORKS ─── -->
+  <section class="section" aria-labelledby="watch-heading">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-eyebrow">Once You're In</div>
+        <h2 id="watch-heading">Browse and watch anything</h2>
+        <p>That's really it. Open the app, pick something, hit play.</p>
+      </div>
+
+      <ul class="how-list">
+        <li><span><strong>Movies &amp; TV.</strong> The libraries are organized just like Netflix — browse by collection, search by title, or pick up where you left off.</span></li>
+        <li><span><strong>Music.</strong> Open Plexamp, sign in, and the whole catalog is yours. It also builds smart radio stations and mixes.</span></li>
+        <li><span><strong>Audiobooks.</strong> Open Prologue (iOS) or the main Plex app, find a book, and it'll remember your spot across devices.</span></li>
+        <li><span><strong>Cross-device.</strong> Start something on your phone on the way home and pick it up on the TV when you walk in. It just works.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ─── REQUESTS ─── -->
+  <section class="section" aria-labelledby="requests-heading">
+    <div class="container">
+      <div class="requests-card">
+        <div class="section-eyebrow">Don't See Something?</div>
+        <h2 id="requests-heading">Request what you want to watch</h2>
+        <p>If a movie, show, or season isn't already in the library, request it on the request page. Search for the title, click <em>Request</em>, and it'll usually appear within a short time — no need to ask me directly.</p>
+        <a class="btn" href="https://requests.ferrara.co" target="_blank" rel="noopener">Open the request page</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <img class="footer-logo" src="/plex/img/plex-logo.svg" alt="" width="64" height="29" aria-hidden="true">
+    <p>Stuck on anything? Text me, or email <a href="mailto:joshferrara@gmail.com?subject=Plex%20question">joshferrara@gmail.com</a>.</p>
+    <a class="footer-back" href="https://joshferrara.com">← joshferrara.com</a>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -658,37 +658,37 @@ body::after {
     </div>
 
     <div class="cmd-grid">
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux new -s myproject</div>
         <div class="cmd-desc">Create a new named session</div>
         <div class="cmd-detail">The <code>-s</code> flag names your session. Always name your sessions — it makes reattaching much easier. Without a name, tmux assigns a number (0, 1, 2…).</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> d</div>
         <div class="cmd-desc">Detach from current session</div>
         <div class="cmd-detail">Press <code>Ctrl+b</code> then <code>d</code>. You're back in your normal shell, but the session keeps running in the background. All processes continue.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux attach -t myproject</div>
         <div class="cmd-desc">Reattach to a named session</div>
         <div class="cmd-detail">Jump back into a running session. Use <code>tmux a</code> as a shorthand, or <code>tmux a -t name</code> for a specific session. If only one session exists, <code>tmux a</code> works fine.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux ls</div>
         <div class="cmd-desc">List all sessions</div>
         <div class="cmd-detail">Shows all running sessions with their names, window counts, and creation times. Great for seeing what's still alive.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> $</div>
         <div class="cmd-desc">Rename current session</div>
         <div class="cmd-detail">Opens a prompt at the bottom to type a new name. Useful if you started a session without naming it or want to repurpose it.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> s</div>
         <div class="cmd-desc">Switch between sessions</div>
         <div class="cmd-detail">Opens an interactive session picker. Use arrow keys to navigate, Enter to switch. You can even preview windows in each session.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">SHELL</span> tmux kill-session -t name</div>
         <div class="cmd-desc">Kill a session</div>
         <div class="cmd-detail">Permanently destroys a session and all its windows/panes. Use <code>tmux kill-server</code> to destroy everything.</div>
@@ -714,32 +714,32 @@ body::after {
     </div>
 
     <div class="cmd-grid">
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> c</div>
         <div class="cmd-desc">Create a new window</div>
         <div class="cmd-detail">Opens a fresh terminal window within the current session. The status bar shows your windows as numbered tabs.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> ,</div>
         <div class="cmd-desc">Rename current window</div>
         <div class="cmd-detail">Type a meaningful name like "editor", "logs", "server". Shows in the status bar so you can find things fast.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> n / p</div>
         <div class="cmd-desc">Next / Previous window</div>
         <div class="cmd-detail"><code>prefix + n</code> goes to the next window, <code>prefix + p</code> goes to the previous one. Cycles through all windows in order.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> 0-9</div>
         <div class="cmd-desc">Jump to window by number</div>
         <div class="cmd-detail">Direct jump. <code>prefix + 2</code> takes you to window 2. Fast when you know which window you need.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> w</div>
         <div class="cmd-desc">Interactive window list</div>
         <div class="cmd-detail">Shows all windows across all sessions in a tree view. Navigate with arrows and Enter to jump anywhere.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> &amp;</div>
         <div class="cmd-desc">Kill current window</div>
         <div class="cmd-detail">Closes the window and all its panes. tmux asks for confirmation with (y/n).</div>
@@ -772,32 +772,32 @@ body::after {
     </div>
 
     <div class="cmd-grid">
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> %</div>
         <div class="cmd-desc">Split vertically (left/right)</div>
         <div class="cmd-detail">Splits the current pane into two side-by-side panes. The <code>%</code> character looks like two things separated by a line — that's the mnemonic!</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> "</div>
         <div class="cmd-desc">Split horizontally (top/bottom)</div>
         <div class="cmd-detail">Splits the current pane into top and bottom. The <code>"</code> character has two horizontal dots — another mnemonic.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Arrow Keys</div>
         <div class="cmd-desc">Move between panes</div>
         <div class="cmd-detail">Press prefix then the arrow key pointing to the pane you want. The active pane gets a highlighted border.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> x</div>
         <div class="cmd-desc">Close current pane</div>
         <div class="cmd-detail">Kills the current pane. If it's the last pane in a window, the window closes too. Confirms with (y/n).</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> z</div>
         <div class="cmd-desc">Zoom/unzoom pane</div>
         <div class="cmd-detail">Temporarily makes the current pane fullscreen. Press again to go back to the split layout. Great for quickly reading something in detail.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Space</div>
         <div class="cmd-desc">Cycle through layouts</div>
         <div class="cmd-detail">Rotates between preset layouts: even-horizontal, even-vertical, main-horizontal, main-vertical, tiled. Quick way to reorganize.</div>
@@ -830,32 +830,32 @@ body::after {
     </div>
 
     <div class="cmd-grid">
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Ctrl + Arrow</div>
         <div class="cmd-desc">Resize pane (small increments)</div>
         <div class="cmd-detail">Hold prefix, then <code>Ctrl + Arrow</code> to nudge the pane border by 1 cell. Repeat for fine adjustments.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> Alt + Arrow</div>
         <div class="cmd-desc">Resize pane (large increments)</div>
         <div class="cmd-detail">Same as above but jumps 5 cells at a time. Faster for bigger adjustments. Note: on macOS you may need to configure your terminal to pass Alt correctly.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> q</div>
         <div class="cmd-desc">Show pane numbers</div>
         <div class="cmd-detail">Briefly flashes numbers on each pane. Press the number to jump there. Useful with many panes where arrow navigation is slow.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> o</div>
         <div class="cmd-desc">Cycle to next pane</div>
         <div class="cmd-detail">Cycles through panes in order. Faster than arrow keys when you just want to go to the next one.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> { or }</div>
         <div class="cmd-desc">Swap pane left/right</div>
         <div class="cmd-detail">Moves the current pane to the previous <code>{</code> or next <code>}</code> position. The pane content moves with it.</div>
       </div>
-      <div class="cmd-card" onclick="toggleCard(this)">
+      <div class="cmd-card" onclick="toggleCard(this)" onkeydown="cardKey(event, this)" role="button" tabindex="0">
         <div class="cmd-key"><span class="prefix-badge">PREFIX</span> !</div>
         <div class="cmd-desc">Convert pane to window</div>
         <div class="cmd-detail">Takes the current pane and makes it a standalone window. Useful when a pane grows too complex for the split view.</div>
@@ -896,7 +896,7 @@ body::after {
 
     <div class="concept">
       <h3>Try These Commands <span class="tag tag-concept">practice</span></h3>
-      <p><code>tmux new -s dev</code> · <code>tmux ls</code> · <code>tmux attach -t dev</code> · <code>tmux rename-session -t dev work</code> · <code>tmux kill-session -t work</code> · <code>help</code></p>
+      <p><code>tmux new -s dev</code> · <code>tmux new-window -n logs</code> · <code>tmux split-window -h</code> · <code>tmux list-panes</code> · <code>tmux ls</code> · <code>tmux kill-session -t dev</code> · <code>help</code></p>
     </div>
 
     <div class="terminal-wrap">
@@ -992,6 +992,7 @@ navBtns.forEach(btn => {
 
 // CMD CARDS
 function toggleCard(el) { el.classList.toggle('expanded'); }
+function cardKey(e, el) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleCard(el); } }
 
 // SESSION VISUALIZER
 let sessions = [
@@ -1203,6 +1204,10 @@ sandboxInput.addEventListener('keydown', (e) => {
     addLine('  tmux a -t <name>             (shorthand)', 'term-output');
     addLine('  tmux detach                  Detach from session', 'term-output');
     addLine('  tmux rename-session -t <old> <new>', 'term-output');
+    addLine('  tmux new-window -n <name>      Add window to attached session', 'term-output');
+    addLine('  tmux list-windows              Show windows in attached session', 'term-output');
+    addLine('  tmux split-window -h|-v        Split active pane', 'term-output');
+    addLine('  tmux list-panes                Show pane count in attached session', 'term-output');
     addLine('  tmux kill-session -t <name>  Kill a session', 'term-output');
     addLine('  tmux kill-server             Kill everything', 'term-output');
     addLine('  clear                        Clear screen', 'term-output');
@@ -1221,7 +1226,7 @@ sandboxInput.addEventListener('keydown', (e) => {
   if (sub === 'new' && parts[2] === '-s' && parts[3]) {
     const name = parts[3];
     if (sandboxSessions[name]) { addLine(`duplicate session: ${name}`, 'term-error'); return; }
-    sandboxSessions[name] = { windows: 1, created: 'now' };
+    sandboxSessions[name] = { windows: ['main'], panes: 1, created: 'now' };
     sandboxAttached = name;
     addLine(`[${name}] Session created and attached.`, 'term-success');
     updatePrompt();
@@ -1237,7 +1242,7 @@ sandboxInput.addEventListener('keydown', (e) => {
       keys.forEach(k => {
         const s = sandboxSessions[k];
         const att = k === sandboxAttached ? '(attached)' : '';
-        addLine(`${k}: ${s.windows} windows ${att}`, 'term-output');
+        addLine(`${k}: ${s.windows.length} windows, ${s.panes} pane${s.panes===1?'':'s'} ${att}`.trim(), 'term-output');
       });
     }
     return;
@@ -1281,6 +1286,35 @@ sandboxInput.addEventListener('keydown', (e) => {
     return;
   }
 
+
+  if (sub === 'new-window') {
+    if (!sandboxAttached) { addLine('not attached to any session', 'term-error'); return; }
+    const nameFlag = parts[2] === '-n' && parts[3] ? parts[3] : `win${sandboxSessions[sandboxAttached].windows.length}`;
+    sandboxSessions[sandboxAttached].windows.push(nameFlag);
+    addLine(`Window "${nameFlag}" created in session ${sandboxAttached}.`, 'term-success');
+    return;
+  }
+
+  if (sub === 'list-windows') {
+    if (!sandboxAttached) { addLine('not attached to any session', 'term-error'); return; }
+    sandboxSessions[sandboxAttached].windows.forEach((w, i) => addLine(`${i}: ${w}`, 'term-output'));
+    return;
+  }
+
+  if (sub === 'split-window') {
+    if (!sandboxAttached) { addLine('not attached to any session', 'term-error'); return; }
+    const mode = parts[2] === '-v' ? 'vertical' : 'horizontal';
+    sandboxSessions[sandboxAttached].panes += 1;
+    addLine(`Pane split (${mode}). Total panes: ${sandboxSessions[sandboxAttached].panes}`, 'term-success');
+    return;
+  }
+
+  if (sub === 'list-panes') {
+    if (!sandboxAttached) { addLine('not attached to any session', 'term-error'); return; }
+    const count = sandboxSessions[sandboxAttached].panes;
+    for (let i = 0; i < count; i++) addLine(`${i}: [${80}x${24}]`, 'term-output');
+    return;
+  }
   if (sub === 'kill-session' && parts[2] === '-t' && parts[3]) {
     const name = parts[3];
     if (!sandboxSessions[name]) { addLine(`can't find session: ${name}`, 'term-error'); return; }
