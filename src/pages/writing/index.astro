@@ -2,46 +2,77 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import FeaturedPost from '../../components/FeaturedPost.astro';
 import TagList from '../../components/TagList.astro';
 
 const allPosts = await getCollection('writing');
 const posts = allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+
+const readingTimeFor = (body?: string) =>
+  Math.max(1, Math.round((body ?? '').trim().split(/\s+/).filter(Boolean).length / 200));
+
+// Plain-text excerpt from the body, used when a post has no explicit description.
+const excerptFor = (body?: string, maxLen = 240) => {
+  const plain = (body ?? '')
+    .replace(/^---[\s\S]*?---/, '')          // strip frontmatter
+    .replace(/>\s*[^\n]+/g, '')              // strip blockquotes
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // markdown links → text
+    .replace(/[#*_`~\[\]]/g, '')             // strip markdown syntax
+    .replace(/\n+/g, ' ')
+    .trim();
+  if (plain.length <= maxLen) return plain;
+  const slice = plain.slice(0, maxLen);
+  // Prefer ending on a complete sentence when one lands in the back half.
+  const sentenceEnd = Math.max(
+    slice.lastIndexOf('. '),
+    slice.lastIndexOf('! '),
+    slice.lastIndexOf('? '),
+  );
+  if (sentenceEnd > maxLen * 0.6) return slice.slice(0, sentenceEnd + 1);
+  return slice.replace(/\s+\S*$/, '') + '…';
+};
+
+// Pull the newest post out to feature it; the rest flow into the list below.
+const [featured, ...rest] = posts;
 ---
 
 <BaseLayout title="Writing" description="Blog posts, essays, and long-form pieces by Josh Ferrara.">
   <h1>Writing</h1>
   <p class="page-description">Blog posts, essays, and long-form pieces.</p>
 
-  <details class="topic-picker">
-    <summary class="topic-picker__summary">
-      <span class="topic-picker__caret" aria-hidden="true">›</span>
-      <span>Browse {allTags.length} topics</span>
-    </summary>
-    <div class="topic-picker__body">
-      <TagList tags={allTags} tagBaseUrl="/writing/tag/" />
-    </div>
-  </details>
+  {featured && (
+    <FeaturedPost
+      title={featured.data.title}
+      date={featured.data.date}
+      excerpt={featured.data.description ?? excerptFor(featured.body)}
+      tags={featured.data.tags}
+      growthStage={featured.data.growthStage}
+      href={`/writing/${featured.id}/`}
+      readingTime={readingTimeFor(featured.body)}
+    />
+  )}
 
   <div class="post-list">
-    {posts.map((post) => {
-      const words = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
-      const readingTime = Math.max(1, Math.round(words / 200));
-      return (
-        <PostCard
-          title={post.data.title}
-          date={post.data.date}
-          description={post.data.description}
-          tags={post.data.tags}
-          growthStage={post.data.growthStage}
-          href={`/writing/${post.id}/`}
-          readingTime={readingTime}
-          class="reveal"
-        />
-      );
-    })}
+    {rest.map((post) => (
+      <PostCard
+        title={post.data.title}
+        date={post.data.date}
+        description={post.data.description}
+        tags={post.data.tags}
+        growthStage={post.data.growthStage}
+        href={`/writing/${post.id}/`}
+        readingTime={readingTimeFor(post.body)}
+        class="reveal"
+      />
+    ))}
   </div>
+
+  <section class="topics" aria-label="Browse writing by topic">
+    <h2 class="topics__heading">Browse by topic</h2>
+    <TagList tags={allTags} tagBaseUrl="/writing/tag/" />
+  </section>
 
   <hr />
   <p class="archive-link">
@@ -69,60 +100,25 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
     color: var(--color-text-muted);
   }
 
-  /* Topic picker — quiet disclosure so the post list leads */
-  .topic-picker {
-    margin-bottom: var(--space-6);
+  /* Topics — always visible; a quiet "browse by topic" close to the list.
+     The hairline + top padding echo the rhythm of the list's row dividers. */
+  .topics {
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border-subtle);
   }
 
-  .topic-picker__summary {
-    list-style: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
+  .topics__heading {
     font-family: var(--font-sans);
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     font-variant-caps: all-small-caps;
     letter-spacing: 0.08em;
     font-weight: 600;
-    padding: var(--space-1) 0;
-    user-select: none;
-    transition: color var(--transition-fast);
+    margin-bottom: var(--space-4);
   }
 
-  .topic-picker__summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .topic-picker__summary::marker {
-    content: "";
-  }
-
-  .topic-picker__summary:hover {
-    color: var(--color-accent);
-  }
-
-  .topic-picker__caret {
-    display: inline-block;
-    transition: transform var(--transition-base);
-    font-size: 0.95rem;
-    line-height: 0.5;
-    transform-origin: center;
-  }
-
-  .topic-picker[open] .topic-picker__caret {
-    transform: rotate(90deg);
-  }
-
-  .topic-picker__body {
-    margin-top: var(--space-3);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border-subtle);
-  }
-
-  /* Tighten the TagList inside the disclosure (no bottom margin) */
-  .topic-picker__body :global(.tag-list) {
+  /* TagList carries its own bottom margin; the hr below provides the rest */
+  .topics :global(.tag-list) {
     margin-bottom: 0;
   }
 </style>

@@ -1,0 +1,208 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  excerpt?: string;
+  tags?: string[];
+  growthStage?: 'draft' | 'published';
+  href: string;
+  readingTime?: number;
+  class?: string;
+}
+
+const {
+  title,
+  date,
+  excerpt,
+  tags = [],
+  growthStage = 'published',
+  href,
+  readingTime,
+  class: className,
+} = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class:list={['featured', className]}>
+  <a href={href} class="featured__link">
+    <span class="featured__eyebrow">
+      <span class="featured__eyebrow-dot" aria-hidden="true"></span>
+      <span>Latest</span>
+    </span>
+    <h2 class="featured__title">{title}</h2>
+    {excerpt && <p class="featured__excerpt">{excerpt}</p>}
+    {tags.length > 0 && (
+      <div class="featured__tags">
+        {tags.map((tag) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+    <div class="featured__footer">
+      <span class="featured__meta">
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+        {readingTime && (
+          <>
+            <span class="featured__dot" aria-hidden="true"></span>
+            <span>{readingTime} min read</span>
+          </>
+        )}
+        {growthStage === 'draft' && <span class="badge badge--draft">Draft</span>}
+      </span>
+      <span class="featured__cue" aria-hidden="true">Read the essay&nbsp;<span class="featured__arrow">&rarr;</span></span>
+    </div>
+  </a>
+</article>
+
+<style>
+  /* ── Featured latest post ──────────────────────────────────────────────
+     The newest post leads the page. Editorial, not loud: a thin accent rule
+     marks it as the lead item; a hairline below sets it apart from the list. */
+  .featured {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .featured__link {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding-left: var(--space-6);
+    border-left: 2px solid var(--color-accent);
+  }
+
+  /* Eyebrow — small-caps status label, echoing the homepage section headings */
+  .featured__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.09em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-3);
+  }
+
+  .featured__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    /* Alive but calm — a barely-there breathing pulse */
+    animation: featured-pulse 4.5s ease-in-out infinite;
+  }
+
+  @keyframes featured-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%      { opacity: 0.5; transform: scale(0.78); }
+  }
+
+  .featured__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 500;
+    color: var(--color-text-heading);
+    line-height: var(--leading-tight);
+    letter-spacing: -0.03em;
+    margin-bottom: var(--space-3);
+    text-wrap: balance;
+    transition: color var(--transition-fast);
+  }
+
+  .featured__link:hover .featured__title,
+  .featured__link:focus-visible .featured__title {
+    color: var(--color-accent);
+  }
+
+  .featured__excerpt {
+    font-size: var(--text-base);
+    color: var(--color-text);
+    line-height: var(--leading-normal);
+    margin-bottom: var(--space-4);
+    max-width: 56ch;
+  }
+
+  .featured__tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-4);
+  }
+
+  .featured__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .featured__meta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: 500;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
+  }
+
+  .featured__dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+  }
+
+  /* Read cue — a quiet call to action that surfaces on intent (matches the
+     reading-time reveal on the list rows below). */
+  .featured__cue {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-accent);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity var(--transition-base), transform var(--transition-base);
+  }
+
+  .featured__arrow {
+    display: inline-block;
+    margin-left: var(--space-1);
+    transition: transform var(--transition-base);
+  }
+
+  .featured__link:hover .featured__cue,
+  .featured__link:focus-visible .featured__cue {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .featured__link:hover .featured__arrow {
+    transform: translateX(3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .featured__eyebrow-dot { animation: none; }
+    .featured__cue { transition: opacity var(--transition-fast); transform: none; }
+  }
+
+  @media (max-width: 480px) {
+    .featured__title { font-size: var(--text-2xl); }
+    .featured__link { padding-left: var(--space-5); }
+  }
+</style>

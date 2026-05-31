@@ -41,7 +41,7 @@ const { title, description, image, wide = false } = Astro.props;
   // Tagging a single element keeps every other title from lingering mid-transition.
   function clearTitleTags() {
     document
-      .querySelectorAll('.post-card__title')
+      .querySelectorAll('.post-card__title, .featured__title')
       .forEach((el) => ((el as HTMLElement).style.viewTransitionName = ''));
   }
 
@@ -50,7 +50,9 @@ const { title, description, image, wide = false } = Astro.props;
     (event) => {
       const link = (event.target as Element)?.closest?.('a[href]');
       if (!link) return;
-      const title = link.closest('.post-card')?.querySelector('.post-card__title');
+      const title = link
+        .closest('.post-card, .featured')
+        ?.querySelector('.post-card__title, .featured__title');
       clearTitleTags();
       if (title) (title as HTMLElement).style.viewTransitionName = 'post-title';
     },
