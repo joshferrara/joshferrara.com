@@ -5,4 +5,6 @@ url: https://welcometof1.com
 status: active
 tags: [f1, web]
 sortOrder: 1
+brandColor: '#e10600'
+monogram: F1
 ---

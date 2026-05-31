@@ -5,4 +5,6 @@ url: /hard-linker/
 status: active
 tags: [macos, tool]
 sortOrder: 6
+brandColor: '#14b8a6'
+monogram: HL
 ---

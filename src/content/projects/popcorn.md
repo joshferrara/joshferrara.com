@@ -5,4 +5,5 @@ url: /popcorn
 status: active
 tags: [food, fun]
 sortOrder: 8
+brandColor: '#d98324'
 ---

@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  cover?: ImageMetadata;
+  archived?: boolean;
+}
+
+const { project, cover, archived = false } = Astro.props;
+const { title, description, url, tags = [], brandColor, imageAlt, monogram } = project.data;
+
+const isExternal = url?.startsWith('http');
+const initials = (
+  monogram ?? title.split(/\s+/).map((w) => w[0]).join('').slice(0, 2)
+).toUpperCase();
+const brand = brandColor ?? '#2d6a4f';
+---
+
+<a
+  href={url || '#'}
+  class:list={['project-card', 'card', { 'project-card--archived': archived }]}
+  target={isExternal ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+>
+  <div class="project-card__cover">
+    {cover ? (
+      <Image src={cover} alt={imageAlt ?? ''} widths={[280, 400, 800]} sizes="(max-width: 600px) 90vw, 380px" />
+    ) : (
+      <div class="project-card__placeholder" style={`--brand:${brand}`} aria-hidden="true">
+        <span>{initials}</span>
+      </div>
+    )}
+    <span class="project-card__hairline" aria-hidden="true"></span>
+  </div>
+  <div class="project-card__body">
+    <h3 class="project-card__title">{title}</h3>
+    <p class="project-card__description">{description}</p>
+    {tags.length > 0 && (
+      <div class="project-card__tags">
+        {tags.map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+  </div>
+</a>
+
+<style>
+  .project-card {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .project-card__cover {
+    position: relative;
+    aspect-ratio: 1200 / 630;
+    overflow: hidden;
+    background: var(--color-bg-subtle);
+  }
+
+  .project-card__cover :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition-slow);
+  }
+
+  .project-card:hover .project-card__cover :global(img) {
+    transform: scale(1.045);
+  }
+
+  /* Keep light covers from bleeding into the card edge */
+  .project-card__hairline {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+    pointer-events: none;
+  }
+
+  .project-card__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--brand) 88%, white 12%),
+      color-mix(in srgb, var(--brand) 78%, black 22%)
+    );
+  }
+
+  .project-card__placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120% 120% at 22% 12%, rgba(255, 255, 255, 0.18), transparent 55%);
+  }
+
+  .project-card__placeholder span {
+    position: relative;
+    font-family: var(--font-serif);
+    font-weight: 800;
+    font-size: var(--text-2xl);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: color-mix(in srgb, var(--brand) 15%, white);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  }
+
+  .project-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    flex: 1;
+  }
+
+  .project-card__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--color-text-heading);
+    transition: color var(--transition-fast);
+  }
+
+  .project-card:hover .project-card__title {
+    color: var(--color-accent);
+  }
+
+  .project-card__description {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-normal);
+  }
+
+  .project-card__tags {
+    display: flex;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: auto;
+    padding-top: var(--space-1);
+  }
+
+  .project-card--archived .project-card__cover :global(img),
+  .project-card--archived .project-card__placeholder {
+    filter: saturate(0.35) brightness(0.92);
+  }
+
+  .project-card--archived {
+    opacity: 0.7;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card:hover .project-card__cover :global(img) {
+      transform: none;
+    }
+  }
+</style>

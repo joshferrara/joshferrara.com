@@ -5,4 +5,6 @@ url: https://issued.dev
 status: active
 tags: [developer-tools, web]
 sortOrder: 2
+brandColor: '#2563eb'
+monogram: Is
 ---
