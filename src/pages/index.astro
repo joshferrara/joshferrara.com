@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import HomepageSection from '../components/HomepageSection.astro';
+import Collections from '../components/Collections.astro';
 import PostCard from '../components/PostCard.astro';
 import TweetCard from '../components/TweetCard.astro';
 import allTweets from '../data/tweets.json';
@@ -89,6 +90,10 @@ const recentBooks = await getReadBooks(6);
         </HomepageSection>
       </div>
 
+      <div class="animate-in animate-in-4" data-section="collections">
+        <Collections />
+      </div>
+
       <div class="animate-in animate-in-5" data-section="tweets">
         <HomepageSection title="Recent Tweets" href="/tweets/" linkText="More on X">
           <div class="tweet-list">
@@ -152,7 +157,7 @@ const recentBooks = await getReadBooks(6);
       </div>
 
       <div class="animate-in animate-in-4" data-section="reading">
-        <HomepageSection title="Recently Read" href="/library/">
+        <HomepageSection title="Recently Read" href="/reading/">
           {recentBooks.length > 0 ? (
             <div class="media-row">
               {recentBooks.map((book) => (

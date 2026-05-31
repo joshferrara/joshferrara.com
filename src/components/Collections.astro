@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import HomepageSection from './HomepageSection.astro';
+
+// Counts are computed at build time and must match what each section's own
+// index page displays, so the number never disagrees with the page behind the
+// card. Placeholder entries (ids beginning with "_") are excluded everywhere;
+// guides additionally exclude drafts (matching the guides index behavior).
+function count(n: number, singular: string, plural: string): string {
+  return `${n} ${n === 1 ? singular : plural}`;
+}
+
+const travel = (await getCollection('travel')).filter((e) => !e.id.startsWith('_'));
+const guides = (await getCollection('guides')).filter(
+  (e) => !e.id.startsWith('_') && e.data.growthStage !== 'draft'
+);
+const favorites = (await getCollection('favorites')).filter((e) => !e.id.startsWith('_'));
+const recaps = await getCollection('recaps');
+const latestRecapYear = recaps.length ? Math.max(...recaps.map((r) => r.data.year)) : null;
+
+const items = [
+  {
+    title: 'Travel',
+    href: '/travel/',
+    description: 'City guides — where to eat, see & stay',
+    meta: travel.length ? count(travel.length, 'city', 'cities') : null,
+  },
+  {
+    title: 'Guides',
+    href: '/guides/',
+    description: 'Playbooks & how-tos',
+    meta: guides.length ? count(guides.length, 'guide', 'guides') : null,
+  },
+  {
+    title: 'Favorites',
+    href: '/favorites/',
+    description: 'Gear, tools & things I love',
+    meta: favorites.length ? count(favorites.length, 'list', 'lists') : null,
+  },
+  {
+    title: 'Annual Recaps',
+    href: '/recaps/',
+    description: 'My favorites from each year',
+    meta: latestRecapYear ? `latest — ${latestRecapYear}` : null,
+  },
+];
+---
+
+<HomepageSection title="Collections">
+  <div class="collections-grid">
+    {items.map((item) => (
+      <a href={item.href} class="collection-card card">
+        <h3 class="collection-card__title">{item.title}</h3>
+        <p class="collection-card__desc">{item.description}</p>
+        {item.meta && <span class="collection-card__meta">{item.meta}</span>}
+      </a>
+    ))}
+  </div>
+</HomepageSection>
+
+<style>
+  .collections-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  /* Builds on the global .card surface (bg, border, radius, padding, hover
+     lift, and its prefers-reduced-motion guard). We add only the editorial
+     layers: a tan left rule, a serif title, and an accent meta line. */
+  .collection-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    text-decoration: none;
+    border-left-width: 3px;
+    border-left-color: var(--color-warm);
+  }
+
+  .collection-card:hover {
+    border-left-color: var(--color-accent);
+  }
+
+  .collection-card__title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: var(--text-xl);
+    line-height: var(--leading-snug);
+    color: var(--color-text-heading);
+    transition: color var(--transition-fast);
+  }
+
+  .collection-card:hover .collection-card__title {
+    color: var(--color-accent);
+  }
+
+  .collection-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    line-height: var(--leading-snug);
+  }
+
+  .collection-card__meta {
+    margin-top: var(--space-1);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--color-accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (max-width: 420px) {
+    .collections-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

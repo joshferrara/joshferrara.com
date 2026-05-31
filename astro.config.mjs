@@ -18,5 +18,6 @@ export default defineConfig({
   redirects: {
     '/blog/': '/writing/',
     '/feed/': '/feed.xml',
+    '/library/': '/reading/',
   },
 });
