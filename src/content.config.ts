@@ -33,6 +33,9 @@ const projects = defineCollection({
     tags: z.array(z.string()).default([]),
     year: z.number().optional(),
     sortOrder: z.number().default(0),
+    brandColor: z.string().optional(), // hex; drives the placeholder field + contrast
+    imageAlt: z.string().optional(), // cover alt text; defaults to '' (decorative)
+    monogram: z.string().optional(), // 1-3 chars for the placeholder; defaults to title initials
   }),
 });
 
