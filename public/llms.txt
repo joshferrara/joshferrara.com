@@ -16,7 +16,7 @@ This site aggregates both hand-authored content (essays, notes, projects) and ex
 - Tweets: /tweets/ — Twitter archive (2007–2017, 6800+ tweets)
 - Listening: /listening/ — Music listening history via Last.fm
 - Watching: /watching/ — Film diary via Letterboxd
-- Library: /library/ — Books read and want to read
+- Reading: /reading/ — Books read and want to read
 - Podcasts: /podcasts/ — Podcast episodes
 - Annual Recaps: /recaps/ — Year-in-review posts
 - Archive: /archive/ — College-era blog posts (2006–2012)

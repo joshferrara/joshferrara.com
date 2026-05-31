@@ -1,7 +1,7 @@
 ---
 interface Props {
   title: string;
-  href: string;
+  href?: string;
   linkText?: string;
 }
 
@@ -11,7 +11,7 @@ const { title, href, linkText = 'View all' } = Astro.props;
 <section class="homepage-section">
   <div class="section-heading">
     <h2>{title}</h2>
-    <a href={href}>{linkText} &rarr;</a>
+    {href && <a href={href}>{linkText} &rarr;</a>}
   </div>
   <slot />
 </section>
