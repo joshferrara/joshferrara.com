@@ -59,7 +59,7 @@ episodes.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
   .episode__link {
     text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 2px;
   }
-  .episode__show { font-size: var(--text-xs); color: var(--color-accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; }
+  .episode__show { font-size: var(--text-xs); color: var(--color-accent); font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.05em; }
   .episode__title { font-size: var(--text-base); color: var(--color-text-heading); font-weight: 500; transition: color var(--transition-fast); }
   .episode__link:hover .episode__title { color: var(--color-accent); }
   .episode__date { font-size: var(--text-xs); color: var(--color-text-muted); }

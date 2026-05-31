@@ -1,4 +1,6 @@
 ---
+import { ClientRouter } from 'astro:transitions';
+
 interface Props {
   title: string;
   description?: string;
@@ -53,6 +55,16 @@ const jsonLd = type === 'article' && date
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="generator" content={Astro.generator} />
 
+<!-- Apply the saved theme before first paint (no flash). Default = follow system. -->
+<script is:inline>
+  (() => {
+    try {
+      const t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  })();
+</script>
+
 <!-- Canonical -->
 <link rel="canonical" href={canonicalURL} />
 
@@ -83,6 +95,9 @@ const jsonLd = type === 'article' && date
 
 <!-- Structured Data -->
 <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+<!-- Buttery cross-page navigation -->
+<ClientRouter />
 
 <!-- Styles -->
 <style is:global>

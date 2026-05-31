@@ -23,11 +23,16 @@ const writing = (await getCollection('writing'))
       .replace(/\n+/g, ' ')
       .trim() || '';
     const excerpt = plain.length > 150 ? plain.slice(0, 150).replace(/\s+\S*$/, '') + '...' : plain;
-    return { ...post, excerpt };
+    const words = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+    const readingTime = Math.max(1, Math.round(words / 200));
+    return { ...post, excerpt, readingTime };
   });
 
 const recentTweets = (allTweets as any[])
-  .filter((t) => !t.isRetweet && !t.isReply)
+  // Exclude retweets, threaded replies, and @-leading directed tweets — the
+  // data only flags threaded replies as isReply, but a leading @mention is
+  // still a reply-style tweet we don't want featured on the homepage.
+  .filter((t) => !t.isRetweet && !t.isReply && !t.text.trimStart().startsWith('@'))
   .slice(0, 4);
 
 const topArtists = await getTopArtists('1month', 6);
@@ -78,6 +83,7 @@ const recentBooks = await getReadBooks(6);
               date={post.data.date}
               description={post.excerpt}
               href={`/writing/${post.id}/`}
+              readingTime={post.readingTime}
             />
           ))}
         </HomepageSection>
@@ -112,8 +118,10 @@ const recentBooks = await getReadBooks(6);
                   ) : (
                     <div class="media-card__fallback media-card__img--square">{artist.name}</div>
                   )}
-                  <span class="media-card__title">{artist.name}</span>
-                  <span class="media-card__subtitle">{artist.playcount} plays</span>
+                  <span class="media-card__tip" aria-hidden="true">
+                    <span class="media-card__tip-title">{artist.name}</span>
+                    <span class="media-card__tip-sub">{artist.playcount} plays</span>
+                  </span>
                 </a>
               ))}
             </div>
@@ -134,8 +142,10 @@ const recentBooks = await getReadBooks(6);
                   ) : (
                     <div class="media-card__fallback media-card__img--portrait">{film.title}</div>
                   )}
-                  <span class="media-card__title">{film.title}</span>
-                  {film.year && <span class="media-card__subtitle">{film.year}</span>}
+                  <span class="media-card__tip" aria-hidden="true">
+                    <span class="media-card__tip-title">{film.title}</span>
+                    {film.year && <span class="media-card__tip-sub">{film.year}</span>}
+                  </span>
                 </a>
               ))}
             </div>
@@ -156,8 +166,10 @@ const recentBooks = await getReadBooks(6);
                   ) : (
                     <div class="media-card__fallback media-card__img--portrait">{book.title}</div>
                   )}
-                  <span class="media-card__title">{book.title}</span>
-                  <span class="media-card__subtitle">{book.author}</span>
+                  <span class="media-card__tip" aria-hidden="true">
+                    <span class="media-card__tip-title">{book.title}</span>
+                    <span class="media-card__tip-sub">{book.author}</span>
+                  </span>
                 </a>
               ))}
             </div>
@@ -272,7 +284,7 @@ const recentBooks = await getReadBooks(6);
   /* ── Content Grid ──────────────────────────────── */
   .content-grid {
     display: grid;
-    grid-template-columns: 3fr 2fr;
+    grid-template-columns: 7fr 3fr;
     gap: var(--space-8);
     align-items: start;
   }
@@ -287,7 +299,6 @@ const recentBooks = await getReadBooks(6);
   .tweet-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-3);
   }
 
   .placeholder-text {
@@ -300,16 +311,14 @@ const recentBooks = await getReadBooks(6);
   .media-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-5) var(--space-4);
+    gap: var(--space-4) var(--space-3);
   }
 
   .media-card {
     text-decoration: none;
     color: inherit;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    min-width: 0;
+    display: block;
+    position: relative;
   }
 
   .media-card__img {
@@ -317,14 +326,14 @@ const recentBooks = await getReadBooks(6);
     object-fit: cover;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    transition: transform var(--transition-spring), box-shadow var(--transition-slow);
   }
 
   .media-card__img--portrait { aspect-ratio: 2/3; }
   .media-card__img--square { aspect-ratio: 1; border-radius: var(--radius-lg); }
 
   .media-card:hover .media-card__img {
-    transform: translateY(-4px) scale(1.03);
+    transform: translateY(-5px) scale(1.03);
     box-shadow: var(--shadow-xl);
   }
 
@@ -341,16 +350,61 @@ const recentBooks = await getReadBooks(6);
     padding: var(--space-2);
   }
 
-  .media-card__title {
+  /* Styled hover/focus tooltip — re-exposes the title + detail hidden on the covers */
+  .media-card__tip {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 8px);
+    z-index: 5;
+    width: max-content;
+    max-width: 168px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg-raised);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+    transition: opacity var(--transition-fast), transform var(--transition-fast);
+    pointer-events: none;
+  }
+
+  .media-card__tip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--color-bg-raised);
+  }
+
+  .media-card:hover .media-card__tip,
+  .media-card:focus-visible .media-card__tip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .media-card__tip-title {
     font-size: var(--text-xs);
     font-weight: 600;
     color: var(--color-text-heading);
     line-height: var(--leading-snug);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
   }
 
-  .media-card__subtitle {
+  .media-card__tip-sub {
     font-size: var(--text-xs);
     color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   @media (max-width: 768px) {
@@ -389,7 +443,12 @@ const recentBooks = await getReadBooks(6);
   // Living Ink: animate displacement + blur on the name heading.
   // On load, text appears organically distorted (like wet ink on paper)
   // then settles into crisp text with a barely perceptible organic breathing.
-  (function inkSettle() {
+  // Re-runs on every View Transition navigation back to the homepage.
+  let inkRaf = 0;
+
+  function inkSettle() {
+    cancelAnimationFrame(inkRaf);
+
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) return;
 
@@ -442,9 +501,11 @@ const recentBooks = await getReadBooks(6);
         displacement.setAttribute('scale', String(Math.max(0, scale)));
       }
 
-      requestAnimationFrame(tick);
+      inkRaf = requestAnimationFrame(tick);
     }
 
-    requestAnimationFrame(tick);
-  })();
+    inkRaf = requestAnimationFrame(tick);
+  }
+
+  document.addEventListener('astro:page-load', inkSettle);
 </script>

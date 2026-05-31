@@ -12,7 +12,9 @@ const { id, text, date, isReply = false, compact = false } = Astro.props;
 const parsedDate = new Date(date);
 const formattedDate = parsedDate.toLocaleDateString('en-US', {
   year: 'numeric',
-  month: 'short',
+  // Full month on the homepage to match the writing dates; abbreviated on the
+  // dedicated /tweets archive where space is tighter.
+  month: compact ? 'long' : 'short',
   day: 'numeric',
 });
 
@@ -38,6 +40,11 @@ function linkify(text: string): string {
 
 const linkedText = linkify(text);
 const tweetUrl = `https://x.com/joshferrara/status/${id}`;
+
+// The author's blank-line-separated sections. In compact previews we render
+// each as its own block so we can keep the visual breaks but tighten the gap
+// (a full empty line felt too airy). Non-compact keeps the formatting verbatim.
+const sections = text.split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
 ---
 
 <article class:list={['tweet', { 'tweet--compact': compact, 'tweet--reply': isReply }]}>
@@ -45,7 +52,15 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
     <time datetime={parsedDate.toISOString()}>{formattedDate}</time>
     <a href={tweetUrl} target="_blank" rel="noopener noreferrer" class="tweet__link">View on X &rarr;</a>
   </div>
-  <p class="tweet__text" set:html={linkedText} />
+  {compact ? (
+    <div class="tweet__text">
+      {sections.map((section) => (
+        <div class="tweet__para" set:html={linkify(section)} />
+      ))}
+    </div>
+  ) : (
+    <p class="tweet__text" set:html={linkedText} />
+  )}
 </article>
 
 <style>
@@ -60,6 +75,30 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
     opacity: 0.75;
   }
 
+  /* Compact (homepage): quiet list treatment like the writing posts —
+     no filled card, just hairline separators on the page background. */
+  .tweet--compact {
+    background: none;
+    border: none;
+    border-radius: 0;
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .tweet--compact:first-child {
+    padding-top: 0;
+  }
+
+  .tweet--compact:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* Match the writing cards' tight date -> content gap. */
+  .tweet--compact .tweet__meta {
+    margin-bottom: var(--space-1);
+  }
+
   .tweet__meta {
     display: flex;
     justify-content: space-between;
@@ -68,14 +107,18 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
   }
 
   .tweet__meta time {
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
     font-weight: 500;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
   }
 
   .tweet__link {
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
     text-decoration: none;
   }
 
@@ -87,6 +130,12 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
     font-size: var(--text-base);
     line-height: var(--leading-normal);
     word-break: break-word;
+  }
+
+  /* The /tweets archive preserves the author's verbatim line breaks. The
+     homepage (compact) flows each section as prose — its paragraph breaks come
+     from the section blocks, so it doesn't need pre-wrap. */
+  .tweet:not(.tweet--compact) .tweet__text {
     white-space: pre-wrap;
   }
 
@@ -101,5 +150,12 @@ const tweetUrl = `https://x.com/joshferrara/status/${id}`;
 
   .tweet--compact .tweet__text {
     font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  /* Keep the author's section breaks, but tighter than a full blank line. */
+  .tweet__para + .tweet__para {
+    margin-top: var(--space-3);
   }
 </style>

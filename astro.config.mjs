@@ -10,6 +10,11 @@ export default defineConfig({
   site: 'https://joshferrara.com',
   integrations: [mdx(), sitemap()],
   adapter: cloudflare(),
+  // Prefetch internal links on hover/focus so navigation feels instant.
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
   redirects: {
     '/blog/': '/writing/',
     '/feed/': '/feed.xml',
