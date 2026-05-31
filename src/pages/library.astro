@@ -122,11 +122,11 @@ const hasData = reading.length > 0 || read.length > 0 || wantToRead.length > 0;
     object-fit: cover;
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-md);
-    transition: transform var(--transition-base), box-shadow var(--transition-base);
+    transition: transform var(--transition-spring), box-shadow var(--transition-slow);
   }
 
   .book-card:hover .book-card__cover {
-    transform: translateY(-4px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-xl);
   }
 

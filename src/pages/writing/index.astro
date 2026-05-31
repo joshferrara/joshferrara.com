@@ -25,16 +25,22 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
   </details>
 
   <div class="post-list">
-    {posts.map((post) => (
-      <PostCard
-        title={post.data.title}
-        date={post.data.date}
-        description={post.data.description}
-        tags={post.data.tags}
-        growthStage={post.data.growthStage}
-        href={`/writing/${post.id}/`}
-      />
-    ))}
+    {posts.map((post) => {
+      const words = (post.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+      const readingTime = Math.max(1, Math.round(words / 200));
+      return (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          description={post.data.description}
+          tags={post.data.tags}
+          growthStage={post.data.growthStage}
+          href={`/writing/${post.id}/`}
+          readingTime={readingTime}
+          class="reveal"
+        />
+      );
+    })}
   </div>
 
   <hr />
@@ -75,11 +81,11 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
     align-items: center;
     gap: var(--space-2);
     font-family: var(--font-sans);
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
-    text-transform: uppercase;
+    font-variant-caps: all-small-caps;
     letter-spacing: 0.08em;
-    font-weight: 500;
+    font-weight: 600;
     padding: var(--space-1) 0;
     user-select: none;
     transition: color var(--transition-fast);

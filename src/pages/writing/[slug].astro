@@ -94,6 +94,8 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
     letter-spacing: -0.035em;
     margin-top: var(--space-2);
     margin-bottom: var(--space-3);
+    /* Shared-element morph target — the clicked card title flows into this. */
+    view-transition-name: post-title;
   }
 
   /* Keep prose body at a comfortable reading measure even though
@@ -128,11 +130,11 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
 
   .post__tags-label {
     font-family: var(--font-sans);
-    font-size: var(--text-xs);
+    font-size: var(--text-sm);
     color: var(--color-text-muted);
-    text-transform: uppercase;
+    font-variant-caps: all-small-caps;
     letter-spacing: 0.08em;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .post__tags-list {
@@ -156,7 +158,7 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
   .post__tag a {
     color: var(--color-accent);
     text-decoration: none;
-    text-transform: uppercase;
+    font-variant-caps: all-small-caps;
     letter-spacing: 0.08em;
     font-weight: 600;
     transition: color var(--transition-fast);
@@ -202,8 +204,8 @@ const formattedDate = post.data.date.toLocaleDateString('en-US', {
     display: block;
     font-size: var(--text-xs);
     color: var(--color-text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.07em;
     margin-bottom: var(--space-1);
   }
 

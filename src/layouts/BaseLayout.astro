@@ -33,3 +33,30 @@ const { title, description, image, wide = false } = Astro.props;
     padding-bottom: var(--space-16);
   }
 </style>
+
+<script>
+  // Shared-element morph: when a writing card is clicked, tag *only* that
+  // card's title so it morphs into the destination article's headline
+  // (which carries the matching `view-transition-name: post-title`).
+  // Tagging a single element keeps every other title from lingering mid-transition.
+  function clearTitleTags() {
+    document
+      .querySelectorAll('.post-card__title')
+      .forEach((el) => ((el as HTMLElement).style.viewTransitionName = ''));
+  }
+
+  document.addEventListener(
+    'click',
+    (event) => {
+      const link = (event.target as Element)?.closest?.('a[href]');
+      if (!link) return;
+      const title = link.closest('.post-card')?.querySelector('.post-card__title');
+      clearTitleTags();
+      if (title) (title as HTMLElement).style.viewTransitionName = 'post-title';
+    },
+    true,
+  );
+
+  // Tidy up after navigation so a tag never outlives its transition.
+  document.addEventListener('astro:after-swap', clearTitleTags);
+</script>
