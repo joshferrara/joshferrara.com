@@ -90,11 +90,7 @@ const recentBooks = await getReadBooks(6);
         </HomepageSection>
       </div>
 
-      <div class="animate-in animate-in-4" data-section="collections">
-        <Collections />
-      </div>
-
-      <div class="animate-in animate-in-5" data-section="tweets">
+      <div class="animate-in animate-in-4" data-section="tweets">
         <HomepageSection title="Recent Tweets" href="/tweets/" linkText="More on X">
           <div class="tweet-list">
             {recentTweets.map((tweet: any) => (
@@ -112,7 +108,11 @@ const recentBooks = await getReadBooks(6);
 
     <!-- Right column: All media -->
     <div class="content-grid__right">
-      <div class="animate-in animate-in-4" data-section="listening">
+      <div class="animate-in animate-in-5" data-section="collections">
+        <Collections />
+      </div>
+
+      <div class="animate-in animate-in-6" data-section="listening">
         <HomepageSection title="Listening To" href="/listening/" linkText="Full history">
           {topArtists.length > 0 ? (
             <div class="media-row">
@@ -136,7 +136,7 @@ const recentBooks = await getReadBooks(6);
         </HomepageSection>
       </div>
 
-      <div class="animate-in animate-in-4" data-section="watching">
+      <div class="animate-in animate-in-7" data-section="watching">
         <HomepageSection title="Recently Watched" href="/watching/" linkText="Full diary">
           {recentFilms.length > 0 ? (
             <div class="media-row">
@@ -160,7 +160,7 @@ const recentBooks = await getReadBooks(6);
         </HomepageSection>
       </div>
 
-      <div class="animate-in animate-in-4" data-section="reading">
+      <div class="animate-in animate-in-8" data-section="reading">
         <HomepageSection title="Recently Read" href="/reading/">
           {recentBooks.length > 0 ? (
             <div class="media-row">
@@ -299,6 +299,14 @@ const recentBooks = await getReadBooks(6);
     display: flex;
     flex-direction: column;
     gap: var(--space-8);
+  }
+
+  .content-grid :global(.section-heading) {
+    align-items: flex-start;
+  }
+
+  .content-grid :global(.section-heading a) {
+    line-height: var(--leading-tight);
   }
 
   .tweet-list {
