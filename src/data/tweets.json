@@ -1,5 +1,47 @@
 [
   {
+    "id": "2062239928772165638",
+    "text": "Bot traffic is larger than human traffic on the web. \n\nNow is a good time to make sure agents can find and interact with your product or service. https://twitter.com/eastdakota/status/2062212701414187452",
+    "date": "2026-06-03 18:28:08 +0000",
+    "isReply": false,
+    "isRetweet": false,
+    "inReplyTo": null,
+    "urls": [
+      "https://twitter.com/eastdakota/status/2062212701414187452"
+    ]
+  },
+  {
+    "id": "2062204348394787263",
+    "text": "A helpful resource if you're looking to improve your AI designs:\n\nhttps://github.com/pbakaus/impeccable",
+    "date": "2026-06-03 16:06:45 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2062202136415343072",
+    "urls": [
+      "https://github.com/pbakaus/impeccable"
+    ]
+  },
+  {
+    "id": "2062202136415343072",
+    "text": "Scrubbing em dashes from your copy while shipping this in your UI is leaving the receipt in the bag. https://twitter.com/wesbos/status/2062180597015990472",
+    "date": "2026-06-03 15:57:57 +0000",
+    "isReply": false,
+    "isRetweet": false,
+    "inReplyTo": null,
+    "urls": [
+      "https://twitter.com/wesbos/status/2062180597015990472"
+    ]
+  },
+  {
+    "id": "2062191171359621560",
+    "text": "@0xAlpha__ The concepts are still powerful even if you don't use anthropic models",
+    "date": "2026-06-03 15:14:23 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2062190855214035075",
+    "urls": []
+  },
+  {
     "id": "2061991479166341356",
     "text": "Recommended reading even if you’re not a Claude Code user! https://twitter.com/trq212/status/2061907337154367865",
     "date": "2026-06-03 02:00:53 +0000",
