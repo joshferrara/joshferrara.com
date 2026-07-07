@@ -30,6 +30,7 @@ const projects = defineCollection({
     url: z.string().optional(),
     image: z.string().optional(),
     status: z.enum(['active', 'archived']).default('active'),
+    category: z.enum(['products', 'open-source', 'fun']).default('fun'),
     tags: z.array(z.string()).default([]),
     year: z.number().optional(),
     sortOrder: z.number().default(0),

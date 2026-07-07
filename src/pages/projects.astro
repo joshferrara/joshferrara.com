@@ -22,17 +22,31 @@ const projects = allProjects.sort((a, b) => a.data.sortOrder - b.data.sortOrder)
 
 const active = projects.filter((p) => p.data.status === 'active');
 const archived = projects.filter((p) => p.data.status === 'archived');
+
+const categories = [
+  { key: 'products', label: 'Products' },
+  { key: 'open-source', label: 'Open Source' },
+  { key: 'fun', label: 'Just For Fun' },
+] as const;
+const sections = categories
+  .map((c) => ({ ...c, projects: active.filter((p) => p.data.category === c.key) }))
+  .filter((c) => c.projects.length > 0);
 ---
 
-<BaseLayout title="Projects" description="Side projects, tools, and things Josh Ferrara has built.">
+<BaseLayout title="Projects" description="Side projects, tools, and things Josh Ferrara has built." full>
   <h1>Projects</h1>
   <p class="page-description">Things I've built, big and small.</p>
 
-  <div class="project-grid">
-    {active.map((project) => (
-      <ProjectCard project={project} cover={coverFor(project.id)} />
-    ))}
-  </div>
+  {sections.map(({ label, projects: sectionProjects }) => (
+    <>
+      <h2 class="section-label">{label}</h2>
+      <div class="project-grid">
+        {sectionProjects.map((project) => (
+          <ProjectCard project={project} cover={coverFor(project.id)} />
+        ))}
+      </div>
+    </>
+  ))}
 
   {archived.length > 0 && (
     <>
