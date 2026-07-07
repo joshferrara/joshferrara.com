@@ -9,7 +9,12 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   site: 'https://joshferrara.com',
   integrations: [mdx(), sitemap()],
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    // Optimize <Image> at build time into static /_astro assets. The v13
+    // default ('cloudflare-binding') needs a Cloudflare Images binding we
+    // don't provision, so its runtime /_image endpoint 404s on Workers.
+    imageService: 'compile',
+  }),
   // Prefetch internal links on hover/focus so navigation feels instant.
   prefetch: {
     prefetchAll: true,
