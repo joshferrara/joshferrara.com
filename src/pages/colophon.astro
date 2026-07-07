@@ -17,7 +17,7 @@ export const prerender = true;
         <tr><td><strong>Image Hosting</strong></td><td>Cloudflare R2 (zero egress)</td></tr>
         <tr><td><strong>Search</strong></td><td><a href="https://pagefind.app">Pagefind</a> — static, WASM-powered client-side search</td></tr>
         <tr><td><strong>CSS</strong></td><td>Vanilla CSS with custom properties, no framework</td></tr>
-        <tr><td><strong>Fonts</strong></td><td>System font stack (to be finalized)</td></tr>
+        <tr><td><strong>Fonts</strong></td><td><a href="https://fonts.google.com/specimen/Playfair+Display">Playfair Display</a> for display, <a href="https://fonts.google.com/specimen/Source+Serif+4">Source Serif 4</a> for reading, <a href="https://fonts.google.com/specimen/Source+Sans+3">Source Sans 3</a> for interface</td></tr>
       </tbody>
     </table>
 
@@ -42,10 +42,11 @@ export const prerender = true;
 
     <h2>Design</h2>
     <p>
-      Calm, type-forward, content-first. Warm off-white backgrounds with a
-      forest green accent. Dark mode via <code>prefers-color-scheme</code>.
-      The design is intentionally minimal — generous whitespace, readable
-      measure (~680px content width), and card-based layouts for listings.
+      Calm, type-forward, content-first — a warm, print-inspired editorial feel.
+      Paper-toned backgrounds with a British racing green accent, and a full
+      light and dark theme via <code>prefers-color-scheme</code> plus a manual
+      toggle. Generous whitespace, a comfortable reading measure, and hairline
+      editorial lists in place of heavy cards wherever the content allows.
     </p>
 
     <h2>Growth Stages</h2>
@@ -76,6 +77,12 @@ export const prerender = true;
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+    font-family: var(--font-serif-text);
+  }
+
+  .prose-page p {
+    font-family: var(--font-serif-text);
+    line-height: var(--leading-relaxed);
   }
 
   .prose-page h1 {

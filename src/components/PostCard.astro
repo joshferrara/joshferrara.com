@@ -26,7 +26,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
       {growthStage === 'draft' && <span class="badge badge--draft">Draft</span>}
     </div>
     {readingTime && (
-      <span class="post-card__readtime" aria-hidden="true">{readingTime} min read &rarr;</span>
+      <span class="post-card__readtime" aria-hidden="true">{readingTime} min read</span>
     )}
     <h3 class="post-card__title">{title}</h3>
     {description && <p class="post-card__description">{description}</p>}

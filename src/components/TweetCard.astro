@@ -18,13 +18,33 @@ const formattedDate = parsedDate.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
+// Render a long URL as a compact, human-readable label (no protocol, no
+// dangling media path) so raw links never dominate a tweet.
+function shortenUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, '');
+    const path = u.pathname.replace(/\/+$/, '');
+    // Twitter/X status & photo permalinks are noise — collapse to the domain.
+    if (/(^|\.)(x|twitter)\.com$/.test(host) && /\/status\//.test(path)) {
+      return `${host}/…`;
+    }
+    let display = host + path + (u.search ? '…' : '');
+    if (display.length > 30) display = display.slice(0, 30).replace(/\/?$/, '') + '…';
+    return display;
+  } catch {
+    return url;
+  }
+}
+
 // Linkify URLs, @mentions, and #hashtags
 function linkify(text: string): string {
   return text
-    // URLs
+    // URLs — display a shortened label, link to the full URL
     .replace(
       /(https?:\/\/[^\s]+)/g,
-      '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+      (match) =>
+        `<a href="${match}" target="_blank" rel="noopener noreferrer">${shortenUrl(match)}</a>`
     )
     // @mentions
     .replace(
@@ -50,7 +70,7 @@ const sections = text.split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
 <article class:list={['tweet', { 'tweet--compact': compact, 'tweet--reply': isReply }]}>
   <div class="tweet__meta">
     <time datetime={parsedDate.toISOString()}>{formattedDate}</time>
-    <a href={tweetUrl} target="_blank" rel="noopener noreferrer" class="tweet__link">View on X &rarr;</a>
+    <a href={tweetUrl} target="_blank" rel="noopener noreferrer" class="tweet__link">View on X</a>
   </div>
   {compact ? (
     <div class="tweet__text">
@@ -64,15 +84,23 @@ const sections = text.split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
 </article>
 
 <style>
+  /* Archive rows: quiet hairline-separated list on the page background —
+     the same editorial idiom as the writing list, not a filled card. */
   .tweet {
-    background: var(--color-bg-subtle);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: var(--radius-md);
-    padding: var(--space-4);
+    padding: var(--space-5) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .tweet:not(.tweet--compact):first-child {
+    padding-top: 0;
+  }
+
+  .tweet:not(.tweet--compact):last-child {
+    border-bottom: none;
   }
 
   .tweet--reply {
-    opacity: 0.75;
+    opacity: 0.72;
   }
 
   /* Compact (homepage): quiet list treatment like the writing posts —
@@ -115,10 +143,8 @@ const sections = text.split(/\n{2,}/).map((s) => s.trim()).filter(Boolean);
   }
 
   .tweet__link {
-    font-size: var(--text-sm);
+    font-size: var(--text-xs);
     color: var(--color-text-muted);
-    font-variant-caps: all-small-caps;
-    letter-spacing: 0.05em;
     text-decoration: none;
   }
 

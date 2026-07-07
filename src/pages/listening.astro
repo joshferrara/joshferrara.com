@@ -35,9 +35,8 @@ const hasData = topArtistsMonth.length > 0 || recentTracks.length > 0;
                   ) : (
                     <div class="artist-card__placeholder">{artist.name.charAt(0)}</div>
                   )}
-                  <span class="artist-card__rank">{i + 1}</span>
                 </div>
-                <span class="artist-card__name">{artist.name}</span>
+                <span class="artist-card__name"><span class="artist-card__rank">{i + 1}</span>{artist.name}</span>
                 <span class="artist-card__plays">{artist.playcount} plays</span>
               </a>
             ))}
@@ -60,9 +59,8 @@ const hasData = topArtistsMonth.length > 0 || recentTracks.length > 0;
                   ) : (
                     <div class="artist-card__placeholder">{artist.name.charAt(0)}</div>
                   )}
-                  <span class="artist-card__rank">{i + 1}</span>
                 </div>
-                <span class="artist-card__name">{artist.name}</span>
+                <span class="artist-card__name"><span class="artist-card__rank">{i + 1}</span>{artist.name}</span>
                 <span class="artist-card__plays">{artist.playcount} plays</span>
               </a>
             ))}
@@ -158,26 +156,14 @@ const hasData = topArtistsMonth.length > 0 || recentTracks.length > 0;
     font-size: var(--text-2xl);
     color: var(--color-text-muted);
   }
+  /* Quiet typographic rank — a numeral before the name, not a chip on the art */
   .artist-card__rank {
-    position: absolute;
-    top: var(--space-2);
-    left: var(--space-2);
-    min-width: 1.5rem;
-    height: 1.5rem;
-    padding: 0 0.35rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(21, 21, 22, 0.55);
-    color: #fff;
-    font-size: var(--text-xs);
+    color: var(--color-warm);
     font-weight: 600;
-    border-radius: var(--radius-sm);
     font-variant-numeric: tabular-nums;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
+    margin-right: 0.4em;
   }
+  .artist-card__rank::after { content: '.'; }
   .artist-card__name {
     font-size: var(--text-sm);
     font-weight: 500;

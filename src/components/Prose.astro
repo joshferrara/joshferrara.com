@@ -12,15 +12,27 @@ const { class: className } = Astro.props;
 
 <style>
   .prose {
+    font-family: var(--font-serif-text);
     font-size: var(--text-base);
-    line-height: 1.7;
+    line-height: var(--leading-relaxed);
     color: var(--color-text);
   }
 
   .prose :global(p),
   .prose :global(li) {
-    line-height: 1.7;
+    font-family: var(--font-serif-text);
+    line-height: var(--leading-relaxed);
     max-width: none;
+  }
+
+  /* Headings stay in the display serif for contrast against the reading body. */
+  .prose :global(h1),
+  .prose :global(h2),
+  .prose :global(h3),
+  .prose :global(h4),
+  .prose :global(h5),
+  .prose :global(h6) {
+    font-family: var(--font-serif);
   }
 
   .prose :global(h1) {

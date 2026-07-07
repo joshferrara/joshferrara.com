@@ -8,9 +8,10 @@ interface Props {
   description?: string;
   image?: string;
   wide?: boolean;
+  full?: boolean;
 }
 
-const { title, description, image, wide = false } = Astro.props;
+const { title, description, image, wide = false, full = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -20,7 +21,7 @@ const { title, description, image, wide = false } = Astro.props;
   </head>
   <body>
     <Nav />
-    <main class:list={['main', 'container', { 'container--wide': wide }]}>
+    <main class:list={['main', 'container', { 'container--wide': wide, 'container--full': full }]}>
       <slot />
     </main>
     <Footer />

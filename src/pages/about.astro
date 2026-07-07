@@ -14,17 +14,26 @@ import SocialIcons from '../components/SocialIcons.astro';
 
   <div class="prose">
     <p class="lede">
-      I'm Josh Ferrara — a product strategist based in [location]. I spend my
-      days thinking about how technology shapes the way people live, work, and
-      connect.
+      I'm Josh Ferrara — a product strategist in Baton Rouge, Louisiana. I spend
+      my days thinking about how software gets made, and how the tools we build
+      shape the way people live and work.
     </p>
 
     <h2>A little context</h2>
     <p>
-      [This section will cover what drives Josh professionally — product
-      strategy, the intersection of technology and human experience, and how
-      various interests (music, photography, reading, food) inform a more
-      textured approach to building things.]
+      I lead the product solutions practice at Make, a full-cycle software
+      studio, where most of my work lives in the space between a rough idea and
+      a shipped product — discovery, shaping, and the hundred small decisions in
+      between. I care about craft, and about the parts of building software that
+      never show up in a changelog: taste, judgment, and knowing which problem
+      is actually worth solving.
+    </p>
+    <p>
+      Outside of work, most of my attention goes to my family. The rest gets
+      split between music, photography, reading, film, and — lately — an
+      unreasonable amount of Formula 1. I've come to think those things aren't a
+      distraction from the work so much as the texture that makes it worth
+      doing.
     </p>
 
     <h2>Career</h2>
@@ -95,9 +104,12 @@ import SocialIcons from '../components/SocialIcons.astro';
 
     <h2>Background</h2>
     <p>
-      [Personal history — LSU, path into tech/product, how music and
-      photography and reading all connect, the thread that ties everything
-      together.]
+      I grew up in the South and studied at LSU. I started out building websites
+      and interactive projects, drifted into engineering, co-founded a couple of
+      small companies, and eventually found my way to product — which turned out
+      to be the thing that tied all the earlier detours together. The
+      through-line, if there is one, is that I like making things, and I like the
+      people I make them with.
     </p>
 
     <h2>Elsewhere</h2>
@@ -116,18 +128,23 @@ import SocialIcons from '../components/SocialIcons.astro';
   .about-photo {
     width: 100px;
     height: 100px;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     object-fit: cover;
     flex-shrink: 0;
-    box-shadow: var(--shadow-lg);
-    border: 3px solid var(--color-bg-raised);
-    outline: 2px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--color-border);
   }
 
   .prose {
     display: flex;
     flex-direction: column;
     gap: var(--space-5);
+    font-family: var(--font-serif-text);
+  }
+
+  .prose > p {
+    font-family: var(--font-serif-text);
+    line-height: var(--leading-relaxed);
   }
 
   .prose h2 {
