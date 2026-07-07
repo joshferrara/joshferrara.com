@@ -1,6 +1,6 @@
 ---
 title: Issued
-description: Turn support tickets into GitHub issues
+description: Turn support tickets into Linear & GitHub issues
 url: https://issued.dev
 status: active
 category: products
