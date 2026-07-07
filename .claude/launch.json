@@ -6,9 +6,10 @@
       "runtimeExecutable": "bash",
       "runtimeArgs": [
         "-c",
-        "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; nvm use >/dev/null 2>&1 || nvm use 24 >/dev/null 2>&1; exec npm run dev -- --port 4321"
+        "export NVM_DIR=\"$HOME/.nvm\"; . \"$NVM_DIR/nvm.sh\"; nvm use >/dev/null 2>&1 || nvm use 24 >/dev/null 2>&1; exec npm run dev -- --port \"${PORT:-4321}\""
       ],
-      "port": 4321
+      "port": 4321,
+      "autoPort": true
     },
     {
       "name": "preview",
