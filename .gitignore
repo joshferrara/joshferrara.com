@@ -30,6 +30,9 @@ pnpm-debug.log*
 .wrangler/
 worker-configuration.d.ts
 
+# local recap media staging
+.media-import/
+
 # playwright
 .playwright-mcp/
 

@@ -37,12 +37,15 @@ const { Content } = await render(recap);
 <style>
   .recap__header { margin-bottom: var(--space-8); }
   .recap__year {
-    font-size: var(--text-sm);
-    color: var(--color-accent);
-    font-weight: 600;
-    font-variant-caps: all-small-caps;
-    letter-spacing: 0.06em;
+    display: block;
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--color-warm);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
   }
-  .recap__header h1 { font-size: var(--text-4xl); margin-top: var(--space-1); }
+  .recap__header h1 { font-size: var(--text-4xl); margin-top: var(--space-2); }
   .back-link { margin-top: var(--space-10); padding-top: var(--space-6); border-top: 1px solid var(--color-border-subtle); font-size: var(--text-sm); }
 </style>

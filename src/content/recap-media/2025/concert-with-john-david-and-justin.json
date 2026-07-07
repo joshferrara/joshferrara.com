@@ -1,0 +1,46 @@
+{
+  "title": "Concert with John David & Justin",
+  "year": 2025,
+  "slug": "concert-with-john-david-and-justin",
+  "source": {
+    "type": "notion",
+    "pageId": "2ca180af-1db6-81ec-b166-c513624a147b"
+  },
+  "items": [
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/concert-with-john-david-and-justin/001-img-8797.jpeg",
+      "alt": "IMG_8797.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/concert-with-john-david-and-justin/002-img-8799.jpeg",
+      "alt": "IMG_8799.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/concert-with-john-david-and-justin/003-img-8804.jpeg",
+      "alt": "IMG_8804.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "video",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/concert-with-john-david-and-justin/004-img-8814.mov",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/concert-with-john-david-and-justin/005-img-8820.jpeg",
+      "alt": "IMG_8820.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/concert-with-john-david-and-justin/006-img-0122.jpeg",
+      "alt": "IMG_0122.jpeg",
+      "caption": ""
+    }
+  ]
+}

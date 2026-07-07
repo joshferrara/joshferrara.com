@@ -1,0 +1,535 @@
+---
+type MediaType = 'image' | 'video' | 'stream';
+
+interface MediaItem {
+  type?: MediaType;
+  src?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+  poster?: string;
+  streamId?: string;
+}
+
+interface MediaGalleryManifest {
+  title?: string;
+  description?: string;
+  slug?: string;
+  items: MediaItem[];
+}
+
+interface Props {
+  gallery?: MediaGalleryManifest;
+  items?: MediaItem[];
+  title?: string;
+  description?: string;
+}
+
+const {
+  gallery,
+  items,
+  title = gallery?.title ?? 'Photos',
+  description = gallery?.description,
+} = Astro.props;
+
+const mediaItems = items ?? gallery?.items ?? [];
+const galleryId = `media-gallery-${(gallery?.slug ?? title).toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
+const getAspectRatio = (item: MediaItem) => {
+  if (item.width && item.height) return `${item.width} / ${item.height}`;
+  return item.type === 'video' ? '16 / 9' : '4 / 3';
+};
+
+const getLightboxSrc = (item: MediaItem) => {
+  if (item.type === 'stream' && item.streamId) return `https://iframe.videodelivery.net/${item.streamId}`;
+  return item.src ?? '';
+};
+
+const getCloudflareImageUrl = (src = '', options: string) => {
+  if (!src.startsWith('https://images.joshferrara.com/')) return src;
+
+  const sourcePath = src.replace('https://images.joshferrara.com/', '');
+  return `https://images.joshferrara.com/cdn-cgi/image/${options}/${sourcePath}`;
+};
+
+const getThumbnailSrc = (item: MediaItem, width = 480) =>
+  getCloudflareImageUrl(item.src, `width=${width},quality=72,format=auto`);
+
+const getThumbnailSrcset = (item: MediaItem) =>
+  [320, 480, 720]
+    .map((width) => `${getThumbnailSrc(item, width)} ${width}w`)
+    .join(', ');
+---
+
+{mediaItems.length > 0 && (
+  <span class="media-gallery" data-media-gallery id={galleryId}>
+    <button class="media-gallery__trigger" type="button" data-gallery-open>
+      Photos
+      <span class="sr-only"> for {title}, {mediaItems.length} items</span>
+    </button>
+
+    <dialog class="media-gallery__dialog" data-gallery-dialog aria-labelledby={`${galleryId}-title`}>
+      <div class="media-gallery__shell">
+        <header class="media-gallery__header">
+          <div>
+            <h2 id={`${galleryId}-title`}>{title}</h2>
+            <p>{mediaItems.length}{' '}{mediaItems.length === 1 ? 'photo' : 'photos'}</p>
+            {description && <p>{description}</p>}
+          </div>
+          <button class="media-gallery__icon-button" type="button" data-gallery-close aria-label="Close gallery">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </header>
+
+        <div class="media-gallery__grid" data-gallery-grid>
+          {mediaItems.map((item, index) => (
+            <button
+              class="media-gallery__thumb"
+              type="button"
+              data-lightbox-open
+              data-index={index}
+              aria-label={`Open ${title} item ${index + 1} of ${mediaItems.length}`}
+            >
+              {item.type === 'video' ? (
+                <video
+                  src={item.src}
+                  poster={item.poster}
+                  preload="metadata"
+                  muted
+                  playsinline
+                  style={`aspect-ratio: ${getAspectRatio(item)}`}
+                />
+              ) : item.type === 'stream' ? (
+                <span class="media-gallery__video-placeholder" style={`aspect-ratio: ${getAspectRatio(item)}`}>Video</span>
+              ) : (
+                <img
+                  src={getThumbnailSrc(item)}
+                  srcset={getThumbnailSrcset(item)}
+                  sizes="(max-width: 640px) 33vw, 180px"
+                  alt={item.alt ?? ''}
+                  width={item.width}
+                  height={item.height}
+                  loading="lazy"
+                  decoding="async"
+                  style={`aspect-ratio: ${getAspectRatio(item)}`}
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
+        <div class="media-gallery__lightbox" data-lightbox hidden>
+          <button class="media-gallery__lightbox-backdrop" type="button" data-lightbox-close aria-label="Close photo" />
+          <div class="media-gallery__stage" data-lightbox-stage>
+            <button class="media-gallery__nav media-gallery__nav--prev" type="button" data-lightbox-prev aria-label="Previous photo">
+              <span aria-hidden="true">&lsaquo;</span>
+            </button>
+
+            <div class="media-gallery__viewer" data-lightbox-viewer>
+              {mediaItems.map((item, index) => (
+                <figure
+                  class="media-gallery__slide"
+                  data-lightbox-slide
+                  data-index={index}
+                  hidden={index !== 0}
+                >
+                  {item.type === 'video' ? (
+                    <video
+                      src={item.src}
+                      poster={item.poster}
+                      controls
+                      preload="metadata"
+                      playsinline
+                    />
+                  ) : item.type === 'stream' && item.streamId ? (
+                    <iframe
+                      src={getLightboxSrc(item)}
+                      loading="lazy"
+                      allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+                      allowfullscreen
+                      title={item.caption ?? title}
+                    />
+                  ) : (
+                    <img
+                      src={item.src}
+                      alt={item.alt ?? ''}
+                      width={item.width}
+                      height={item.height}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                  {item.caption && <figcaption>{item.caption}</figcaption>}
+                </figure>
+              ))}
+            </div>
+
+            <button class="media-gallery__nav media-gallery__nav--next" type="button" data-lightbox-next aria-label="Next photo">
+              <span aria-hidden="true">&rsaquo;</span>
+            </button>
+
+            <button class="media-gallery__icon-button media-gallery__lightbox-close" type="button" data-lightbox-close aria-label="Close photo">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+  </span>
+)}
+
+<script>
+  document.querySelectorAll('[data-media-gallery]').forEach((gallery) => {
+    const openButton = gallery.querySelector('[data-gallery-open]');
+    const dialog = gallery.querySelector('dialog[data-gallery-dialog]');
+    const closeButtons = gallery.querySelectorAll('[data-gallery-close]');
+    const lightbox = gallery.querySelector('[data-lightbox]');
+    const slides = Array.from(gallery.querySelectorAll('[data-lightbox-slide]'));
+    const thumbButtons = gallery.querySelectorAll('[data-lightbox-open]');
+    const prevButton = gallery.querySelector('[data-lightbox-prev]');
+    const nextButton = gallery.querySelector('[data-lightbox-next]');
+    const lightboxCloseButtons = gallery.querySelectorAll('[data-lightbox-close]');
+    const stage = gallery.querySelector('[data-lightbox-stage]');
+    let activeIndex = 0;
+    let touchStartX = 0;
+
+    if (!(dialog instanceof HTMLDialogElement) || !openButton || !lightbox) return;
+
+    const pauseMedia = () => {
+      gallery.querySelectorAll('video').forEach((video) => video.pause());
+      gallery.querySelectorAll('iframe').forEach((iframe) => {
+        iframe.src = iframe.src;
+      });
+    };
+
+    const showSlide = (index) => {
+      activeIndex = (index + slides.length) % slides.length;
+      slides.forEach((slide, slideIndex) => {
+        slide.hidden = slideIndex !== activeIndex;
+      });
+    };
+
+    const openLightbox = (index) => {
+      showSlide(index);
+      lightbox.hidden = false;
+      document.documentElement.classList.add('has-media-lightbox');
+    };
+
+    const closeLightbox = () => {
+      lightbox.hidden = true;
+      document.documentElement.classList.remove('has-media-lightbox');
+      pauseMedia();
+    };
+
+    const closeDialog = () => {
+      closeLightbox();
+      dialog.close();
+      pauseMedia();
+    };
+
+    openButton.addEventListener('click', () => dialog.showModal());
+    closeButtons.forEach((button) => button.addEventListener('click', closeDialog));
+    thumbButtons.forEach((button) => {
+      button.addEventListener('click', () => openLightbox(Number(button.dataset.index ?? 0)));
+    });
+    lightboxCloseButtons.forEach((button) => button.addEventListener('click', closeLightbox));
+    prevButton?.addEventListener('click', () => showSlide(activeIndex - 1));
+    nextButton?.addEventListener('click', () => showSlide(activeIndex + 1));
+
+    dialog.addEventListener('cancel', () => {
+      closeLightbox();
+      pauseMedia();
+    });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) closeDialog();
+    });
+
+    stage?.addEventListener('touchstart', (event) => {
+      touchStartX = event.changedTouches[0]?.clientX ?? 0;
+    }, { passive: true });
+
+    stage?.addEventListener('touchend', (event) => {
+      const deltaX = (event.changedTouches[0]?.clientX ?? 0) - touchStartX;
+      if (Math.abs(deltaX) < 40) return;
+      showSlide(deltaX > 0 ? activeIndex - 1 : activeIndex + 1);
+    }, { passive: true });
+
+    document.addEventListener('keydown', (event) => {
+      if (!dialog.open || lightbox.hidden) return;
+      if (event.key === 'ArrowLeft') showSlide(activeIndex - 1);
+      if (event.key === 'ArrowRight') showSlide(activeIndex + 1);
+      if (event.key === 'Escape') closeLightbox();
+    });
+  });
+</script>
+
+<style>
+  .media-gallery {
+    display: block;
+    margin: calc(-1 * var(--space-2)) 0 var(--space-5);
+  }
+
+  .media-gallery__trigger {
+    display: inline;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-accent);
+    font: inherit;
+    line-height: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .media-gallery__trigger:hover {
+    color: var(--color-accent-hover);
+  }
+
+  .media-gallery__dialog {
+    width: min(1040px, calc(100vw - 2rem));
+    max-width: none;
+    max-height: min(860px, calc(100vh - 2rem));
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    color: var(--color-text);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .media-gallery__dialog::backdrop {
+    background: rgba(15, 15, 16, 0.72);
+  }
+
+  .media-gallery__shell {
+    display: flex;
+    max-height: min(860px, calc(100vh - 2rem));
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .media-gallery__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-5) var(--space-4);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .media-gallery__header h2 {
+    margin: 0;
+    font-size: var(--text-xl);
+    line-height: var(--leading-tight);
+  }
+
+  .media-gallery__header p {
+    margin: var(--space-1) 0 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .media-gallery__icon-button {
+    display: inline-grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background: var(--color-bg-raised);
+    color: var(--color-text);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .media-gallery__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: var(--space-3);
+    padding: var(--space-5);
+    overflow: auto;
+  }
+
+  .media-gallery__thumb {
+    min-width: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-subtle);
+    cursor: zoom-in;
+  }
+
+  .media-gallery__thumb img,
+  .media-gallery__thumb video,
+  .media-gallery__video-placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 140px;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .media-gallery__thumb:hover img,
+  .media-gallery__thumb:hover video,
+  .media-gallery__thumb:hover .media-gallery__video-placeholder {
+    transform: scale(1.03);
+  }
+
+  .media-gallery__video-placeholder {
+    display: grid;
+    place-items: center;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .media-gallery__lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: grid;
+    place-items: center;
+    padding: var(--space-5);
+  }
+
+  .media-gallery__lightbox[hidden] {
+    display: none;
+  }
+
+  .media-gallery__lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.86);
+    cursor: zoom-out;
+  }
+
+  .media-gallery__stage {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    width: min(1100px, 100%);
+    height: min(760px, calc(100vh - 3rem));
+    grid-template-columns: 3rem minmax(0, 1fr) 3rem;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .media-gallery__viewer,
+  .media-gallery__slide {
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+  }
+
+  .media-gallery__slide img,
+  .media-gallery__slide video,
+  .media-gallery__slide iframe {
+    display: block;
+    width: 100%;
+    max-height: calc(100vh - 6rem);
+    object-fit: contain;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: #000;
+  }
+
+  .media-gallery__slide iframe {
+    aspect-ratio: 16 / 9;
+  }
+
+  .media-gallery__slide figcaption {
+    margin-top: var(--space-2);
+    color: #fff;
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+
+  .media-gallery__nav {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 2.5rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .media-gallery__nav:hover,
+  .media-gallery__lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .media-gallery__lightbox-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  :global(.has-media-lightbox) {
+    overflow: hidden;
+  }
+
+  @media (max-width: 640px) {
+    .media-gallery__dialog {
+      width: 100vw;
+      max-height: 100vh;
+      border-radius: 0;
+    }
+
+    .media-gallery__shell {
+      max-height: 100vh;
+    }
+
+    .media-gallery__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: var(--space-3);
+    }
+
+    .media-gallery__stage {
+      height: calc(100vh - 2rem);
+      grid-template-columns: 1fr;
+    }
+
+    .media-gallery__nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .media-gallery__nav--prev {
+      left: 0;
+    }
+
+    .media-gallery__nav--next {
+      right: 0;
+    }
+  }
+</style>

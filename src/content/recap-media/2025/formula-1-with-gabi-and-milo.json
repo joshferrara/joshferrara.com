@@ -1,0 +1,23 @@
+{
+  "title": "Formula 1 with Gabi & Milo",
+  "year": 2025,
+  "slug": "formula-1-with-gabi-and-milo",
+  "source": {
+    "type": "notion",
+    "pageId": "2ca180af-1db6-818d-9939-f4a1c283e6f3"
+  },
+  "items": [
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/formula-1-with-gabi-and-milo/001-img-8138.jpeg",
+      "alt": "IMG_8138.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/formula-1-with-gabi-and-milo/002-img-8147.jpeg",
+      "alt": "IMG_8147.jpeg",
+      "caption": ""
+    }
+  ]
+}

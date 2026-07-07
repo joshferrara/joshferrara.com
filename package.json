@@ -10,7 +10,9 @@
     "build": "astro build && npx pagefind --site dist/client",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-types": "wrangler types"
+    "generate-types": "wrangler types",
+    "recap:media": "node scripts/recap-media.js",
+    "recap:notion-media": "node scripts/import-notion-recap-media.js"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.1.6",

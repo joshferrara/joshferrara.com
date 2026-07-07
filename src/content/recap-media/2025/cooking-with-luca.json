@@ -1,0 +1,77 @@
+{
+  "title": "Cooking with Luca",
+  "year": 2025,
+  "slug": "cooking-with-luca",
+  "source": {
+    "type": "notion",
+    "pageId": "2ca180af-1db6-81af-95c5-fe961287360d"
+  },
+  "items": [
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/001-img-9273.jpeg",
+      "alt": "IMG_9273.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/002-img-9331.jpeg",
+      "alt": "IMG_9331.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/003-img-9342.jpeg",
+      "alt": "IMG_9342.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/004-img-9343.jpeg",
+      "alt": "IMG_9343.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/005-img-9344.jpeg",
+      "alt": "IMG_9344.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/006-img-9347.jpeg",
+      "alt": "IMG_9347.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/007-img-9511.jpeg",
+      "alt": "IMG_9511.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/008-img-9507.jpeg",
+      "alt": "IMG_9507.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/009-img-9508.jpeg",
+      "alt": "IMG_9508.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/010-img-9509.jpeg",
+      "alt": "IMG_9509.jpeg",
+      "caption": ""
+    },
+    {
+      "type": "image",
+      "src": "https://images.joshferrara.com/recaps/2025/moments/cooking-with-luca/011-img-9510.jpeg",
+      "alt": "IMG_9510.jpeg",
+      "caption": ""
+    }
+  ]
+}
