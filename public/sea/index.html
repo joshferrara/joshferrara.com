@@ -4,11 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>S.E.A. Archives - Society of Explorers and Adventurers</title>
+    <meta name="description" content="An interactive archive of Disney's Society of Explorers and Adventurers — the shared universe connecting park attractions worldwide. Explore the timeline, characters, locations, and artifacts.">
+    <meta name="theme-color" content="#1c1712">
+    <meta property="og:title" content="S.E.A. Archives">
+    <meta property="og:description" content="An interactive archive of Disney's Society of Explorers and Adventurers shared-universe lore. Est. August 12, 1538, Porto Paradiso.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='22' fill='none' stroke='%23c9943e' stroke-width='2'/%3E%3Cpath d='M24 6 L26 18 L24 16 L22 18 Z' fill='%23c9943e'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23c9943e'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700;900&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
     <!-- Ambient particle canvas -->
@@ -50,10 +55,11 @@
                 <li><a href="#families" class="nav-link" data-section="families"><span class="nav-link-text">Families</span></a></li>
                 <li><a href="#artifacts" class="nav-link" data-section="artifacts"><span class="nav-link-text">Artifacts</span></a></li>
             </ul>
-            <div class="nav-search">
+            <div class="nav-search" role="search">
                 <div class="search-wrapper">
                     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-                    <input type="text" id="searchInput" placeholder="Search the archives..." class="search-input">
+                    <input type="search" id="searchInput" placeholder="Search the archives..." class="search-input" aria-label="Search the archives" autocomplete="off">
+                    <div id="searchResults" class="search-results" hidden></div>
                 </div>
             </div>
         </div>
@@ -152,22 +158,22 @@
 
                         <div class="quick-stats">
                             <div class="stat-box">
-                                <div class="stat-number" data-count="30">30+</div>
+                                <div class="stat-number" data-stat="characters">&nbsp;</div>
                                 <div class="stat-divider"></div>
-                                <div class="stat-label">Members</div>
+                                <div class="stat-label">Characters</div>
                             </div>
                             <div class="stat-box">
-                                <div class="stat-number" data-count="20">20+</div>
+                                <div class="stat-number" data-stat="locations">&nbsp;</div>
                                 <div class="stat-divider"></div>
                                 <div class="stat-label">Locations</div>
                             </div>
                             <div class="stat-box">
-                                <div class="stat-number" data-count="7">7</div>
+                                <div class="stat-number" data-stat="artifacts">&nbsp;</div>
                                 <div class="stat-divider"></div>
-                                <div class="stat-label">Properties</div>
+                                <div class="stat-label">Artifacts</div>
                             </div>
                             <div class="stat-box">
-                                <div class="stat-number" data-count="488">488</div>
+                                <div class="stat-number" data-stat="years">&nbsp;</div>
                                 <div class="stat-divider"></div>
                                 <div class="stat-label">Years</div>
                             </div>
@@ -178,42 +184,42 @@
                 <div class="home-navigation">
                     <h3 class="subsection-heading"><span class="heading-line"></span>Explore the Archives<span class="heading-line"></span></h3>
                     <div class="archive-cards">
-                        <div class="archive-card" data-section="timeline">
+                        <a class="archive-card" href="#timeline">
                             <div class="card-corner tl"></div><div class="card-corner tr"></div><div class="card-corner bl"></div><div class="card-corner br"></div>
                             <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="20" cy="20" r="16"/><path d="M20 10v10l7 7"/></svg></div>
                             <h4>Timeline</h4>
                             <p>Journey through five centuries of exploration and adventure</p>
-                        </div>
-                        <div class="archive-card" data-section="characters">
+                        </a>
+                        <a class="archive-card" href="#characters">
                             <div class="card-corner tl"></div><div class="card-corner tr"></div><div class="card-corner bl"></div><div class="card-corner br"></div>
                             <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="20" cy="14" r="8"/><path d="M6 38c0-8 6-14 14-14s14 6 14 14"/></svg></div>
                             <h4>Characters</h4>
                             <p>Meet the bold adventurers and explorers who shaped history</p>
-                        </div>
-                        <div class="archive-card" data-section="relationships">
+                        </a>
+                        <a class="archive-card" href="#relationships">
                             <div class="card-corner tl"></div><div class="card-corner tr"></div><div class="card-corner bl"></div><div class="card-corner br"></div>
                             <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><circle cx="28" cy="12" r="5"/><circle cx="20" cy="28" r="5"/><path d="M16 14l5 11M24 14l-5 11M15 10h10"/></svg></div>
                             <h4>Relationships</h4>
                             <p>Discover the intricate web of connections and rivalries</p>
-                        </div>
-                        <div class="archive-card" data-section="locations">
+                        </a>
+                        <a class="archive-card" href="#locations">
                             <div class="card-corner tl"></div><div class="card-corner tr"></div><div class="card-corner bl"></div><div class="card-corner br"></div>
                             <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 4C13 4 8 10 8 16c0 10 12 20 12 20s12-10 12-20c0-6-5-12-12-12z"/><circle cx="20" cy="16" r="5"/></svg></div>
                             <h4>Locations</h4>
                             <p>Visit the sites where legends were born and mysteries unfold</p>
-                        </div>
-                        <div class="archive-card" data-section="families">
+                        </a>
+                        <a class="archive-card" href="#families">
                             <div class="card-corner tl"></div><div class="card-corner tr"></div><div class="card-corner bl"></div><div class="card-corner br"></div>
                             <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="20" cy="8" r="4"/><circle cx="10" cy="26" r="4"/><circle cx="30" cy="26" r="4"/><path d="M20 12v6M14 24l4-6M26 24l-4-6"/></svg></div>
                             <h4>Families</h4>
                             <p>Trace the bloodlines and legacies of prominent explorer families</p>
-                        </div>
-                        <div class="archive-card" data-section="artifacts">
+                        </a>
+                        <a class="archive-card" href="#artifacts">
                             <div class="card-corner tl"></div><div class="card-corner tr"></div><div class="card-corner bl"></div><div class="card-corner br"></div>
                             <div class="card-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 4l5 10 11 2-8 7 2 11-10-5-10 5 2-11-8-7 11-2z"/></svg></div>
                             <h4>Artifacts</h4>
                             <p>Examine the cursed relics and treasured discoveries</p>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -259,10 +265,10 @@
 
                 <div id="characterGrid" class="character-grid"></div>
 
-                <div id="characterModal" class="modal">
+                <div id="characterModal" class="modal" role="dialog" aria-modal="true" aria-label="Character details">
                     <div class="modal-content character-detail">
                         <div class="modal-ornament top"></div>
-                        <button class="modal-close">&times;</button>
+                        <button class="modal-close" aria-label="Close character details">&times;</button>
                         <div id="characterDetailContent"></div>
                         <div class="modal-ornament bottom-orn"></div>
                     </div>
@@ -312,12 +318,6 @@
                     <div id="noRelationshipsMsg" class="rel-empty-msg" style="display:none;">No connections match the current filters.</div>
                 </div>
 
-                <div class="graph-legend">
-                    <div class="legend-item"><div class="legend-line family"></div> Family</div>
-                    <div class="legend-item"><div class="legend-line friendship"></div> Friendship</div>
-                    <div class="legend-item"><div class="legend-line rivalry"></div> Rivalry</div>
-                    <div class="legend-item"><div class="legend-line professional"></div> Professional</div>
-                </div>
             </div>
         </section>
 
@@ -378,9 +378,11 @@
                 <div class="artifact-filters">
                     <button class="filter-btn active" data-type="all">All</button>
                     <button class="filter-btn" data-type="cursed">Cursed</button>
+                    <button class="filter-btn" data-type="magical">Magical</button>
                     <button class="filter-btn" data-type="vehicle">Vehicles</button>
                     <button class="filter-btn" data-type="treasure">Treasures</button>
                     <button class="filter-btn" data-type="document">Documents</button>
+                    <button class="filter-btn" data-type="equipment">Equipment</button>
                 </div>
 
                 <div id="artifactGrid" class="artifact-grid"></div>
@@ -395,7 +397,7 @@
             <svg viewBox="0 0 600 30" class="ornament-svg"><path d="M0,15 Q75,0 150,15 T300,15 T450,15 T600,15" fill="none" stroke="currentColor" stroke-width="0.5"/><circle cx="300" cy="15" r="5" fill="currentColor"/><circle cx="280" cy="15" r="2" fill="currentColor"/><circle cx="320" cy="15" r="2" fill="currentColor"/></svg>
         </div>
         <p class="footer-text">Kungaloosh! &mdash; The Official Greeting of the Society of Explorers and Adventurers</p>
-        <p class="footer-sub">An interactive archive of Disney's shared universe lore</p>
+        <p class="footer-sub">An interactive archive of Disney's shared universe lore &bull; A fan project by <a href="https://joshferrara.com" class="footer-link">Josh Ferrara</a></p>
     </footer>
 
     <!-- Loading Screen -->

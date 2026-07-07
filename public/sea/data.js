@@ -240,6 +240,198 @@ const SEAData = {
             connections: ['Jason Chandler', 'Barnabas T. Bullion'],
             locations: ['Museum of the Weird (unbuilt)'],
             artifacts: []
+        },
+        {
+            id: 'brieux',
+            name: 'Captain Brieux',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Aviator',
+            membership: 'S.E.A. Member',
+            description: 'French aviator who mapped regions of the Mekong River with Jason Chandler after 1907, flying his airship The Hyperion.',
+            connections: ['Jason Chandler'],
+            locations: ['Referenced in S.E.A. lore'],
+            artifacts: ['The Hyperion']
+        },
+        {
+            id: 'ravenswood-martha',
+            name: 'Martha Ravenswood',
+            status: 'Deceased/Spirit',
+            type: 'associate',
+            occupation: 'None',
+            membership: 'None',
+            description: 'Wife of Henry Ravenswood and mother of Melanie. Born 1802, she perished alongside her husband in the 1860 Thunder Mesa earthquake.',
+            connections: ['Henry Ravenswood', 'Melanie Ravenswood'],
+            locations: ['Phantom Manor (Disneyland Paris)'],
+            artifacts: []
+        },
+        {
+            id: 'smelding',
+            name: 'Smelding',
+            status: 'Unknown',
+            type: 'associate',
+            occupation: 'Valet',
+            membership: 'None',
+            description: 'Harrison Hightower III\'s loyal valet and accomplice. Helped his master steal the head of the water god idol from the Raging Spirits temple.',
+            connections: ['Harrison Hightower III'],
+            locations: ['Tower of Terror (Tokyo DisneySea)'],
+            artifacts: ['Water God Idol Head']
+        },
+        {
+            id: 'albert',
+            name: 'Albert',
+            status: 'Active',
+            type: 'associate',
+            occupation: 'Monkey Companion',
+            membership: 'Companion to S.E.A. Member',
+            description: 'Lord Henry Mystic\'s loyal monkey companion, rescued from a giant spider during their travels. Famously opened the enchanted music box, bringing the manor\'s collection to life.',
+            connections: ['Lord Henry Mystic'],
+            locations: ['Mystic Manor (Hong Kong Disneyland)'],
+            artifacts: ['Enchanted Music Box']
+        },
+        {
+            id: 'duncan',
+            name: 'Duncan',
+            status: 'Active',
+            type: 'associate',
+            occupation: 'Parrot, Diving Partner',
+            membership: 'Companion to S.E.A. Member',
+            description: 'Captain Mary Oceaneer\'s trusted parrot and current diving partner. Keeps watch, chats, and sings while Mary searches for treasure.',
+            connections: ['Captain Mary Oceaneer'],
+            locations: ['Miss Adventure Falls'],
+            artifacts: []
+        },
+        {
+            id: 'salty',
+            name: 'Salty',
+            status: 'Historical',
+            type: 'associate',
+            occupation: 'Parrot, Diving Companion',
+            membership: 'Companion to S.E.A. Member',
+            description: 'Captain Mary Oceaneer\'s parrot who accompanied her on the famous December 5, 1901 deep-sea dive in a custom-made diving suit.',
+            connections: ['Captain Mary Oceaneer'],
+            locations: ['Miss Adventure Falls'],
+            artifacts: ['Salty\'s Diving Suit']
+        },
+        {
+            id: 'pechman',
+            name: 'Felix Pechman XIII',
+            status: 'Active',
+            type: 'associate',
+            occupation: 'Jungle Navigation Co. Skipper',
+            membership: 'None',
+            description: 'A skipper for the Jungle Navigation Company. In 1938, he crashed the boat carrying Dr. Kon Chunosuke and Alberta Falls, stranding the expedition in the African veldt.',
+            connections: ['Alberta Falls', 'Dr. Kon Chunosuke'],
+            locations: ['Jungle Cruise'],
+            artifacts: []
+        },
+        {
+            id: 'murphy',
+            name: 'Siobhan "Puffin" Murphy',
+            status: 'Active',
+            type: 'associate',
+            occupation: 'Adventurer',
+            membership: 'None',
+            description: 'Distant cousin of Alberta Falls, introduced in the 2021 Jungle Cruise update.',
+            connections: ['Alberta Falls'],
+            locations: ['Jungle Cruise'],
+            artifacts: []
+        },
+        {
+            id: 'moss',
+            name: 'Dr. Leonard Moss',
+            status: 'Missing',
+            type: 'associate',
+            occupation: 'Botanist',
+            membership: 'None',
+            description: 'Acclaimed Canadian botanist and member of the missing VIP tour in the 2021 Jungle Cruise storyline.',
+            connections: ['Rosa Soto Dominguez'],
+            locations: ['Jungle Cruise'],
+            artifacts: []
+        },
+        {
+            id: 'dominguez',
+            name: 'Rosa Soto Dominguez',
+            status: 'Missing',
+            type: 'associate',
+            occupation: 'Artist',
+            membership: 'None',
+            description: 'Celebrated Mexican artist and member of the missing VIP tour in the 2021 Jungle Cruise storyline.',
+            connections: ['Dr. Leonard Moss'],
+            locations: ['Jungle Cruise'],
+            artifacts: []
+        },
+        {
+            id: 'tandaji',
+            name: 'Chef Tandaji',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Chef, Author',
+            membership: 'S.E.A. Member (confirmed via fez)',
+            description: 'Author of "Great Recipes of Africa," found on the shelves of the Skipper Canteen. His fez confirms his S.E.A. membership.',
+            connections: [],
+            locations: ['Skipper Canteen'],
+            artifacts: ['Great Recipes of Africa']
+        },
+        {
+            id: 'sango-sio',
+            name: 'Sango Sio',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Unknown',
+            membership: 'S.E.A. Member (confirmed via fez)',
+            description: 'A S.E.A. member whose membership is confirmed by a fez displayed at the Skipper Canteen. Little else is known.',
+            connections: [],
+            locations: ['Skipper Canteen'],
+            artifacts: []
+        },
+        {
+            id: 'teixeira',
+            name: 'Luana Teixeira',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Photographer',
+            membership: 'S.E.A. Member (confirmed via fez)',
+            description: 'A photographer whose S.E.A. membership is confirmed by a fez displayed at the Skipper Canteen.',
+            connections: [],
+            locations: ['Skipper Canteen'],
+            artifacts: []
+        },
+        {
+            id: 'kouame-beauciel',
+            name: 'Aya Kouame-Beauciel',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Astronomer',
+            membership: 'S.E.A. Member',
+            description: 'An early 20th-century astronomer, introduced to the lore via a letter discovered at the Adventureland Treehouse in November 2023.',
+            connections: [],
+            locations: ['Adventureland Treehouse'],
+            artifacts: []
+        },
+        {
+            id: 'baterista',
+            name: 'Dr. J.L. Baterista',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Unknown',
+            membership: 'S.E.A. Member',
+            description: 'A S.E.A. member referenced in society materials. Their exploits remain a mystery of the archives.',
+            connections: [],
+            locations: ['Referenced in S.E.A. lore'],
+            artifacts: []
+        },
+        {
+            id: 'blauerhimmel',
+            name: 'Professor R. Blauerhimmel',
+            status: 'Historical',
+            type: 'member',
+            occupation: 'Unknown',
+            membership: 'S.E.A. Member',
+            description: 'A S.E.A. member referenced in society materials. Their exploits remain a mystery of the archives.',
+            connections: [],
+            locations: ['Referenced in S.E.A. lore'],
+            artifacts: []
         }
     ],
 
@@ -259,6 +451,16 @@ const SEAData = {
         { source: 'falls-alberta', target: 'chunosuke', type: 'professional', label: '1938 expedition' },
         { source: 'robustelli', target: 'falco', type: 'professional', label: 'Inducted first female member' },
         { source: 'ravenswood-henry', target: 'ravenswood-melanie', type: 'family', label: 'Father/daughter' },
+        { source: 'ravenswood-henry', target: 'ravenswood-martha', type: 'family', label: 'Husband/wife' },
+        { source: 'ravenswood-martha', target: 'ravenswood-melanie', type: 'family', label: 'Mother/daughter' },
+        { source: 'chandler', target: 'brieux', type: 'professional', label: 'Mapped the Mekong from The Hyperion' },
+        { source: 'hightower', target: 'smelding', type: 'professional', label: 'Master and valet, partners in theft' },
+        { source: 'mystic', target: 'albert', type: 'friendship', label: 'Rescued from a giant spider; inseparable' },
+        { source: 'oceaneer', target: 'duncan', type: 'friendship', label: 'Current diving partner' },
+        { source: 'oceaneer', target: 'salty', type: 'friendship', label: 'Companion on the 1901 golden sword dive' },
+        { source: 'falls-alberta', target: 'murphy', type: 'family', label: 'Distant cousins' },
+        { source: 'falls-alberta', target: 'pechman', type: 'professional', label: 'Skipper who crashed the 1938 expedition' },
+        { source: 'moss', target: 'dominguez', type: 'professional', label: 'Fellow members of the missing VIP tour' },
     ],
 
     // Locations
@@ -362,6 +564,76 @@ const SEAData = {
             type: 'Kids club',
             description: 'Captain Mary Oceaneer\'s ship with S.E.A. artifacts',
             characters: ['Captain Mary Oceaneer']
+        },
+        {
+            name: 'Raging Spirits',
+            park: 'Tokyo DisneySea',
+            region: 'asia',
+            country: 'Japan',
+            opened: '2005',
+            type: 'Roller coaster',
+            description: '5,000-year-old temple site where restoration work enraged the fire and water deities',
+            characters: ['Harrison Hightower III', 'Smelding']
+        },
+        {
+            name: 'Indiana Jones Adventure: Temple of the Crystal Skull',
+            park: 'Tokyo DisneySea',
+            region: 'asia',
+            country: 'Japan',
+            opened: '2001',
+            type: 'Dark ride',
+            description: 'Lost River Delta temple tied to the Fountain of Youth; Harrison Hightower III was photographed here',
+            characters: ['Harrison Hightower III']
+        },
+        {
+            name: 'Tropical Hideaway',
+            park: 'Disneyland',
+            region: 'america',
+            country: 'USA',
+            opened: '2018',
+            type: 'Quick service',
+            description: 'Traders\' market featuring a wall of expedition paddles left behind by S.E.A. members',
+            characters: []
+        },
+        {
+            name: 'Haunted Mansion',
+            park: 'Disneyland',
+            region: 'america',
+            country: 'USA',
+            opened: '1969',
+            type: 'Dark ride',
+            description: 'New Orleans mansion where Constance Hatchaway murdered George Hightower in 1877',
+            characters: ['Constance Hatchaway', 'George Hightower']
+        },
+        {
+            name: 'Adventurers Club',
+            park: 'Pleasure Island, WDW',
+            region: 'america',
+            country: 'USA',
+            opened: '1989 (closed 2008)',
+            type: 'Club (defunct)',
+            description: 'Merriweather Adam Pleasure\'s personal S.E.A. chapter, packed with artifacts and curios',
+            characters: ['Merriweather Adam Pleasure']
+        },
+        {
+            name: 'Expedition Everest',
+            park: 'Animal Kingdom',
+            region: 'america',
+            country: 'USA',
+            opened: '2006',
+            type: 'Roller coaster',
+            description: 'The Forbidden Mountain expedition referenced in Harrison Hightower III\'s books at the Skipper Canteen',
+            characters: ['Harrison Hightower III']
+        },
+        {
+            name: 'Adventureland Treehouse',
+            park: 'Disneyland',
+            region: 'america',
+            country: 'USA',
+            opened: '2023',
+            type: 'Walk-through',
+            description: 'Where a letter from astronomer Aya Kouame-Beauciel was discovered in November 2023',
+            characters: ['Aya Kouame-Beauciel']
         }
     ],
 
@@ -483,6 +755,78 @@ const SEAData = {
             owner: 'S.E.A. Members',
             description: 'Commemorative paddles from various S.E.A. expeditions.',
             location: 'Tropical Hideaway',
+            danger: 'none'
+        },
+        {
+            name: 'The Emerald Trinity',
+            type: 'treasure',
+            origin: 'Unknown',
+            owner: 'Sought by Professor Garrett Reed',
+            description: 'Legendary trio of emeralds pursued by the disgraced Professor Garrett Reed after his expulsion from S.E.A.',
+            location: 'Jungle Cruise - Curse of the Emerald Trinity',
+            danger: 'medium'
+        },
+        {
+            name: 'The Crystal Skull',
+            type: 'cursed',
+            origin: 'Lost River Delta temple',
+            owner: 'None (temple guardian)',
+            description: 'Mysterious skull tied to the search for the Fountain of Youth in the Lost River Delta.',
+            location: 'Indiana Jones Adventure: Temple of the Crystal Skull',
+            danger: 'high'
+        },
+        {
+            name: 'Jock Lindsay\'s Seaplane',
+            type: 'vehicle',
+            origin: 'United States',
+            owner: 'Jock Lindsay',
+            description: 'Seaplane Jock used for tours across Florida after settling at Disney Springs in 1938.',
+            location: 'Jock Lindsey\'s Hangar Bar',
+            danger: 'none'
+        },
+        {
+            name: 'RV Oceaneer Lab',
+            type: 'vehicle',
+            origin: 'Custom research vessel',
+            owner: 'Captain Mary Oceaneer',
+            description: 'Captain Mary\'s first ship, now a floating museum of her expeditions and discoveries.',
+            location: 'Disney Cruise Line',
+            danger: 'none'
+        },
+        {
+            name: 'Great Recipes of Africa',
+            type: 'document',
+            origin: 'Written by Chef Tandaji',
+            owner: 'Chef Tandaji',
+            description: 'Chef Tandaji\'s cookbook, shelved in the Skipper Canteen meeting room among other S.E.A. members\' works.',
+            location: 'Skipper Canteen',
+            danger: 'none'
+        },
+        {
+            name: 'Captain Mary\'s Letters',
+            type: 'document',
+            origin: 'Various voyages',
+            owner: 'Captain Mary Oceaneer',
+            description: 'Letters and portraits chronicling Captain Mary\'s treasure-hunting voyages across the seven seas.',
+            location: 'Oceaneer Lab',
+            danger: 'none'
+        },
+        {
+            name: 'Hightower Disappearance Newspaper',
+            type: 'document',
+            origin: 'New York City, 1900',
+            owner: 'Archive collection',
+            description: 'Front-page report of Harrison Hightower III\'s mysterious New Year\'s Eve disappearance at Hotel Hightower.',
+            location: 'Oceaneer Lab',
+            danger: 'none'
+        },
+        {
+            name: 'Leonardo da Vinci\'s Designs',
+            type: 'document',
+            origin: 'Renaissance Italy',
+            owner: 'Fortress Explorations',
+            description: 'Flying machine designs that inspired Camellia Falco\'s Dream Flyer, honored in the Hall of Explorers.',
+            location: 'Fortress Explorations',
             danger: 'none'
         }
     ]

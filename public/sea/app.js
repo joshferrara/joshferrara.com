@@ -3,6 +3,7 @@
 
 class SEAArchives {
     constructor() {
+        this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         this.currentSection = 'home';
         this.currentFilter = {
             timeline: 'all',
@@ -11,29 +12,31 @@ class SEAArchives {
             artifacts: 'all',
             family: 'hightower'
         };
+        this.lastFocused = null;
         this.init();
     }
 
     init() {
         this.setupNavigation();
         this.setupSearch();
+        this.populateStats();
         this.initializeTimeline();
         this.initializeCharacters();
         this.initializeRelationships();
         this.initializeLocations();
         this.initializeFamilies();
         this.initializeArtifacts();
-        this.setupArchiveCards();
         this.initDustParticles();
 
-        // Hide loading screen
-        setTimeout(() => {
-            document.getElementById('loadingScreen').classList.add('hidden');
-        }, 2000);
+        // Hide loading screen once everything is rendered
+        const loadingScreen = document.getElementById('loadingScreen');
+        setTimeout(() => loadingScreen.classList.add('hidden'), this.reducedMotion ? 0 : 600);
     }
 
     // ==================== DUST PARTICLES ====================
     initDustParticles() {
+        if (this.reducedMotion) return;
+
         const canvas = document.getElementById('dustCanvas');
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -87,23 +90,27 @@ class SEAArchives {
     }
 
     // ==================== NAVIGATION ====================
+    // Hash-based routing: deep links, back/forward, and plain anchors all work.
     setupNavigation() {
-        const navLinks = document.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const section = link.dataset.section;
-                this.navigateToSection(section);
-            });
-        });
+        window.addEventListener('hashchange', () => this.handleHash());
+        this.handleHash();
+    }
+
+    handleHash() {
+        const hash = (window.location.hash || '#home').slice(1);
+        const target = document.getElementById(hash);
+        const section = target && target.classList.contains('section') ? hash : 'home';
+        this.showSection(section);
     }
 
     navigateToSection(section) {
+        if (('#' + section) === window.location.hash) return;
+        window.location.hash = section;
+    }
+
+    showSection(section) {
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.remove('active');
-            if (link.dataset.section === section) {
-                link.classList.add('active');
-            }
+            link.classList.toggle('active', link.dataset.section === section);
         });
 
         document.querySelectorAll('.section').forEach(sec => {
@@ -112,36 +119,191 @@ class SEAArchives {
         document.getElementById(section).classList.add('active');
 
         this.currentSection = section;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: this.reducedMotion ? 'auto' : 'smooth' });
     }
 
-    setupArchiveCards() {
-        const archiveCards = document.querySelectorAll('.archive-card');
-        archiveCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const section = card.dataset.section;
-                this.navigateToSection(section);
-            });
+    // ==================== STATS ====================
+    populateStats() {
+        const stats = {
+            characters: SEAData.characters.length,
+            locations: SEAData.locations.length,
+            artifacts: SEAData.artifacts.length,
+            years: new Date().getFullYear() - 1538
+        };
+
+        document.querySelectorAll('.stat-number').forEach(el => {
+            const value = stats[el.dataset.stat];
+            if (value == null) return;
+
+            if (this.reducedMotion) {
+                el.textContent = value;
+                return;
+            }
+
+            // Count up from zero over ~1s
+            const duration = 1000;
+            const start = performance.now();
+            const tick = (now) => {
+                const progress = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 4);
+                el.textContent = Math.round(value * eased);
+                if (progress < 1) requestAnimationFrame(tick);
+            };
+            requestAnimationFrame(tick);
         });
     }
 
     // ==================== SEARCH ====================
     setupSearch() {
-        const searchInput = document.getElementById('searchInput');
+        const input = document.getElementById('searchInput');
+        const panel = document.getElementById('searchResults');
+        let debounceTimer;
 
-        const performSearch = () => {
-            const query = searchInput.value.toLowerCase().trim();
-            if (!query) return;
+        input.addEventListener('input', () => {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => this.updateSearchResults(), 120);
+        });
 
-            const results = this.search(query);
-            this.displaySearchResults(results, query);
-        };
+        input.addEventListener('focus', () => {
+            if (input.value.trim().length >= 2) this.updateSearchResults();
+        });
 
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                this.closeSearch();
+                input.blur();
+            } else if (e.key === 'Enter') {
+                const first = panel.querySelector('.search-result');
+                if (first) first.click();
+            } else if (e.key === 'ArrowDown') {
+                const first = panel.querySelector('.search-result');
+                if (first) {
+                    e.preventDefault();
+                    first.focus();
+                }
             }
         });
+
+        panel.addEventListener('keydown', (e) => {
+            const results = [...panel.querySelectorAll('.search-result')];
+            const index = results.indexOf(document.activeElement);
+            if (e.key === 'ArrowDown' && index > -1 && index < results.length - 1) {
+                e.preventDefault();
+                results[index + 1].focus();
+            } else if (e.key === 'ArrowUp' && index > 0) {
+                e.preventDefault();
+                results[index - 1].focus();
+            } else if (e.key === 'ArrowUp' && index === 0) {
+                e.preventDefault();
+                input.focus();
+            } else if (e.key === 'Escape') {
+                this.closeSearch();
+                input.focus();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-wrapper')) this.closeSearch();
+        });
+    }
+
+    closeSearch() {
+        document.getElementById('searchResults').hidden = true;
+    }
+
+    updateSearchResults() {
+        const input = document.getElementById('searchInput');
+        const panel = document.getElementById('searchResults');
+        const query = input.value.toLowerCase().trim();
+
+        if (query.length < 2) {
+            panel.hidden = true;
+            return;
+        }
+
+        const results = this.search(query);
+        const total = results.characters.length + results.locations.length +
+                      results.artifacts.length + results.timeline.length;
+
+        if (total === 0) {
+            panel.innerHTML = `<div class="search-empty">Nothing in the archives matches &ldquo;${this.escapeHtml(input.value.trim())}&rdquo;</div>`;
+            panel.hidden = false;
+            return;
+        }
+
+        const group = (title, items, renderItem) => items.length ? `
+            <div class="search-group">
+                <div class="search-group-title">${title}</div>
+                ${items.slice(0, 5).map(renderItem).join('')}
+            </div>
+        ` : '';
+
+        panel.innerHTML = `
+            ${group('Characters', results.characters, c => `
+                <button class="search-result" data-kind="character" data-id="${c.id}">
+                    <span class="search-result-name">${c.name}</span>
+                    <span class="search-result-meta">${c.occupation}</span>
+                </button>
+            `)}
+            ${group('Locations', results.locations, l => `
+                <button class="search-result" data-kind="location" data-name="${this.escapeHtml(l.name)}">
+                    <span class="search-result-name">${l.name}</span>
+                    <span class="search-result-meta">${l.park}</span>
+                </button>
+            `)}
+            ${group('Artifacts', results.artifacts, a => `
+                <button class="search-result" data-kind="artifact" data-name="${this.escapeHtml(a.name)}">
+                    <span class="search-result-name">${a.name}</span>
+                    <span class="search-result-meta">${a.location}</span>
+                </button>
+            `)}
+            ${group('Timeline', results.timeline, t => `
+                <button class="search-result" data-kind="timeline">
+                    <span class="search-result-name">${t.title}</span>
+                    <span class="search-result-meta">${this.formatDate(t.date)}</span>
+                </button>
+            `)}
+        `;
+        panel.hidden = false;
+
+        panel.querySelectorAll('.search-result').forEach(btn => {
+            btn.addEventListener('click', () => this.openSearchResult(btn));
+        });
+    }
+
+    openSearchResult(btn) {
+        const kind = btn.dataset.kind;
+        this.closeSearch();
+
+        if (kind === 'character') {
+            this.navigateToSection('characters');
+            this.showCharacterDetail(btn.dataset.id);
+        } else if (kind === 'location') {
+            this.resetFilter('locations', '.location-filters', 'region');
+            this.navigateToSection('locations');
+        } else if (kind === 'artifact') {
+            this.resetFilter('artifacts', '.artifact-filters', 'type');
+            this.navigateToSection('artifacts');
+        } else if (kind === 'timeline') {
+            this.resetFilter('timeline', '.timeline-filters', 'era');
+            this.navigateToSection('timeline');
+        }
+    }
+
+    // Reset a section's filter to "all" so a search hit is guaranteed to be visible
+    resetFilter(section, filterSelector, dataAttr) {
+        if (this.currentFilter[section] === 'all') return;
+        this.currentFilter[section] = 'all';
+        document.querySelectorAll(`${filterSelector} .filter-btn`).forEach(b => {
+            b.classList.toggle('active', b.dataset[dataAttr] === 'all');
+        });
+        if (section === 'timeline') this.renderTimeline();
+        if (section === 'locations') this.renderLocations();
+        if (section === 'artifacts') this.renderArtifacts();
+    }
+
+    escapeHtml(str) {
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
     search(query) {
@@ -184,23 +346,6 @@ class SEAArchives {
         });
 
         return results;
-    }
-
-    displaySearchResults(results, query) {
-        const total = results.characters.length + results.locations.length + results.artifacts.length + results.timeline.length;
-
-        if (total === 0) {
-            alert(`No results found for "${query}"`);
-            return;
-        }
-
-        let msg = `Found ${total} result${total !== 1 ? 's' : ''} for "${query}":\n\n`;
-        if (results.characters.length) msg += `Characters: ${results.characters.map(c => c.name).join(', ')}\n\n`;
-        if (results.locations.length) msg += `Locations: ${results.locations.map(l => l.name).join(', ')}\n\n`;
-        if (results.artifacts.length) msg += `Artifacts: ${results.artifacts.map(a => a.name).join(', ')}\n\n`;
-        if (results.timeline.length) msg += `Timeline: ${results.timeline.map(e => e.title).join(', ')}\n`;
-
-        alert(msg);
     }
 
     // ==================== TIMELINE ====================
@@ -264,21 +409,22 @@ class SEAArchives {
             });
         });
 
-        const modal = document.getElementById('characterModal');
-        const closeBtn = modal.querySelector('.modal-close');
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
+        // Event delegation: character cards are re-rendered on every filter change
+        document.getElementById('characterGrid').addEventListener('click', (e) => {
+            const card = e.target.closest('.character-card');
+            if (card) this.showCharacterDetail(card.dataset.id);
         });
 
+        const modal = document.getElementById('characterModal');
+        modal.querySelector('.modal-close').addEventListener('click', () => this.closeCharacterModal());
+
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-            }
+            if (e.target === modal) this.closeCharacterModal();
         });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal.classList.contains('active')) {
-                modal.classList.remove('active');
+                this.closeCharacterModal();
             }
         });
     }
@@ -292,12 +438,28 @@ class SEAArchives {
             : SEAData.characters.filter(c => c.type === filter);
 
         container.innerHTML = filteredChars.map((char, i) => `
-            <div class="character-card" data-id="${char.id}" data-type="${char.type}" onclick="seaArchives.showCharacterDetail('${char.id}')" style="animation: eventReveal 0.5s ${i * 0.05}s both">
+            <button class="character-card" data-id="${char.id}" data-type="${char.type}" style="animation: eventReveal 0.5s ${Math.min(i * 0.05, 1)}s both">
                 <div class="character-name">${char.name}</div>
                 <div class="character-role">${char.occupation}</div>
                 <div class="character-status">${char.status}</div>
-            </div>
+            </button>
         `).join('');
+    }
+
+    openCharacterModal() {
+        const modal = document.getElementById('characterModal');
+        this.lastFocused = document.activeElement;
+        modal.classList.add('active');
+        modal.querySelector('.modal-close').focus();
+    }
+
+    closeCharacterModal() {
+        const modal = document.getElementById('characterModal');
+        modal.classList.remove('active');
+        if (this.lastFocused && document.contains(this.lastFocused)) {
+            this.lastFocused.focus();
+        }
+        this.lastFocused = null;
     }
 
     showCharacterDetail(charId) {
@@ -306,57 +468,62 @@ class SEAArchives {
 
         const modal = document.getElementById('characterModal');
         const content = document.getElementById('characterDetailContent');
+        const alreadyOpen = modal.classList.contains('active');
 
-        const statusColor = char.type === 'antagonist' ? 'var(--burgundy-glow)' : 'var(--gold)';
+        // Connections that match a known character become links to that character
+        const connectionChip = (name) => {
+            const target = SEAData.characters.find(c => c.name === name);
+            return target
+                ? `<button class="detail-chip detail-chip-link" data-character-id="${target.id}">${name}</button>`
+                : `<span class="detail-chip">${name}</span>`;
+        };
 
         content.innerHTML = `
-            <h2 style="font-family: var(--font-display); color: var(--gold); font-size: 1.8rem; margin-bottom: 0.25rem; letter-spacing: 2px;">
-                ${char.name}
-            </h2>
-            <p style="font-family: var(--font-accent); font-style: italic; color: var(--ink-dim); margin-bottom: 1.5rem; font-size: 0.95rem;">${char.occupation}</p>
+            <h2 class="detail-name">${char.name}</h2>
+            <p class="detail-occupation">${char.occupation}</p>
 
-            <div style="display: flex; gap: 1.5rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+            <div class="detail-facts">
                 <div>
-                    <span style="font-family: var(--font-accent-sc); font-size: 0.7rem; color: var(--ink-dim); letter-spacing: 2px; text-transform: uppercase;">Status</span>
-                    <div style="color: ${statusColor}; font-family: var(--font-body); font-weight: 600; margin-top: 0.15rem;">${char.status}</div>
+                    <span class="detail-label">Status</span>
+                    <div class="detail-value ${char.type === 'antagonist' ? 'is-antagonist' : ''}">${char.status}</div>
                 </div>
                 <div>
-                    <span style="font-family: var(--font-accent-sc); font-size: 0.7rem; color: var(--ink-dim); letter-spacing: 2px; text-transform: uppercase;">Membership</span>
-                    <div style="color: var(--ink); font-family: var(--font-body); font-weight: 600; margin-top: 0.15rem;">${char.membership}</div>
+                    <span class="detail-label">Membership</span>
+                    <div class="detail-value">${char.membership}</div>
                 </div>
             </div>
 
-            <p style="margin-bottom: 1.5rem; line-height: 1.7; color: var(--ink); font-family: var(--font-body);">${char.description}</p>
+            <p class="detail-description">${char.description}</p>
 
             ${char.connections.length > 0 ? `
-                <div style="margin-bottom: 1.25rem; padding-top: 1rem; border-top: 1px solid rgba(201, 148, 62, 0.1);">
-                    <h4 style="font-family: var(--font-accent-sc); font-size: 0.75rem; color: var(--gold-dark); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">Connections</h4>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                        ${char.connections.map(c => `<span style="padding: 2px 10px; border: 1px solid rgba(201, 148, 62, 0.15); color: var(--ink-dim); font-size: 0.85rem; border-radius: 1px; font-family: var(--font-accent);">${c}</span>`).join('')}
+                <div class="detail-section">
+                    <h4 class="detail-heading">Connections</h4>
+                    <div class="detail-chips">
+                        ${char.connections.map(connectionChip).join('')}
                     </div>
                 </div>
             ` : ''}
 
             ${char.locations.length > 0 ? `
-                <div style="margin-bottom: 1.25rem;">
-                    <h4 style="font-family: var(--font-accent-sc); font-size: 0.75rem; color: var(--gold-dark); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">Featured Locations</h4>
-                    <div style="color: var(--teal-glow); font-family: var(--font-accent); font-style: italic; font-size: 0.9rem;">
-                        ${char.locations.join(' &bull; ')}
-                    </div>
+                <div class="detail-section">
+                    <h4 class="detail-heading">Featured Locations</h4>
+                    <div class="detail-list detail-list-locations">${char.locations.join(' &bull; ')}</div>
                 </div>
             ` : ''}
 
             ${char.artifacts.length > 0 ? `
-                <div>
-                    <h4 style="font-family: var(--font-accent-sc); font-size: 0.75rem; color: var(--gold-dark); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.5rem;">Associated Artifacts</h4>
-                    <div style="color: var(--gold-light); font-family: var(--font-accent); font-style: italic; font-size: 0.9rem;">
-                        ${char.artifacts.join(' &bull; ')}
-                    </div>
+                <div class="detail-section">
+                    <h4 class="detail-heading">Associated Artifacts</h4>
+                    <div class="detail-list detail-list-artifacts">${char.artifacts.join(' &bull; ')}</div>
                 </div>
             ` : ''}
         `;
 
-        modal.classList.add('active');
+        content.querySelectorAll('.detail-chip-link').forEach(btn => {
+            btn.addEventListener('click', () => this.showCharacterDetail(btn.dataset.characterId));
+        });
+
+        if (!alreadyOpen) this.openCharacterModal();
     }
 
     // ==================== RELATIONSHIPS ====================
@@ -551,35 +718,32 @@ class SEAArchives {
             : SEAData.locations.filter(l => l.region === filter);
 
         listContainer.innerHTML = filteredLocs.map((loc, i) => `
-            <div class="location-card" style="animation: eventReveal 0.5s ${i * 0.06}s both">
+            <div class="location-card" style="animation: eventReveal 0.5s ${Math.min(i * 0.06, 1)}s both">
                 <div class="location-name">${loc.name}</div>
                 <div class="location-park">${loc.park} &mdash; ${loc.country}</div>
                 <div class="location-description">${loc.description}</div>
-                <div style="margin-top: 0.75rem; font-size: 0.8rem; color: var(--ink-dim); font-family: var(--font-accent); font-style: italic;">
-                    ${loc.type} &bull; Opened ${loc.opened}
-                </div>
+                <div class="location-meta">${loc.type} &bull; Opened ${loc.opened}</div>
             </div>
         `).join('');
 
         // Region summary
+        const regionLabels = { asia: 'Asia', america: 'Americas', europe: 'Europe', sea: 'At Sea' };
         const regionCounts = {};
         filteredLocs.forEach(l => {
             regionCounts[l.region] = (regionCounts[l.region] || 0) + 1;
         });
 
         mapContainer.innerHTML = `
-            <div style="padding: 2rem; text-align: center;">
-                <div style="font-family: var(--font-display); font-size: 1.2rem; color: var(--gold); margin-bottom: 0.5rem; letter-spacing: 2px; text-transform: uppercase;">
-                    Global S.E.A. Presence
-                </div>
-                <div style="font-family: var(--font-accent); font-style: italic; color: var(--ink-dim); font-size: 1rem;">
+            <div class="map-summary">
+                <div class="map-summary-title">Global S.E.A. Presence</div>
+                <div class="map-summary-subtitle">
                     ${filteredLocs.length} location${filteredLocs.length !== 1 ? 's' : ''} across ${Object.keys(regionCounts).length} region${Object.keys(regionCounts).length !== 1 ? 's' : ''}
                 </div>
-                <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap;">
+                <div class="map-summary-regions">
                     ${Object.entries(regionCounts).map(([region, count]) => `
-                        <div style="text-align: center;">
-                            <div style="font-family: var(--font-display-decorative); font-size: 1.8rem; color: var(--gold); line-height: 1;">${count}</div>
-                            <div style="font-family: var(--font-accent-sc); font-size: 0.7rem; color: var(--ink-dim); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.25rem;">${region === 'sea' ? 'At Sea' : region === 'america' ? 'Americas' : region.charAt(0).toUpperCase() + region.slice(1)}</div>
+                        <div class="map-region">
+                            <div class="map-region-count">${count}</div>
+                            <div class="map-region-name">${regionLabels[region] || region}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -610,20 +774,16 @@ class SEAArchives {
         if (!family) return;
 
         container.innerHTML = `
-            <div style="text-align: center; padding: 2rem;">
-                <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--gold); margin-bottom: 0.5rem; letter-spacing: 3px; text-transform: uppercase;">
-                    ${family.name}
-                </h3>
-                <div style="width: 40px; height: 1px; background: var(--gold-dark); margin: 0 auto 2rem; opacity: 0.5;"></div>
-                <div style="display: flex; flex-direction: column; gap: 0; align-items: center;">
+            <div class="family-tree-inner">
+                <h3 class="family-tree-title">${family.name}</h3>
+                <div class="family-tree-divider"></div>
+                <div class="family-tree-members">
                     ${family.members.map((member, i) => `
                         ${i > 0 ? '<div class="family-connector"></div>' : ''}
                         <div class="family-member" style="animation: eventReveal 0.5s ${i * 0.15}s both">
                             <div class="family-member-name">${member.name}</div>
                             <div class="family-member-dates">${member.dates}</div>
-                            <div style="font-size: 0.7rem; color: var(--ink-dim); margin-top: 0.25rem; font-family: var(--font-accent-sc); letter-spacing: 1px; text-transform: uppercase;">
-                                ${this.getRelationLabel(member.relation)}
-                            </div>
+                            <div class="family-member-relation">${this.getRelationLabel(member.relation)}</div>
                         </div>
                     `).join('')}
                 </div>
@@ -667,21 +827,15 @@ class SEAArchives {
             : SEAData.artifacts.filter(a => a.type === filter);
 
         container.innerHTML = filteredArtifacts.map((artifact, i) => `
-            <div class="artifact-card" data-danger="${artifact.danger}" style="animation: eventReveal 0.5s ${i * 0.06}s both">
+            <div class="artifact-card" data-danger="${artifact.danger}" style="animation: eventReveal 0.5s ${Math.min(i * 0.06, 1)}s both">
                 <div class="artifact-name">${artifact.name}</div>
                 <div class="artifact-type">${artifact.type}</div>
                 <div class="artifact-description">${artifact.description}</div>
-                <div style="margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid rgba(201, 148, 62, 0.08);">
-                    <div style="font-size: 0.8rem; color: var(--ink-dim); font-family: var(--font-accent); font-style: italic;">
-                        <span style="color: var(--gold-dark);">Owner:</span> ${artifact.owner}
-                    </div>
-                    <div style="font-size: 0.8rem; color: var(--ink-dim); font-family: var(--font-accent); font-style: italic; margin-top: 0.15rem;">
-                        <span style="color: var(--gold-dark);">Location:</span> ${artifact.location}
-                    </div>
+                <div class="artifact-facts">
+                    <div class="artifact-fact"><span class="artifact-fact-label">Owner:</span> ${artifact.owner}</div>
+                    <div class="artifact-fact"><span class="artifact-fact-label">Location:</span> ${artifact.location}</div>
                     ${artifact.danger !== 'none' ? `
-                        <div style="font-size: 0.75rem; color: var(--danger); font-family: var(--font-accent-sc); letter-spacing: 1px; text-transform: uppercase; margin-top: 0.5rem;">
-                            Danger: ${artifact.danger}
-                        </div>
+                        <div class="artifact-danger">Danger: ${artifact.danger}</div>
                     ` : ''}
                 </div>
             </div>
