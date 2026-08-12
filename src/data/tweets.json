@@ -1,5 +1,14 @@
 [
   {
+    "id": "2087551725867544788",
+    "text": "@bradgessler 1. Gmail labels, not just folders.\n2. Bulk actions (archive, folder, etc)\n3. Create/manage filter rules \n4. CLI interface for agents",
+    "date": "2026-08-12 14:48:10 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2087391092073480654",
+    "urls": []
+  },
+  {
     "id": "2086981900946575661",
     "text": "The funniest part is the angry people in the comments that don’t realize we can already tell they used Claude. https://twitter.com/ns123abc/status/2086922991921664307",
     "date": "2026-08-11 01:03:54 +0000",
