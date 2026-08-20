@@ -1,5 +1,14 @@
 [
   {
+    "id": "2090187269567025501",
+    "text": "@danielbelfort I love the concept! Any way we could get more automated input methods? Pull my X bookmarks, give me a webhook url I can have my agent POST to, pull from my existing read-it-later feeds, etc.",
+    "date": "2026-08-19 21:20:53 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2090134913366319115",
+    "urls": []
+  },
+  {
     "id": "2088390704661749857",
     "text": "RT @robertcourson: This is Joyflow -- an open source native Grok Bot. Mac is out now and mobile soon.\n\na main difference: agents are swappe…",
     "date": "2026-08-14 22:21:59 +0000",
