@@ -1,5 +1,17 @@
 [
   {
+    "id": "2093815495950524661",
+    "text": "Built an @OmarchyLinux plugin for Slack-style emoji input (inspired by @_matthewpalmer's Rocket)\n\nhttps://github.com/joshferrara/quick-emoji https://x.com/joshferrara/status/2093815495950524661/photo/1",
+    "date": "2026-08-29 21:38:10 +0000",
+    "isReply": false,
+    "isRetweet": false,
+    "inReplyTo": null,
+    "urls": [
+      "https://github.com/joshferrara/quick-emoji",
+      "https://x.com/joshferrara/status/2093815495950524661/photo/1"
+    ]
+  },
+  {
     "id": "2090187269567025501",
     "text": "@danielbelfort I love the concept! Any way we could get more automated input methods? Pull my X bookmarks, give me a webhook url I can have my agent POST to, pull from my existing read-it-later feeds, etc.",
     "date": "2026-08-19 21:20:53 +0000",
