@@ -1,5 +1,34 @@
 [
   {
+    "id": "2100368502561317024",
+    "text": "@travismarceau @thorstenball Heard that. Let me know if/when it hits github, I'll drop a PR!",
+    "date": "2026-09-16 23:37:28 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2100367628405801190",
+    "urls": []
+  },
+  {
+    "id": "2100358371081650308",
+    "text": "@travismarceau @thorstenball Just had this realization this week after upgrading to MacOS 27. Great to find Snappy!\n\nAny chance you'll add the Divvy-style option to just draw your own window placement ad-hoc instead of using preset Placements?",
+    "date": "2026-09-16 22:57:13 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2098403898134560961",
+    "urls": []
+  },
+  {
+    "id": "2100332939091304729",
+    "text": "@notkevinzhang @typesafeai @CompleteSkeptic Mine from yesterday didn't make it!\n\nhttps://x.com/joshferrara/status/2100070831095271531?s=20",
+    "date": "2026-09-16 21:16:09 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2100299345220579751",
+    "urls": [
+      "https://x.com/joshferrara/status/2100070831095271531?s=20"
+    ]
+  },
+  {
     "id": "2100070831095271531",
     "text": "@notkevinzhang Building an app to help older folks detect catch scam emails and texts before they act on them. Have been work to reduce dependency on subjective LLM outputs, Jev would be fantastic for this.",
     "date": "2026-09-16 03:54:38 +0000",
