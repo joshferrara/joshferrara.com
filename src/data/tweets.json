@@ -1,5 +1,30 @@
 [
   {
+    "id": "2105784252822593804",
+    "text": "Jev released 15 days ago and already OpenAI, Cloudflare, and Perplexity have decision engine models. Insane market speed right now. \n\nhttps://x.com/OpenAIDevs/status/2105003318917697873?s=20 \n\nhttps://blog.cloudflare.com/clef-decision-models/\n\nhttps://x.com/perplexitydevs/status/2105725598882832414?s=20 https://twitter.com/OpenAIDevs/status/2105003318917697873",
+    "date": "2026-10-01 22:17:44 +0000",
+    "isReply": false,
+    "isRetweet": false,
+    "inReplyTo": null,
+    "urls": [
+      "https://x.com/OpenAIDevs/status/2105003318917697873?s=20",
+      "https://blog.cloudflare.com/clef-decision-models/",
+      "https://x.com/perplexitydevs/status/2105725598882832414?s=20",
+      "https://twitter.com/OpenAIDevs/status/2105003318917697873"
+    ]
+  },
+  {
+    "id": "2105763593673379952",
+    "text": "@bradlawrence https://x.com/joshferrara/status/2105763593673379952/photo/1",
+    "date": "2026-10-01 20:55:38 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2105738409247678937",
+    "urls": [
+      "https://x.com/joshferrara/status/2105763593673379952/photo/1"
+    ]
+  },
+  {
     "id": "2105503246781432311",
     "text": "@Ren_Simmons Curious what you think! I think Muse is gonna be the perfect gateway for a lot of non-devs to try out an ai agent",
     "date": "2026-10-01 03:41:07 +0000",
