@@ -1,5 +1,25 @@
 [
   {
+    "id": "2106938291761139775",
+    "text": "@bradleybensmith It’s true, I opted for the inaccurate but commonly accepted version because that’s what I hear said aloud most often, but I was on the fence.",
+    "date": "2026-10-05 02:43:28 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2106909945870553199",
+    "urls": []
+  },
+  {
+    "id": "2106900636801327360",
+    "text": "If you're like me and have been curious if you'd prefer permanent Daylight Savings or Standard Time:\n\nhttps://daylightdecision.com",
+    "date": "2026-10-05 00:13:50 +0000",
+    "isReply": false,
+    "isRetweet": false,
+    "inReplyTo": null,
+    "urls": [
+      "https://daylightdecision.com"
+    ]
+  },
+  {
     "id": "2106476847248683043",
     "text": "@SnazzyLabs Hmm seems like something went wrong there, the limit is smaller but not that small. Curious if there’s a cache hit issue or some v1 MCPs killing your context. \n\nFor reference, I’ve got 7 tasks running 6 Astra Max this morning for an hour now and only burned 10% so far.",
     "date": "2026-10-03 20:09:51 +0000",
