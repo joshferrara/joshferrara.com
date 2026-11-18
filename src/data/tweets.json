@@ -1,5 +1,50 @@
 [
   {
+    "id": "2122848289317847139",
+    "text": "@bduffez @markjaquith Sure they do, you can always sideload an ipa or use altstore and sidestore if you want to share with others",
+    "date": "2026-11-18 00:24:07 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2122844519909769389",
+    "urls": []
+  },
+  {
+    "id": "2122843907796975841",
+    "text": "@markjaquith That would be pretty cool for them to offer a small TestFlight-only plan.",
+    "date": "2026-11-18 00:06:42 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2122817577428627630",
+    "urls": []
+  },
+  {
+    "id": "2122842717877162053",
+    "text": "@bduffez @markjaquith Why are you frustrated that they're charging for those services if you don't want them?",
+    "date": "2026-11-18 00:01:59 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2122830629633180048",
+    "urls": []
+  },
+  {
+    "id": "2122828040933884301",
+    "text": "@bduffez @markjaquith Reviewing (even for testflight), hosting, and providing distribution tools to testers. What's the rational for you charging for youtilitics?",
+    "date": "2026-11-17 23:03:39 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2122818902224937284",
+    "urls": []
+  },
+  {
+    "id": "2122816049737343413",
+    "text": "@markjaquith What price do you think they should charge you for their services?",
+    "date": "2026-11-17 22:16:00 +0000",
+    "isReply": true,
+    "isRetweet": false,
+    "inReplyTo": "2122742650298323427",
+    "urls": []
+  },
+  {
     "id": "2121384319130157449",
     "text": "Ok, the @t3dotcodes sidebar is the future. I didn't want to like it, but it's a game changer and I'm counting down the days til the labs take notice.",
     "date": "2026-11-13 23:26:49 +0000",
